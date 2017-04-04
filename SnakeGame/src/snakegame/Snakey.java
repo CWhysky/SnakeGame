@@ -23,6 +23,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import java.util.Iterator;
+import java.util.LinkedList;
 import javafx.animation.AnimationTimer;
 import javafx.scene.SnapshotParameters;
 
@@ -33,11 +34,14 @@ import javafx.scene.SnapshotParameters;
  * @author ascott
  */
 public class Snakey extends Application {
-	
+	private int growCounter;
+        private final int speed = 250;
+        
 	@Override
 	public void start(Stage primaryStage) {
 		
 		// StackPane root = new StackPane();
+                growCounter = 5;
 		Group root = new Group();
 		Scene theScene = new Scene(root, 512, 512);
 		primaryStage.setTitle("Snakey!");
@@ -79,10 +83,12 @@ public class Snakey extends Application {
 		gc.setStroke( Color.BLACK );
 		gc.setLineWidth(1);
 
-		Sprite theSnake = new Sprite();
-		theSnake.setImage("snake_head_red.png");
-		theSnake.setPosition(200, 0, 90);
+		Snake theSnake = new Snake();
+                Sprite headSnake = new Sprite();
+		headSnake.setImage("snake_head_red.png");
+		headSnake.setPosition(200, 0, -1);
 
+                theSnake.setHead(headSnake);
 
 		ArrayList<Sprite> appleList = new ArrayList<Sprite>();
 
@@ -112,19 +118,31 @@ public class Snakey extends Application {
 
 			// theSnake.setVelocity(0,0);
 
-			if (input.contains("LEFT"))
-			    theSnake.setVelocity(-250,0, 270);
+			if (input.contains("LEFT") && theSnake.getHead().getAngle() != 90){
+			    theSnake.getHead().setVelocity(-speed,0, 270);
+                            theSnake.setSecondChgs();
+                        }
+                        
+			if (input.contains("RIGHT") && theSnake.getHead().getAngle() != 270){
+			    theSnake.getHead().setVelocity(speed,0, 90);
+                            theSnake.setSecondChgs();
+                        }
+                        
+			if (input.contains("UP") && theSnake.getHead().getAngle() != 180){
+			    theSnake.getHead().setVelocity(0,-speed, 0);
+                            theSnake.setSecondChgs();
+                        }
+                        
+			if (input.contains("DOWN") && theSnake.getHead().getAngle() != 0){
+			    theSnake.getHead().setVelocity(0,speed, 180);
+                            theSnake.setSecondChgs();
+                        }
+                        
 
-			if (input.contains("RIGHT"))
-			    theSnake.setVelocity(250,0, 90);
-
-			if (input.contains("UP"))
-			    theSnake.setVelocity(0,-250, 0);
-
-			if (input.contains("DOWN"))
-			    theSnake.setVelocity(0,250, 180);
-
-			theSnake.update(elapsedTime);
+                        theSnake.velocityChanges();
+                        for(int i = 0; i < theSnake.getSize(); i++){
+                            theSnake.getSegement(i).update(elapsedTime);
+                        }
 
 			// collision detection
 
@@ -132,10 +150,19 @@ public class Snakey extends Application {
 			while ( appleIter.hasNext() )
 			{
 			    Sprite apple = appleIter.next();
-			    if ( theSnake.intersects(apple) )
+			    if ( theSnake.getHead().intersects(apple) )
 			    {
 				appleIter.remove();
 				score.value++;
+                                if(score.value >= growCounter){
+                                    Sprite bodySnake = new Sprite();
+                                    bodySnake.setImage("snake_body_red.png");
+                                    bodySnake.setPosition(theSnake);
+                                    bodySnake.setVelocity(theSnake);
+                                    theSnake.addBody(bodySnake);
+                                    growCounter += 5;
+                                    
+                                }
 			    }
 			}
 
@@ -145,9 +172,11 @@ public class Snakey extends Application {
 			gc.drawImage(space, 0, 0);
 
 
+                        for(int i = 0; i < theSnake.getSize(); i++){
+                            theSnake.getSegement(i).render(gc);
+                        }
 
-
-			theSnake.render( gc );
+			//theSnake.getHead().render( gc );
 
 			for (Sprite apple : appleList )
 			    apple.render( gc );

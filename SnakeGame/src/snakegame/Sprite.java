@@ -1,5 +1,7 @@
 package snakegame;
 
+import java.util.ArrayList;
+import java.util.LinkedList;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.canvas.GraphicsContext;
@@ -10,11 +12,15 @@ import javafx.scene.paint.Color;
 public class Sprite
 {
     private Image image;
-    private ImageView theImageView;
     private double positionX;
     private double positionY;    
     private double velocityX;
     private double velocityY;
+    private ArrayList changeX;
+    private ArrayList changeY;
+    private ArrayList changeVelX;
+    private ArrayList changeVelY;
+    private ArrayList changeAngle;
     private double width;
     private double height;
     private double angle;
@@ -22,9 +28,14 @@ public class Sprite
     public Sprite()
     {
         positionX = 0;
-        positionY = 0;    
+        positionY = 0;
         velocityX = 0;
         velocityY = 0;
+        changeX = new ArrayList();
+        changeY = new ArrayList();
+        changeVelX = new ArrayList();
+        changeVelY = new ArrayList();
+        changeAngle = new ArrayList();
     }
 
     public void setImage(Image i)
@@ -34,6 +45,11 @@ public class Sprite
         height = i.getHeight();
 	// angle = 90;
     }
+    
+    public double getWidth(){
+        return width;
+    }
+    
 
     public Image getImage()
     {
@@ -55,19 +71,45 @@ public class Sprite
 	// theImageView.setImage(i);
 	// theImageView.setRotate(angle);
     }
-
+    
     public void setPosition(double x, double y, double angle)
     {
         positionX = x;
         positionY = y;
-	angle = angle;
+	this.angle = angle;
+    }
+    
+    public void setPosition(Snake snake){
+        if(snake.getLast().getVelocityX() == 0){
+            positionX = snake.getLast().getX();
+            if(snake.getLast().getVelocityY() == 250){
+                positionY = (snake.getLast().getY()) - (snake.getLast().getWidth());
+            }else{
+                positionY = (snake.getLast().getY()) + (snake.getLast().getWidth());
+            }
+        }else{
+            positionY = snake.getLast().getY();
+            if(snake.getLast().getVelocityX() == 250){
+                positionX = (snake.getLast().getX()) - (snake.getLast().getWidth());
+            }else{
+                positionX = (snake.getLast().getX()) + (snake.getLast().getWidth());
+            }
+        }
+    }
+    
+    public double getX(){
+        return positionX;
+    }
+    
+    public double getY(){
+        return positionY;
     }
 
     public void setVelocity(double x, double y, double angle)
     {
         velocityX = x;
         velocityY = y;
-	angle = angle;
+        this.angle = angle;
 
 	    // ImageView iv = new ImageView(new Image("gfx/earth.png"));
 	    ImageView iv = new ImageView(new Image("snake_head_red.png"));
@@ -79,6 +121,19 @@ public class Sprite
 	    setImage(rotatedImage);
 
 	
+    }
+    
+    public void setVelocity(Snake snake){
+        velocityX = snake.getLast().getVelocityX();
+        velocityY = snake.getLast().getVelocityY();
+    }
+    
+    public double getVelocityX(){
+        return velocityX;
+    }
+    
+    public double getVelocityY(){
+        return velocityY;
     }
 
     public void addVelocity(double x, double y)
@@ -113,5 +168,28 @@ public class Sprite
     {
         return " Position: [" + positionX + "," + positionY + "]" 
         + " Velocity: [" + velocityX + "," + velocityY + "]";
+    }
+    
+    public boolean checkVelChange(){
+        if(!changeX.isEmpty()){
+            if((positionX == (double)changeX.get(0)) && (positionY == (double)changeY.get(0))){
+                velocityX = (double)changeVelX.get(0);
+                velocityY = (double)changeVelY.get(0);
+                angle = (double)changeAngle.get(0);
+                changeVelX.remove(0);
+                changeVelY.remove(0);
+                changeAngle.remove(0);
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    public void setChgs(double x, double y, double velX, double velY, double angle){
+        changeX.add(x);
+        changeY.add(y);
+        changeVelX.add(velX);
+        changeVelY.add(velY);
+        changeAngle.add(angle);
     }
 }
