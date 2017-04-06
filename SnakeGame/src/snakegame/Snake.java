@@ -49,9 +49,10 @@ public class Snake {
         
         public void velocityChanges(){
             if(snake.getFirst() != snake.getLast()){
-                for(int i = 0; i < snake.size(); i++){
+                for(int i = 1; i < snake.size(); i++){
                     Sprite temp = (Sprite)snake.get(i);
                     if(temp.checkVelChange()){
+                        System.out.println("Passed checkVelChange()");
                         if(temp != snake.getLast()){
                             Sprite temp2 = (Sprite)snake.get(i+1);
                             temp2.setChgs(temp.getX(),temp.getY(),
@@ -64,10 +65,12 @@ public class Snake {
         }
         public void setSecondChgs(){
             if(snake.getFirst() != snake.getLast()){
+                System.out.println("Entered setSecondChgs if statement.");
                 Sprite temp = (Sprite)snake.getFirst();
                 Sprite temp2 = (Sprite)snake.get(1);
                 temp2.setChgs(temp.getX(), temp.getY(), temp.getVelocityX(), 
                               temp.getVelocityY(), temp.getAngle());
             }
+            
         }
 }

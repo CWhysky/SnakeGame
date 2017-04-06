@@ -27,178 +27,160 @@ import java.util.LinkedList;
 import javafx.animation.AnimationTimer;
 import javafx.scene.SnapshotParameters;
 
-
-
 /**
  *
  * @author ascott
  */
 public class Snakey extends Application {
-	private int growCounter;
-        private final int speed = 250;
-        
-	@Override
-	public void start(Stage primaryStage) {
-		
-		// StackPane root = new StackPane();
-                growCounter = 5;
-		Group root = new Group();
-		Scene theScene = new Scene(root, 512, 512);
-		primaryStage.setTitle("Snakey!");
-		primaryStage.setScene(theScene);
 
-		// Canvas canvas = new Canvas(4096, 4096);
-		Canvas canvas = new Canvas(512, 512);
-		root.getChildren().add(canvas);
+    private int growCounter;
+    private final int speed = 250;
 
-        	ArrayList<String> input = new ArrayList<String>();
+    @Override
+    public void start(Stage primaryStage) {
 
-		theScene.setOnKeyPressed(
-		    new EventHandler<KeyEvent>()
-		    {
-			public void handle(KeyEvent e)
-			{
-			    String code = e.getCode().toString();
-			    if ( !input.contains(code) )
-				input.add( code );
-			}
-		    });
+        Snake theSnake = new Snake();
+        Sprite headSnake = new Sprite();
+        headSnake.setImage("snake_head_red.png");
+        headSnake.setPosition(200, 0, -1);
 
-		theScene.setOnKeyReleased(
-		    new EventHandler<KeyEvent>()
-		    {
-			public void handle(KeyEvent e)
-			{
-			    String code = e.getCode().toString();
-			    input.remove( code );
-			}
-		    });
+        theSnake.setHead(headSnake);
 
-	        GraphicsContext gc = canvas.getGraphicsContext2D();
-		Image space = new Image("space.png");
+        // StackPane root = new StackPane();
+        growCounter = 1;
+        Group root = new Group();
+        Scene theScene = new Scene(root, 512, 512);
+        primaryStage.setTitle("Snakey!");
+        primaryStage.setScene(theScene);
 
-		Font theFont = Font.font( "Helvetica", FontWeight.BOLD, 24 );
-		gc.setFont( theFont );
-		gc.setFill( Color.YELLOW);
-		gc.setStroke( Color.BLACK );
-		gc.setLineWidth(1);
+        // Canvas canvas = new Canvas(4096, 4096);
+        Canvas canvas = new Canvas(512, 512);
+        root.getChildren().add(canvas);
 
-		Snake theSnake = new Snake();
-                Sprite headSnake = new Sprite();
-		headSnake.setImage("snake_head_red.png");
-		headSnake.setPosition(200, 0, -1);
+        ArrayList<String> input = new ArrayList<String>();
 
-                theSnake.setHead(headSnake);
+        theScene.setOnKeyPressed(
+                new EventHandler<KeyEvent>() {
+            public void handle(KeyEvent e) {
+                String code = e.getCode().toString();
+                if (!input.contains(code)) {
+                    input.add(code);
+                    if (input.contains("LEFT") && theSnake.getHead().getAngle() != 90) {
+                        theSnake.getHead().setVelocity(-speed, 0, 270);
+                        theSnake.setSecondChgs();
+                    }
 
-		ArrayList<Sprite> appleList = new ArrayList<Sprite>();
+                    if (input.contains("RIGHT") && theSnake.getHead().getAngle() != 270) {
+                        theSnake.getHead().setVelocity(speed, 0, 90);
+                        theSnake.setSecondChgs();
+                    }
 
-		for (int i = 0; i < 15; i++)
-		{
-		    Sprite apple = new Sprite();
-		    apple.setImage("apple.png");
-		    double px = 350 * Math.random() + 50;
-		    double py = 350 * Math.random() + 50;          
-		    apple.setPosition(px, py, 90);
-		    appleList.add( apple );
-		}
+                    if (input.contains("UP") && theSnake.getHead().getAngle() != 180) {
+                        theSnake.getHead().setVelocity(0, -speed, 0);
+                        theSnake.setSecondChgs();
+                    }
 
-		LongValue lastNanoTime = new LongValue( System.nanoTime() );
+                    if (input.contains("DOWN") && theSnake.getHead().getAngle() != 0) {
+                        theSnake.getHead().setVelocity(0, speed, 180);
+                        theSnake.setSecondChgs();
+                    }
+                }
+            }
+        });
 
-		IntValue score = new IntValue(0);
+        theScene.setOnKeyReleased(
+                new EventHandler<KeyEvent>() {
+            public void handle(KeyEvent e) {
+                String code = e.getCode().toString();
+                input.remove(code);
+            }
+        });
 
-		new AnimationTimer()
-		{
-		    public void handle(long currentNanoTime)
-		    {
-			// calculate time since last update.
-			double elapsedTime = (currentNanoTime - lastNanoTime.value) / 1000000000.0;
-			lastNanoTime.value = currentNanoTime;
+        GraphicsContext gc = canvas.getGraphicsContext2D();
+        Image space = new Image("space.png");
 
-			// game logic
+        Font theFont = Font.font("Helvetica", FontWeight.BOLD, 24);
+        gc.setFont(theFont);
+        gc.setFill(Color.YELLOW);
+        gc.setStroke(Color.BLACK);
+        gc.setLineWidth(1);
 
-			// theSnake.setVelocity(0,0);
+        ArrayList<Sprite> appleList = new ArrayList<Sprite>();
 
-			if (input.contains("LEFT") && theSnake.getHead().getAngle() != 90){
-			    theSnake.getHead().setVelocity(-speed,0, 270);
-                            theSnake.setSecondChgs();
+        for (int i = 0; i < 15; i++) {
+            Sprite apple = new Sprite();
+            apple.setImage("apple.png");
+            double px = 350 * Math.random() + 50;
+            double py = 350 * Math.random() + 50;
+            apple.setPosition(px, py, 90);
+            appleList.add(apple);
+        }
+
+        LongValue lastNanoTime = new LongValue(System.nanoTime());
+
+        IntValue score = new IntValue(0);
+
+        new AnimationTimer() {
+            public void handle(long currentNanoTime) {
+                // calculate time since last update.
+                double elapsedTime = (currentNanoTime - lastNanoTime.value) / 1000000000.0;
+                lastNanoTime.value = currentNanoTime;
+
+                // game logic
+                // theSnake.setVelocity(0,0);
+                theSnake.velocityChanges();
+
+                for (int i = 0; i < theSnake.getSize(); i++) {
+                    theSnake.getSegement(i).update(elapsedTime);
+                }
+
+                // collision detection
+                Iterator<Sprite> appleIter = appleList.iterator();
+                while (appleIter.hasNext()) {
+                    Sprite apple = appleIter.next();
+                    if (theSnake.getHead().intersects(apple)) {
+                        appleIter.remove();
+                        score.value++;
+                        if (score.value >= growCounter) {
+                            Sprite bodySnake = new Sprite();
+                            bodySnake.setImage("snake_body_red.png");
+                            bodySnake.setPosition(theSnake);
+                            bodySnake.setVelocity(theSnake);
+                            theSnake.addBody(bodySnake);
+                            growCounter += 1;
+
                         }
-                        
-			if (input.contains("RIGHT") && theSnake.getHead().getAngle() != 270){
-			    theSnake.getHead().setVelocity(speed,0, 90);
-                            theSnake.setSecondChgs();
-                        }
-                        
-			if (input.contains("UP") && theSnake.getHead().getAngle() != 180){
-			    theSnake.getHead().setVelocity(0,-speed, 0);
-                            theSnake.setSecondChgs();
-                        }
-                        
-			if (input.contains("DOWN") && theSnake.getHead().getAngle() != 0){
-			    theSnake.getHead().setVelocity(0,speed, 180);
-                            theSnake.setSecondChgs();
-                        }
-                        
+                    }
+                }
 
-                        theSnake.velocityChanges();
-                        for(int i = 0; i < theSnake.getSize(); i++){
-                            theSnake.getSegement(i).update(elapsedTime);
-                        }
+                // render
+                gc.clearRect(0, 0, 512, 512);
+                gc.drawImage(space, 0, 0);
 
-			// collision detection
+                for (int i = 0; i < theSnake.getSize(); i++) {
+                    theSnake.getSegement(i).render(gc);
+                }
 
-			Iterator<Sprite> appleIter = appleList.iterator();
-			while ( appleIter.hasNext() )
-			{
-			    Sprite apple = appleIter.next();
-			    if ( theSnake.getHead().intersects(apple) )
-			    {
-				appleIter.remove();
-				score.value++;
-                                if(score.value >= growCounter){
-                                    Sprite bodySnake = new Sprite();
-                                    bodySnake.setImage("snake_body_red.png");
-                                    bodySnake.setPosition(theSnake);
-                                    bodySnake.setVelocity(theSnake);
-                                    theSnake.addBody(bodySnake);
-                                    growCounter += 5;
-                                    
-                                }
-			    }
-			}
+                //theSnake.getHead().render( gc );
+                for (Sprite apple : appleList) {
+                    apple.render(gc);
+                }
 
-			// render
+                String pointsText = "Score: " + (100 * score.value);
+                gc.fillText(pointsText, 360, 24);
+                gc.strokeText(pointsText, 360, 24);
+            }
+        }.start();
 
-			gc.clearRect(0, 0, 512,512);
-			gc.drawImage(space, 0, 0);
+        primaryStage.show();
 
+    }
 
-                        for(int i = 0; i < theSnake.getSize(); i++){
-                            theSnake.getSegement(i).render(gc);
-                        }
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String[] args) {
+        launch(args);
+    }
 
-			//theSnake.getHead().render( gc );
-
-			for (Sprite apple : appleList )
-			    apple.render( gc );
-
-			String pointsText = "Score: " + (100 * score.value);
-			gc.fillText( pointsText, 360, 24);
-			gc.strokeText( pointsText, 360, 24);
-		    }
-		}.start();
-
-
-		primaryStage.show();        
-
-	
-
-	}
-
-	/**
-	 * @param args the command line arguments
-	 */
-	public static void main(String[] args) {
-		launch(args);
-	}
-	
 }

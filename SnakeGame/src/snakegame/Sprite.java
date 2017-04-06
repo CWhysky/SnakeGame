@@ -1,6 +1,7 @@
 package snakegame;
 
 import java.util.ArrayList;
+import java.util.Queue;
 import java.util.LinkedList;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -126,6 +127,7 @@ public class Sprite
     public void setVelocity(Snake snake){
         velocityX = snake.getLast().getVelocityX();
         velocityY = snake.getLast().getVelocityY();
+        this.angle = snake.getLast().getAngle();
     }
     
     public double getVelocityX(){
@@ -172,10 +174,13 @@ public class Sprite
     
     public boolean checkVelChange(){
         if(!changeX.isEmpty()){
-            if((positionX == (double)changeX.get(0)) && (positionY == (double)changeY.get(0))){
+            if(checkPositions()){
+                System.out.println("Passed position check");
                 velocityX = (double)changeVelX.get(0);
                 velocityY = (double)changeVelY.get(0);
                 angle = (double)changeAngle.get(0);
+                changeX.remove(0);
+                changeY.remove(0);
                 changeVelX.remove(0);
                 changeVelY.remove(0);
                 changeAngle.remove(0);
@@ -186,10 +191,20 @@ public class Sprite
     }
     
     public void setChgs(double x, double y, double velX, double velY, double angle){
+//      System.out.println("x=" + x+ " y="+y+" velX="+velX+"velY="+velY+" angle="+angle);
         changeX.add(x);
         changeY.add(y);
         changeVelX.add(velX);
         changeVelY.add(velY);
         changeAngle.add(angle);
+    }
+    
+    private boolean checkPositions(){
+        return ((((double)changeX.get(0) - 2.5 < positionX) && 
+                positionX < (double)changeX.get(0) + 2.5)
+                &&(((double)changeY.get(0) - 2.5 < positionY) && 
+                    (double)changeY.get(0) + 2.5 > positionY));
+   
+  //    return (((double)changeX.get(0) == positionX)&&((double)changeY.get(0) == positionY));
     }
 }
