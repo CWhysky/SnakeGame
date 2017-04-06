@@ -5,72 +5,10 @@
  */
 package snakegame;
 
-import java.util.LinkedList;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.canvas.GraphicsContext;
-import javafx.geometry.Rectangle2D;
-import javafx.scene.SnapshotParameters;
-import javafx.scene.paint.Color;
-
 /**
  *
  * @author ascott
  */
 public class Snake {
-    private LinkedList snake;
-	public Snake(){
-            snake = new LinkedList();
-        }
-        
-        public void setHead(Sprite s){
-            snake.addFirst(s);
-        }
-        
-        public Sprite getHead(){
-            return (Sprite)snake.getFirst();
-        }
-        
-        public void addBody(Sprite s){
-            snake.add(s);
-        }
-        
-        public int getSize(){
-            return snake.size();
-        }
-        
-        public Sprite getSegement(int i){
-            return (Sprite)snake.get(i);
-        }
-        
-        public Sprite getLast(){
-            return (Sprite)snake.getLast();
-        }
-        
-        public void velocityChanges(){
-            if(snake.getFirst() != snake.getLast()){
-                for(int i = 1; i < snake.size(); i++){
-                    Sprite temp = (Sprite)snake.get(i);
-                    if(temp.checkVelChange()){
-                        System.out.println("Passed checkVelChange()");
-                        if(temp != snake.getLast()){
-                            Sprite temp2 = (Sprite)snake.get(i+1);
-                            temp2.setChgs(temp.getX(),temp.getY(),
-                                          temp.getVelocityX(),temp.getVelocityY(),
-                                          temp.getAngle());
-                        }
-                    }
-                }
-            }
-        }
-        public void setSecondChgs(){
-            if(snake.getFirst() != snake.getLast()){
-                System.out.println("Entered setSecondChgs if statement.");
-                Sprite temp = (Sprite)snake.getFirst();
-                Sprite temp2 = (Sprite)snake.get(1);
-                temp2.setChgs(temp.getX(), temp.getY(), temp.getVelocityX(), 
-                              temp.getVelocityY(), temp.getAngle());
-            }
-            
-        }
+	
 }
