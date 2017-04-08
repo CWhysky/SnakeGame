@@ -143,28 +143,28 @@ public class Snakey extends Application {
 					theSnake.setAngle(270);
 					setBGVelX(500.0);
 					setBGVelY(0.0);
-					setBGX(getBGX() + 1);
+					// setBGX(getBGX() + 1);
 				}
 
 				if (input.contains("RIGHT")) {
 					theSnake.setAngle(90);
 					setBGVelX(-500.0);
 					setBGVelY(0.0);
-					setBGX(getBGX() - 1);
+					// setBGX(getBGX() - 1);
 				}
 
 				if (input.contains("UP")) {
 					theSnake.setAngle(0);
 					setBGVelY(500.0);
 					setBGVelX(0.0);
-					setBGY(getBGY() + 1);
+					// setBGY(getBGY() + 1);
 				}
 
 				if (input.contains("DOWN")) {
 					theSnake.setAngle(180);
 					setBGVelY(-500.0);
 					setBGVelX(0.0);
-					setBGY(getBGY() - 1);
+					// setBGY(getBGY() - 1);
 				}
 
 				// collision detection
