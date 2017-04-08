@@ -93,7 +93,7 @@ public class Snakey extends Application {
         	ArrayList<String> input = new ArrayList<String>();
 
 		// Image space = new Image("space.png");
-		Image cracked = new Image("cracked.png");
+		Image cracked = new Image("stars5.jpg");
 		theScene.setFill(new ImagePattern(cracked, 
 			((theScene.getWidth()/2)-32), 
 			((theScene.getHeight()/2)-32), .6, .6, true));
