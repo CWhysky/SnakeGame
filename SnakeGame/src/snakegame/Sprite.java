@@ -4,8 +4,10 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.geometry.Rectangle2D;
+import javafx.scene.Scene;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.ImagePattern;
 
 public class Sprite
 {
@@ -13,11 +15,16 @@ public class Sprite
     private ImageView theImageView;
     private double positionX;
     private double positionY;    
+    private double bgPositionX;
+    private double bgPositionY;    
     private double velocityX;
     private double velocityY;
+    private double bgVelocityX;
+    private double bgVelocityY;
     private double width;
     private double height;
     private double angle;
+    private final ImageView head;
 
     public Sprite()
     {
@@ -25,6 +32,7 @@ public class Sprite
         positionY = 0;    
         velocityX = 0;
         velocityY = 0;
+	head = new ImageView(new Image("snake_head_red.png"));
     }
 
     public void setImage(Image i)
@@ -32,28 +40,22 @@ public class Sprite
         image = i;
         width = i.getWidth();
         height = i.getHeight();
-	// angle = 90;
     }
 
     public Image getImage()
     {
         return image;
     }
+
     public double getAngle()
     {
         return angle;
     }
 
-
     public void setImage(String filename)
     {
         Image i = new Image(filename);
         setImage(i);
-
-	// theImageView = new ImageView();
-	// Image theImage = new Image(filename);
-	// theImageView.setImage(i);
-	// theImageView.setRotate(angle);
     }
 
     public void setPosition(double x, double y, double angle)
@@ -63,22 +65,17 @@ public class Sprite
 	angle = angle;
     }
 
-    public void setVelocity(double x, double y, double angle)
+    public void setVelocity(double x, double y, double angle, Scene scene, double bgx, double bgy )
     {
         velocityX = x;
         velocityY = y;
-	angle = angle;
 
-	    // ImageView iv = new ImageView(new Image("gfx/earth.png"));
-	    ImageView iv = new ImageView(new Image("snake_head_red.png"));
-	    // ImageView iv = new ImageView(new Image(theSnake.getImage()));
-	    iv.setRotate(angle);
-	    SnapshotParameters params = new SnapshotParameters();
-	    params.setFill(Color.TRANSPARENT);
-	    Image rotatedImage = iv.snapshot(params, null);
-	    setImage(rotatedImage);
-
-	
+	// Rotate the head to the new angle
+	head.setRotate(angle);
+	SnapshotParameters params = new SnapshotParameters();
+	params.setFill(Color.TRANSPARENT);
+	Image rotatedImage = head.snapshot(params, null);
+	setImage(rotatedImage);
     }
 
     public void addVelocity(double x, double y)
@@ -87,7 +84,7 @@ public class Sprite
         velocityY += y;
     }
 
-    public void update(double time)
+    public void update(double time, Scene scene)
     {
         positionX += velocityX * time;
         positionY += velocityY * time;
@@ -95,7 +92,6 @@ public class Sprite
 
     public void render(GraphicsContext gc)
     {
-	// gc.rotate(angle);
         gc.drawImage( image, positionX, positionY );
     }
 

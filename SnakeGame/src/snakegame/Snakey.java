@@ -7,24 +7,26 @@ package snakegame;
 
 import java.util.ArrayList;
 import javafx.application.Application;
-import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
-import javafx.scene.control.Button;
-import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import java.util.Iterator;
 import javafx.animation.AnimationTimer;
-import javafx.scene.SnapshotParameters;
+// import javafx.event.ActionEvent;
+// import javafx.scene.control.Button;
+// import javafx.scene.layout.StackPane;
+// import javafx.scene.image.ImageView;
+// import javafx.scene.SnapshotParameters;
+
+import javafx.scene.paint.ImagePattern;
 
 
 
@@ -33,21 +35,70 @@ import javafx.scene.SnapshotParameters;
  * @author ascott
  */
 public class Snakey extends Application {
+	int velX = 0;
+	int velY = 0;
+
+	int getVelX() {
+		return velX;
+	}
+
+	int getVelY() {
+		return velY;
+	}
+
+	void setVelX(int num) {
+		velX = num;
+	}
+
+	void setVelY(int num) {
+		velY = num;
+	}
+
+	int X = 0;
+	int Y = 0;
+
+	int getX() {
+		return X;
+	}
+
+	int getY() {
+		return Y;
+	}
+
+	void setX(int num) {
+		X = num;
+	}
+
+	void setY(int num) {
+		Y = num;
+	}
+
 	
 	@Override
 	public void start(Stage primaryStage) {
 		
 		// StackPane root = new StackPane();
 		Group root = new Group();
-		Scene theScene = new Scene(root, 512, 512);
+		int WindowWidth = 640;
+		int WindowHeight = 640;
+		int GameGridWidth = 4096;
+		int GameGridHeight = 4096;
+		Scene theScene = new Scene(root, WindowWidth, WindowHeight);
 		primaryStage.setTitle("Snakey!");
 		primaryStage.setScene(theScene);
 
 		// Canvas canvas = new Canvas(4096, 4096);
-		Canvas canvas = new Canvas(512, 512);
-		root.getChildren().add(canvas);
+		Canvas canvas = new Canvas(WindowWidth, WindowHeight);
 
         	ArrayList<String> input = new ArrayList<String>();
+
+		// Image space = new Image("space.png");
+		Image cracked = new Image("cracked.png");
+		theScene.setFill(new ImagePattern(cracked, 
+			((theScene.getWidth()/2)-32), 
+			((theScene.getHeight()/2)-32), .6, .6, true));
+
+		root.getChildren().add(canvas);
 
 		theScene.setOnKeyPressed(
 		    new EventHandler<KeyEvent>()
@@ -71,7 +122,6 @@ public class Snakey extends Application {
 		    });
 
 	        GraphicsContext gc = canvas.getGraphicsContext2D();
-		Image space = new Image("space.png");
 
 		Font theFont = Font.font( "Helvetica", FontWeight.BOLD, 24 );
 		gc.setFont( theFont );
@@ -81,8 +131,11 @@ public class Snakey extends Application {
 
 		Sprite theSnake = new Sprite();
 		theSnake.setImage("snake_head_red.png");
-		theSnake.setPosition(200, 0, 90);
+		theSnake.setPosition((theScene.getWidth()/2)-32, (theScene.getHeight()/2)-32, 180);
 
+		// Sprite theBG = new Sprite();
+		// theBG.setImage("cracked.png");
+		// theBG.setPosition((theScene.getWidth()/2)-32, (theScene.getHeight()/2)-32, 180);
 
 		ArrayList<Sprite> appleList = new ArrayList<Sprite>();
 
@@ -113,18 +166,41 @@ public class Snakey extends Application {
 			// theSnake.setVelocity(0,0);
 
 			if (input.contains("LEFT"))
-			    theSnake.setVelocity(-250,0, 270);
+			{
+			    // theSnake.setPosition(-250,0, 270);
+			    // theSnake.setVelocity(-250,0, 270, theScene);
+			    theSnake.setVelocity(0,0, 270, theScene, -250, 0);
+			    // theBG.setVelocity(-200, 0, 270, theScene);
+			    setVelX(1);
+			    setX(getX()+10);
+			}
 
 			if (input.contains("RIGHT"))
-			    theSnake.setVelocity(250,0, 90);
+			{
+			    // theSnake.setPosition(250,0, 90);
+			    // theSnake.setVelocity(250,0, 90, theScene);
+			    theSnake.setVelocity(0, 0, 90, theScene, 250, 0);
+			    setVelX(-1);
+			    setX(getX()-10);
+			}
 
 			if (input.contains("UP"))
-			    theSnake.setVelocity(0,-250, 0);
+			{
+			    // theSnake.setPosition(0,-250, 0);
+			    // theSnake.setVelocity(0,-250, 0, theScene);
+			    theSnake.setVelocity(0, 0, 0, theScene, 0, -250);
+			    setVelY(1);
+			    setY(getY()+10);
+			}
 
 			if (input.contains("DOWN"))
-			    theSnake.setVelocity(0,250, 180);
-
-			theSnake.update(elapsedTime);
+			{
+			    // theSnake.setPosition(0,250, 180);
+			    // theSnake.setVelocity(0,250, 180, theScene);
+			    theSnake.setVelocity(0, 0, 180, theScene, 0, 250);
+			    setVelY(-1);
+			    setY(getY()-10);
+			}
 
 			// collision detection
 
@@ -141,11 +217,13 @@ public class Snakey extends Application {
 
 			// render
 
-			gc.clearRect(0, 0, 512,512);
-			gc.drawImage(space, 0, 0);
+			gc.clearRect(0, 0, WindowWidth, WindowHeight);
+			// gc.drawImage(space, 0, 0);
+			// gc.drawImage(cracked, 0, 0);
+			// gc.setFill(new ImagePattern(cracked, 0.2, 0.2, .6, .6, true));
 
 
-
+			theScene.setFill(new ImagePattern(cracked, getX() + getVelX(), getY() + getVelY(), cracked.getWidth(), cracked.getHeight(), false));
 
 			theSnake.render( gc );
 
