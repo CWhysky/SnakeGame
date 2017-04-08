@@ -20,42 +20,42 @@ import javafx.scene.paint.ImagePattern;
 public class Snakey extends Application {
 
 	// Background Velocity, Accessors, and Settings
-	int bgVelX = 0;
-	int bgVelY = 0;
+	double bgVelX = 0.0;
+	double bgVelY = 0.0;
 
-	int getBGVelX() {
+	double getBGVelX() {
 		return bgVelX;
 	}
 
-	int getBGVelY() {
+	double getBGVelY() {
 		return bgVelY;
 	}
 
-	void setBGVelX(int num) {
+	void setBGVelX(double num) {
 		bgVelX = num;
 	}
 
-	void setBGVelY(int num) {
+	void setBGVelY(double num) {
 		bgVelY = num;
 	}
 
 	// Background Position, Accessors, and Setters
-	int bgX = 0;
-	int bgY = 0;
+	double bgX = 0.0;
+	double bgY = 0.0;
 
-	int getBGX() {
+	double getBGX() {
 		return bgX;
 	}
 
-	int getBGY() {
+	double getBGY() {
 		return bgY;
 	}
 
-	void setBGX(int num) {
+	void setBGX(double num) {
 		bgX = num;
 	}
 
-	void setBGY(int num) {
+	void setBGY(double num) {
 		bgY = num;
 	}
 
@@ -127,35 +127,44 @@ public class Snakey extends Application {
 
 		new AnimationTimer() {
 
+            @Override
 			public void handle(long currentNanoTime) {
+
+	            int bgVelX = 0;
+	            int bgVelY = 0;
 
 				// calculate time since last update.
 				double elapsedTime = (currentNanoTime - lastNanoTime.value) / 1000000000.0;
 				lastNanoTime.value = currentNanoTime;
 
+				
 				// game logic
 				if (input.contains("LEFT")) {
 					theSnake.setAngle(270);
-					setBGVelX(10);
-					setBGX(getBGX() + 10);
+					setBGVelX(500.0);
+					setBGVelY(0.0);
+					setBGX(getBGX() + 1);
 				}
 
 				if (input.contains("RIGHT")) {
 					theSnake.setAngle(90);
-					setBGVelX(-10);
-					setBGX(getBGX() - 10);
+					setBGVelX(-500.0);
+					setBGVelY(0.0);
+					setBGX(getBGX() - 1);
 				}
 
 				if (input.contains("UP")) {
 					theSnake.setAngle(0);
-					setBGVelY(10);
-					setBGY(getBGY() + 10);
+					setBGVelY(500.0);
+					setBGVelX(0.0);
+					setBGY(getBGY() + 1);
 				}
 
 				if (input.contains("DOWN")) {
 					theSnake.setAngle(180);
-					setBGVelY(-10);
-					setBGY(getBGY() - 10);
+					setBGVelY(-500.0);
+					setBGVelX(0.0);
+					setBGY(getBGY() - 1);
 				}
 
 				// collision detection
@@ -170,10 +179,13 @@ public class Snakey extends Application {
 
 				// render
 				gc.clearRect(0, 0, WindowWidth, WindowHeight);
-				theScene.setFill(new ImagePattern(cracked,
-					(getBGX() + getBGVelX()), (getBGY() + getBGVelY()),
-					cracked.getWidth(), cracked.getHeight(), false));
-				theSnake.render(gc);
+
+				setBGX(getBGX() + (getBGVelX()*elapsedTime));
+				setBGY(getBGY() + (getBGVelY()*elapsedTime));
+
+				// (getBGX() + getBGVelX()), (getBGY() + getBGVelY()),
+				theScene.setFill(new ImagePattern(cracked, getBGX(), getBGY(), cracked.getWidth(), cracked.getHeight(), false));
+			    theSnake.render(gc);
 
 				for (Sprite apple : appleList) {
 					apple.render(gc);
@@ -183,7 +195,10 @@ public class Snakey extends Application {
 				gc.fillText(pointsText, 360, 24);
 				gc.strokeText(pointsText, 360, 24);
 			}
+
+
 		}.start();
+	
 		primaryStage.show();
 	}
 
