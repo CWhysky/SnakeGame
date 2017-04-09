@@ -8,6 +8,7 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.stage.Stage;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
@@ -15,7 +16,13 @@ import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import java.util.Iterator;
 import javafx.animation.AnimationTimer;
+import javafx.scene.SnapshotParameters;
+import javafx.scene.image.ImageView;
 import javafx.scene.paint.ImagePattern;
+import javafx.scene.transform.Rotate;
+import javafx.scene.transform.Scale;
+import javafx.scene.transform.Translate;
+
 
 public class Snakey extends Application {
 
@@ -64,16 +71,20 @@ public class Snakey extends Application {
 
 		// StackPane root = new StackPane();
 		Group root = new Group();
+		int Speed = 500;
 		int WindowWidth = 640;
 		int WindowHeight = 640;
 		int GameGridWidth = 4096;
 		int GameGridHeight = 4096;
+
 		Scene theScene = new Scene(root, WindowWidth, WindowHeight);
 		primaryStage.setTitle("Snakey!");
 		primaryStage.setScene(theScene);
 		Canvas canvas = new Canvas(WindowWidth, WindowHeight);
 
 		ArrayList<String> input = new ArrayList<String>();
+		ArrayList<Double> mouseInput = new ArrayList<Double>();
+
 		Image cracked = new Image("stars5.jpg");
 		theScene.setFill(new ImagePattern(cracked,
 			((theScene.getWidth() / 2) - 32),
@@ -98,6 +109,16 @@ public class Snakey extends Application {
 			}
 		});
 
+		theScene.setOnMouseMoved(
+		    new EventHandler<MouseEvent>() {
+            public void handle(MouseEvent e) {
+				Double x = e.getX();
+				Double y = e.getY();
+				mouseInput.add(0, x);
+				mouseInput.add(1, y);
+            }
+		});
+
 		GraphicsContext gc = canvas.getGraphicsContext2D();
 
 		Font theFont = Font.font("Helvetica", FontWeight.BOLD, 24);
@@ -109,7 +130,7 @@ public class Snakey extends Application {
 		Sprite theSnake = new Sprite();
 		theSnake.setImage("snake_head_red.png");
 		theSnake.setPosition((theScene.getWidth() / 2) - 32, (theScene.getHeight() / 2) - 32);
-		theSnake.setAngle(180);
+		// theSnake.setAngle(180, gc);
 
 		ArrayList<Sprite> appleList = new ArrayList<Sprite>();
 
@@ -130,41 +151,54 @@ public class Snakey extends Application {
             @Override
 			public void handle(long currentNanoTime) {
 
-	            int bgVelX = 0;
-	            int bgVelY = 0;
-
 				// calculate time since last update.
 				double elapsedTime = (currentNanoTime - lastNanoTime.value) / 1000000000.0;
 				lastNanoTime.value = currentNanoTime;
 
-				
+		        double newAngle = 0.0;
+
 				// game logic
-				if (input.contains("LEFT")) {
-					theSnake.setAngle(270);
-					setBGVelX(500.0);
-					setBGVelY(0.0);
-					// setBGX(getBGX() + 1);
-				}
+				if(!mouseInput.isEmpty())
+				{
+				    double x = mouseInput.get(0);
+				    double y = mouseInput.get(1);
+					mouseInput.remove(1);
+					mouseInput.remove(0);
 
-				if (input.contains("RIGHT")) {
-					theSnake.setAngle(90);
-					setBGVelX(-500.0);
-					setBGVelY(0.0);
-					// setBGX(getBGX() - 1);
-				}
 
-				if (input.contains("UP")) {
-					theSnake.setAngle(0);
-					setBGVelY(500.0);
-					setBGVelX(0.0);
-					// setBGY(getBGY() + 1);
-				}
+					// Calculate angle and update
+					x = (x - theScene.getWidth()/2.0);
+					y = (y - theScene.getHeight()/2.0);
+					newAngle = (Math.toDegrees(Math.atan2(y, x)) + 90);
+                    theSnake.setAngle(newAngle, gc);
 
-				if (input.contains("DOWN")) {
-					theSnake.setAngle(180);
-					setBGVelY(-500.0);
-					setBGVelX(0.0);
-					// setBGY(getBGY() - 1);
+				
+					// adjust velocities based on angle
+					double acute = ((theSnake.getAngle()+90)%90);
+					double xSpeed = Speed * acute / 90; 
+				    double ySpeed = Speed - xSpeed;	
+
+					// System.out.println("DEBUG" + x + " " + y +  "     " + newAngle + "    " + xSpeed + " " + ySpeed);
+					if(newAngle > -90 && newAngle < 0 ) // upper left quarter
+					{
+					    setBGVelX(ySpeed); 
+					    setBGVelY(xSpeed);
+					}
+					else if (newAngle >= 0 && newAngle < 90) // upp right corner
+					{
+					    setBGVelX(-xSpeed);
+					    setBGVelY(ySpeed);
+					}
+					else if (newAngle >= 90 && newAngle < 180) // lower right corner
+					{
+					    setBGVelX(-ySpeed);
+					    setBGVelY(-xSpeed);
+					}
+					else if (newAngle >= 180 && newAngle <= 270) // lower left corner
+					{
+					    setBGVelX(xSpeed);
+					    setBGVelY(-ySpeed);
+					}
 				}
 
 				// collision detection
@@ -184,7 +218,10 @@ public class Snakey extends Application {
 				setBGY(getBGY() + (getBGVelY()*elapsedTime));
 
 				// (getBGX() + getBGVelX()), (getBGY() + getBGVelY()),
-				theScene.setFill(new ImagePattern(cracked, getBGX(), getBGY(), cracked.getWidth(), cracked.getHeight(), false));
+				theScene.setFill(new ImagePattern(cracked, 
+					getBGX(), getBGY(), 
+					cracked.getWidth(), cracked.getHeight(), false));
+
 			    theSnake.render(gc);
 
 				for (Sprite apple : appleList) {
