@@ -132,6 +132,8 @@ public class Snakey extends Application {
 		theSnake.setPosition((theScene.getWidth() / 2) - 32, (theScene.getHeight() / 2) - 32);
 		// theSnake.setAngle(180, gc);
 
+		setBGVelX(0); 
+		setBGVelY(Speed);
 		ArrayList<Sprite> appleList = new ArrayList<Sprite>();
 
 		for (int i = 0; i < 15; i++) {
@@ -162,42 +164,60 @@ public class Snakey extends Application {
 				{
 				    double x = mouseInput.get(0);
 				    double y = mouseInput.get(1);
-					mouseInput.remove(1);
-					mouseInput.remove(0);
+					double totX = 0.0;
+					double totY = 0.0;
+					// buffer up to 20 samples from the mouse
+					// so we can normalize input by averaging
+					// otherwise there is lots of jitter
+					if(mouseInput.size() > 20)
+					{
+					for (int i=0; i<19; i+=2)
+					{
+                       totX += mouseInput.get(i); 
+                       totY += mouseInput.get(i+1); 
+					}
+					x = totX/10.0;
+					y = totY/10.0;
 
 
 					// Calculate angle and update
 					x = (x - theScene.getWidth()/2.0);
 					y = (y - theScene.getHeight()/2.0);
-					newAngle = (Math.toDegrees(Math.atan2(y, x)) + 90);
-                    theSnake.setAngle(newAngle, gc);
+					// newAngle = (Math.toDegrees(Math.atan2(y, x)) + 90);
+					// newAngle = (Math.toDegrees(Math.atan2(y, x)) + 90);
 
-				
+					newAngle = (Math.toDegrees(Math.atan2(y, x)) + 90.0);
+                    theSnake.setAngle(newAngle, gc);
+					if(newAngle%90!=0.0 )
+					{
 					// adjust velocities based on angle
-					double acute = ((theSnake.getAngle()+90)%90);
-					double xSpeed = Speed * acute / 90; 
+					double acute = ((theSnake.getAngle()+90.0)%90);
+					// double acute = (newAngle%90);
+					double xSpeed = Speed * acute / 90.0; 
 				    double ySpeed = Speed - xSpeed;	
 
 					// System.out.println("DEBUG" + x + " " + y +  "     " + newAngle + "    " + xSpeed + " " + ySpeed);
-					if(newAngle > -90 && newAngle < 0 ) // upper left quarter
+					if(newAngle > -90.0 && newAngle < 0.0 ) // upper left quarter
 					{
 					    setBGVelX(ySpeed); 
 					    setBGVelY(xSpeed);
 					}
-					else if (newAngle >= 0 && newAngle < 90) // upp right corner
+					else if (newAngle > 0.0 && newAngle <= 90.0) // upp right corner
 					{
 					    setBGVelX(-xSpeed);
 					    setBGVelY(ySpeed);
 					}
-					else if (newAngle >= 90 && newAngle < 180) // lower right corner
+					else if (newAngle > 90.0 && newAngle <= 180.0) // lower right corner
 					{
 					    setBGVelX(-ySpeed);
 					    setBGVelY(-xSpeed);
 					}
-					else if (newAngle >= 180 && newAngle <= 270) // lower left corner
+					else if (newAngle > 180.0 && newAngle <= 270.0) // lower left corner
 					{
 					    setBGVelX(xSpeed);
 					    setBGVelY(-ySpeed);
+					}
+					}
 					}
 				}
 

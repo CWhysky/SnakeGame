@@ -28,12 +28,13 @@ public class Sprite {
 
 
 	public Sprite() {
-		positionX = 0;
-		positionY = 0;
-		velocityX = 0;
-		velocityY = 0;
+		positionX = 0.0;
+		positionY = 0.0;
+		velocityX = 0.0;
+		velocityY = 0.0;
 		angle = 0.0;
 	    head  = new ImageView(new Image("snake_head_red.png"));
+		// head.setSmooth(true);
 	}
 
 	public void setImage(Image i) {
@@ -97,7 +98,7 @@ public class Sprite {
 		// ry.setAngle(y);
 		// rz.setAngle(90);
         // Rotate rotate = new Rotate();
-		// rotate.setAngle(newAngle);
+		// rotate.setAngle(newAngle-90);
 		// rotate.setPivotX(0.0);
 		// rotate.setPivotY(0.0);
 		// rotate.setPivotZ(0.0);
@@ -113,14 +114,20 @@ public class Sprite {
 		// System.exit(0);
 		// head.getTransforms().set(angle, new Rotate(newAngle));
 
+		// head.getTransforms().add(new Rotate(Math.toRadians(newAngle), 0.0, 0.0, 0.0));
 		// Only thing that works and it has a problem -- talk to AScott
         // Rotate the head to the new angle
-		head.setRotate(newAngle);
-		// head.getTransforms().add(new Rotate(newAngle, 32.0, 32.0, 32.0));
-		SnapshotParameters params = new SnapshotParameters();
-		params.setFill(Color.TRANSPARENT);
-		Image rotatedImage = head.snapshot(params, null);
-		setImage(rotatedImage);
+
+
+
+		// head.setRotate(newAngle);
+		// head.setPreserveRatio(true);
+		// SnapshotParameters params = new SnapshotParameters();
+		// params.setFill(Color.TRANSPARENT);
+		// Image rotatedImage = head.snapshot(params, null);
+		// setImage(rotatedImage);
+		// render(gc);
+	
 
 
 
@@ -154,7 +161,8 @@ public class Sprite {
 	}
 
 	public void render(GraphicsContext gc) {
-		gc.drawImage(image, positionX, positionY);
+		// gc.drawImage(image, positionX, positionY);
+		drawRotatedImage(gc, image, angle, positionX, positionY);
 	}
 
 	public Rectangle2D getBoundary() {
@@ -169,4 +177,42 @@ public class Sprite {
 		return " Position: [" + positionX + "," + positionY + "]"
 			+ " Velocity: [" + velocityX + "," + velocityY + "]";
 	}
+	// Following two functions borrowed from:
+	// http://stackoverflow.com/questions/18260421/how-to-draw-image-rotated-on-javafx-canvas
+	/**
+	 * Sets the transform for the GraphicsContext to rotate around a pivot
+	 * point.
+	 *
+	 * @param gc the graphics context the transform to applied to.
+	 * @param angle the angle of rotation.
+	 * @param px the x pivot co-ordinate for the rotation (in canvas
+	 * co-ordinates).
+	 * @param py the y pivot co-ordinate for the rotation (in canvas
+	 * co-ordinates).
+	 */
+	private void rotate(GraphicsContext gc, double angle, double px, double py) {
+		Rotate r = new Rotate(angle, px, py);
+		gc.setTransform(r.getMxx(), r.getMyx(), r.getMxy(), r.getMyy(), r.getTx(), r.getTy());
+	}
+
+	/**
+	 * Draws an image on a graphics context.
+	 *
+	 * The image is drawn at (tlpx, tlpy) rotated by angle pivoted around the
+	 * point: (tlpx + image.getWidth() / 2, tlpy + image.getHeight() / 2)
+	 *
+	 * @param gc the graphics context the image is to be drawn on.
+	 * @param angle the angle of rotation.
+	 * @param tlpx the top left x co-ordinate where the image will be plotted
+	 * (in canvas co-ordinates).
+	 * @param tlpy the top left y co-ordinate where the image will be plotted
+	 * (in canvas co-ordinates).
+	 */
+	private void drawRotatedImage(GraphicsContext gc, Image image, double angle, double tlpx, double tlpy) {
+		gc.save(); // saves the current state on stack, including the current transform
+		rotate(gc, angle, tlpx + image.getWidth() / 2, tlpy + image.getHeight() / 2);
+		gc.drawImage(image, tlpx, tlpy);
+		gc.restore(); // back to original state (before rotation)
+	}
+
 }
