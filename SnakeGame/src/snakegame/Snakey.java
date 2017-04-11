@@ -68,7 +68,7 @@ public class Snakey extends Application {
 
 	@Override
 	public void start(Stage primaryStage) {
-
+                //Todo: Set game menu
 		// StackPane root = new StackPane();
 		Group root = new Group();
 		int Speed = 500;
