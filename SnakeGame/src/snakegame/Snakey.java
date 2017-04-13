@@ -16,12 +16,8 @@ import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import java.util.Iterator;
 import javafx.animation.AnimationTimer;
-import javafx.scene.SnapshotParameters;
-import javafx.scene.image.ImageView;
+import javafx.scene.Cursor;
 import javafx.scene.paint.ImagePattern;
-import javafx.scene.transform.Rotate;
-import javafx.scene.transform.Scale;
-import javafx.scene.transform.Translate;
 
 
 public class Snakey extends Application {
@@ -127,6 +123,8 @@ public class Snakey extends Application {
 		gc.setStroke(Color.BLACK);
 		gc.setLineWidth(1);
 
+		theScene.setCursor(Cursor.NONE);
+
 		Sprite theSnake = new Sprite();
 		theSnake.setImage("snake_head_red.png");
 		theSnake.setPosition((theScene.getWidth() / 2) - 32, (theScene.getHeight() / 2) - 32);
@@ -146,7 +144,8 @@ public class Snakey extends Application {
 		}
 
 		LongValue lastNanoTime = new LongValue(System.nanoTime());
-		IntValue score = new IntValue(0);
+	    // The Score in the uppper right corner
+	    IntValue score = new IntValue(0);
 
 		new AnimationTimer() {
 
@@ -264,5 +263,23 @@ public class Snakey extends Application {
 	 */
 	public static void main(String[] args) {
 		launch(args);
+	}
+}
+
+class LongValue {
+
+	public long value;
+
+	public LongValue(long i) {
+		value = i;
+	}
+}
+
+class IntValue {
+
+	public long value;
+
+	public IntValue(long i) {
+		value = i;
 	}
 }
