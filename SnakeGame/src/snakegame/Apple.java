@@ -9,6 +9,6 @@ package snakegame;
  *
  * @author ascott
  */
-public class NetworkPlayer extends Player {
+public class Apple extends Sprite {
 	
 }
