@@ -9,23 +9,28 @@ import javafx.scene.SnapshotParameters;
 import javafx.scene.paint.Color;
 import javafx.scene.transform.Rotate;
 
+
+/**
+ *
+ * Sprite.java is a utility class to help manage the creation of elements in
+ *   the Snake game. Apple.java, Snake.java, and Wall.java should all extend
+ *   this class and leverage the functions in it. You may modify this class but
+ *   please do not make any object-specific modifications; whatever you change
+ *   in this class needs to work for all objects that use this class. 
+ * 
+ * @author ascott
+ * 
+ */
 public class Sprite {
 
 	private Image image;
-	private ImageView theImageView;
 	private double positionX;
 	private double positionY;
-	private double bgPositionX;
-	private double bgPositionY;
 	private double velocityX;
 	private double velocityY;
-	private double bgVelocityX;
-	private double bgVelocityY;
 	private double width;
 	private double height;
 	private double angle;
-	ImageView head;
-
 
 	public Sprite() {
 		positionX = 0.0;
@@ -33,8 +38,6 @@ public class Sprite {
 		velocityX = 0.0;
 		velocityY = 0.0;
 		angle = 0.0;
-	    head  = new ImageView(new Image("snake_head_red.png"));
-		// head.setSmooth(true);
 	}
 
 	public void setImage(Image i) {
@@ -53,85 +56,6 @@ public class Sprite {
 
 	public void setAngle(double newAngle, GraphicsContext gc) {
 		angle = newAngle;
-
-		// Doesn't work
-		// theImageView.setImage(image);
-		// theImageView.setRotate(newAngle);
-		
-		// Doesn't work
-		// Rotate rotate = new Rotate();
-		// rotate.setAngle(newAngle);
-		// rotate.setPivotX(0.0);
-		// rotate.setPivotY(0.0);
-		// rotate.setPivotZ(0.0);
-		// head.getTransforms().addAll(rotate);
-
-		// Doesn't work
-		// head.getTransforms().add(new Rotate(newAngle, 0, 0));
-
-		// Doesn't work
-		// head.setRotate(newAngle);
-		// gc.drawImage(image, positionX, positionY);
-		
-		// Rotate the head to the new angle
-		// head.setRotate(newAngle);
-		// gc.drawImage(head.getImage(), WindowWidth/2, WindowHeight/2);
-
-		// Doesn't work
-		// Translate t = new Translate();
-		// Translate p = new Translate();
-		// Translate ip = new Translate();
-		// Rotate rx = new Rotate();
-		// {
-		//     rx.setAxis(Rotate.X_AXIS);
-		// }
-		// Rotate ry = new Rotate();
-		// {
-		//     ry.setAxis(Rotate.Y_AXIS);
-		// }
-		// Rotate rz = new Rotate();
-		// {
-		//     rz.setAxis(Rotate.Z_AXIS);
-		// }
-		// Scale s = new Scale();
-		// rx.setAngle(x);
-		// ry.setAngle(y);
-		// rz.setAngle(90);
-        // Rotate rotate = new Rotate();
-		// rotate.setAngle(newAngle-90);
-		// rotate.setPivotX(0.0);
-		// rotate.setPivotY(0.0);
-		// rotate.setPivotZ(0.0);
-		// head.getTransforms().addAll(rotate);
-    	// head.getTransforms().addAll(rx, ry, rz, t, p, ip, s);
-		// head.rotateProperty() = newAngle;
-		// head.getTransforms().add(new Rotate(newAngle, 0, 0));
-		// head.getTransforms().add(new Rotate(newAngle, 32, 32, 0));
-		// ((head.getImage().getWidth()/2)), ((head.getImage().getHeight()/2))));
-		// head.getTransformas().add(new Affine());
-        // System.out.println(head.getTransforms());
-		// System.out.println(t);
-		// System.exit(0);
-		// head.getTransforms().set(angle, new Rotate(newAngle));
-
-		// head.getTransforms().add(new Rotate(Math.toRadians(newAngle), 0.0, 0.0, 0.0));
-		// Only thing that works and it has a problem -- talk to AScott
-        // Rotate the head to the new angle
-
-
-
-		// head.setRotate(newAngle);
-		// head.setPreserveRatio(true);
-		// SnapshotParameters params = new SnapshotParameters();
-		// params.setFill(Color.TRANSPARENT);
-		// Image rotatedImage = head.snapshot(params, null);
-		// setImage(rotatedImage);
-		// render(gc);
-	
-
-
-
-
 	}
 
 	public void setImage(String filename) {
@@ -177,6 +101,7 @@ public class Sprite {
 		return " Position: [" + positionX + "," + positionY + "]"
 			+ " Velocity: [" + velocityX + "," + velocityY + "]";
 	}
+
 	// Following two functions borrowed from:
 	// http://stackoverflow.com/questions/18260421/how-to-draw-image-rotated-on-javafx-canvas
 	/**
