@@ -81,8 +81,8 @@ public class Snakey extends Application {
 		ArrayList<String> input = new ArrayList<String>();
 		ArrayList<Double> mouseInput = new ArrayList<Double>();
 
-		Image cracked = new Image("stars5.jpg");
-		theScene.setFill(new ImagePattern(cracked,
+		Image stars = new Image("stars5.jpg");
+		theScene.setFill(new ImagePattern(stars,
 			((theScene.getWidth() / 2) - 32),
 			((theScene.getHeight() / 2) - 32), .6, .6, true));
 		root.getChildren().add(canvas);
@@ -123,7 +123,8 @@ public class Snakey extends Application {
 		gc.setStroke(Color.BLACK);
 		gc.setLineWidth(1);
 
-		theScene.setCursor(Cursor.NONE);
+		// Hide Mouse
+		// theScene.setCursor(Cursor.NONE);
 
 		Sprite theSnake = new Sprite();
 		theSnake.setImage("snake_head_red.png");
@@ -237,9 +238,9 @@ public class Snakey extends Application {
 				setBGY(getBGY() + (getBGVelY()*elapsedTime));
 
 				// (getBGX() + getBGVelX()), (getBGY() + getBGVelY()),
-				theScene.setFill(new ImagePattern(cracked, 
+				theScene.setFill(new ImagePattern(stars, 
 					getBGX(), getBGY(), 
-					cracked.getWidth(), cracked.getHeight(), false));
+					stars.getWidth(), stars.getHeight(), false));
 
 			    theSnake.render(gc);
 
