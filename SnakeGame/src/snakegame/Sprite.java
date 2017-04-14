@@ -36,7 +36,15 @@ public class Sprite {
 	    head  = new ImageView(new Image("snake_head_red.png"));
 		// head.setSmooth(true);
 	}
-
+        
+        public double getPosX(){
+            return positionX;
+        }
+        
+        public double getPosY(){
+            return positionY;
+        }
+        
 	public void setImage(Image i) {
 		image = i;
 		width = i.getWidth();

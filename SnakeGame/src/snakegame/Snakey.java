@@ -23,246 +23,250 @@ import javafx.scene.transform.Rotate;
 import javafx.scene.transform.Scale;
 import javafx.scene.transform.Translate;
 
-
 public class Snakey extends Application {
 
-	// Background Velocity, Accessors, and Settings
-	double bgVelX = 0.0;
-	double bgVelY = 0.0;
+    // Background Velocity, Accessors, and Settings
+    double bgVelX = 0.0;
+    double bgVelY = 0.0;
 
-	double getBGVelX() {
-		return bgVelX;
-	}
+    double getBGVelX() {
+        return bgVelX;
+    }
 
-	double getBGVelY() {
-		return bgVelY;
-	}
+    double getBGVelY() {
+        return bgVelY;
+    }
 
-	void setBGVelX(double num) {
-		bgVelX = num;
-	}
+    void setBGVelX(double num) {
+        bgVelX = num;
+    }
 
-	void setBGVelY(double num) {
-		bgVelY = num;
-	}
+    void setBGVelY(double num) {
+        bgVelY = num;
+    }
 
-	// Background Position, Accessors, and Setters
-	double bgX = 0.0;
-	double bgY = 0.0;
+    // Background Position, Accessors, and Setters
+    double bgX = 0.0;
+    double bgY = 0.0;
 
-	double getBGX() {
-		return bgX;
-	}
+    double getBGX() {
+        return bgX;
+    }
 
-	double getBGY() {
-		return bgY;
-	}
+    double getBGY() {
+        return bgY;
+    }
 
-	void setBGX(double num) {
-		bgX = num;
-	}
+    void setBGX(double num) {
+        bgX = num;
+    }
 
-	void setBGY(double num) {
-		bgY = num;
-	}
+    void setBGY(double num) {
+        bgY = num;
+    }
 
-	@Override
-	public void start(Stage primaryStage) {
+    @Override
+    public void start(Stage primaryStage) {
 
-		// StackPane root = new StackPane();
-		Group root = new Group();
-		int Speed = 500;
-		int WindowWidth = 640;
-		int WindowHeight = 640;
-		int GameGridWidth = 4096;
-		int GameGridHeight = 4096;
+        // StackPane root = new StackPane();
+        Group root = new Group();
+        int Speed = 500;
+        int WindowWidth = 640;
+        int WindowHeight = 640;
+        int GameGridWidth = 4096;
+        int GameGridHeight = 4096;
 
-		Scene theScene = new Scene(root, WindowWidth, WindowHeight);
-		primaryStage.setTitle("Snakey!");
-		primaryStage.setScene(theScene);
-		Canvas canvas = new Canvas(WindowWidth, WindowHeight);
+        Scene theScene = new Scene(root, WindowWidth, WindowHeight);
+        primaryStage.setTitle("Snakey!");
+        primaryStage.setScene(theScene);
+        Canvas canvas = new Canvas(WindowWidth, WindowHeight);
 
-		ArrayList<String> input = new ArrayList<String>();
-		ArrayList<Double> mouseInput = new ArrayList<Double>();
+        ArrayList<String> input = new ArrayList<String>();
+        ArrayList<Double> mouseInput = new ArrayList<Double>();
 
-		Image cracked = new Image("stars5.jpg");
-		theScene.setFill(new ImagePattern(cracked,
-			((theScene.getWidth() / 2) - 32),
-			((theScene.getHeight() / 2) - 32), .6, .6, true));
-		root.getChildren().add(canvas);
+        Image cracked = new Image("stars5.jpg");
+        theScene.setFill(new ImagePattern(cracked,
+                ((theScene.getWidth() / 2) - 32),
+                ((theScene.getHeight() / 2) - 32), .6, .6, true));
+        root.getChildren().add(canvas);
 
-		theScene.setOnKeyPressed(
-			new EventHandler<KeyEvent>() {
-			public void handle(KeyEvent e) {
-				String code = e.getCode().toString();
-				if (!input.contains(code)) {
-					input.add(code);
-				}
-			}
-		});
-
-		theScene.setOnKeyReleased(
-			new EventHandler<KeyEvent>() {
-			public void handle(KeyEvent e) {
-				String code = e.getCode().toString();
-				input.remove(code);
-			}
-		});
-
-		theScene.setOnMouseMoved(
-		    new EventHandler<MouseEvent>() {
-            public void handle(MouseEvent e) {
-				Double x = e.getX();
-				Double y = e.getY();
-				mouseInput.add(0, x);
-				mouseInput.add(1, y);
+        theScene.setOnKeyPressed(
+                new EventHandler<KeyEvent>() {
+            public void handle(KeyEvent e) {
+                String code = e.getCode().toString();
+                if (!input.contains(code)) {
+                    input.add(code);
+                }
             }
-		});
+        });
 
-		GraphicsContext gc = canvas.getGraphicsContext2D();
+        theScene.setOnKeyReleased(
+                new EventHandler<KeyEvent>() {
+            public void handle(KeyEvent e) {
+                String code = e.getCode().toString();
+                input.remove(code);
+            }
+        });
 
-		Font theFont = Font.font("Helvetica", FontWeight.BOLD, 24);
-		gc.setFont(theFont);
-		gc.setFill(Color.YELLOW);
-		gc.setStroke(Color.BLACK);
-		gc.setLineWidth(1);
+        theScene.setOnMouseMoved(
+                new EventHandler<MouseEvent>() {
+            public void handle(MouseEvent e) {
+                Double x = e.getX();
+                Double y = e.getY();
+                mouseInput.add(0, x);
+                mouseInput.add(1, y);
+            }
+        });
 
-		Sprite theSnake = new Sprite();
-		theSnake.setImage("snake_head_red.png");
-		theSnake.setPosition((theScene.getWidth() / 2) - 32, (theScene.getHeight() / 2) - 32);
-		// theSnake.setAngle(180, gc);
+        GraphicsContext gc = canvas.getGraphicsContext2D();
 
-		setBGVelX(0); 
-		setBGVelY(Speed);
-		ArrayList<Sprite> appleList = new ArrayList<Sprite>();
+        Font theFont = Font.font("Helvetica", FontWeight.BOLD, 24);
+        gc.setFont(theFont);
+        gc.setFill(Color.YELLOW);
+        gc.setStroke(Color.BLACK);
+        gc.setLineWidth(1);
 
-		for (int i = 0; i < 15; i++) {
-			Sprite apple = new Sprite();
-			apple.setImage("apple.png");
-			double px = 350 * Math.random() + 50;
-			double py = 350 * Math.random() + 50;
-			apple.setPosition(px, py);
-			appleList.add(apple);
-		}
+        Sprite theSnake = new Sprite();
+        theSnake.setImage("snake_head_red.png");
+        theSnake.setPosition((theScene.getWidth() / 2) - 32, (theScene.getHeight() / 2) - 32);
+        // theSnake.setAngle(180, gc);
+        
+         Sprite theSnake2 = new Sprite();
+        theSnake2.setImage("snake_head_red.png");
+        theSnake2.setPosition((theScene.getWidth() / 4) - 32, (theScene.getHeight() / 4) - 32);
+        SnakeAI SAI = new SnakeAI(theSnake2);
 
-		LongValue lastNanoTime = new LongValue(System.nanoTime());
-		IntValue score = new IntValue(0);
+        setBGVelX(0);
+        setBGVelY(Speed);
+        ArrayList<Sprite> appleList = new ArrayList<Sprite>();
 
-		new AnimationTimer() {
+        for (int i = 0; i < 1; i++) {
+            Sprite apple = new Sprite();
+            apple.setImage("apple.png");
+            double px = 350 * Math.random() + 50;
+            double py = 350 * Math.random() + 50;
+            apple.setPosition(px, py);
+            appleList.add(apple);
+        }
+
+        LongValue lastNanoTime = new LongValue(System.nanoTime());
+        IntValue score = new IntValue(0);
+
+        new AnimationTimer() {
 
             @Override
-			public void handle(long currentNanoTime) {
+            public void handle(long currentNanoTime) {
 
-				// calculate time since last update.
-				double elapsedTime = (currentNanoTime - lastNanoTime.value) / 1000000000.0;
-				lastNanoTime.value = currentNanoTime;
+                // calculate time since last update.
+                double elapsedTime = (currentNanoTime - lastNanoTime.value) / 1000000000.0;
+                lastNanoTime.value = currentNanoTime;
 
-		        double newAngle = 0.0;
+                double newAngle = 0.0;
 
-				// game logic
-				if(!mouseInput.isEmpty())
-				{
-				    double x = mouseInput.get(0);
-				    double y = mouseInput.get(1);
-					double totX = 0.0;
-					double totY = 0.0;
-					// buffer up to 20 samples from the mouse
-					// so we can normalize input by averaging
-					// otherwise there is lots of jitter
-					if(mouseInput.size() > 20)
-					{
-					for (int i=0; i<19; i+=2)
-					{
-                       totX += mouseInput.get(i); 
-                       totY += mouseInput.get(i+1); 
-					}
-					x = totX/10.0;
-					y = totY/10.0;
+                // game logic
+                if (!mouseInput.isEmpty()) {
+                    double x = mouseInput.get(0);
+                    double y = mouseInput.get(1);
+                    double totX = 0.0;
+                    double totY = 0.0;
+                    // buffer up to 20 samples from the mouse
+                    // so we can normalize input by averaging
+                    // otherwise there is lots of jitter
+                    if (mouseInput.size() > 20) {
+                        for (int i = 0; i < 19; i += 2) {
+                            totX += mouseInput.get(i);
+                            totY += mouseInput.get(i + 1);
+                        }
+                        x = totX / 10.0;
+                        y = totY / 10.0;
 
+                        // Calculate angle and update
+                        x = (x - theScene.getWidth() / 2.0);
+                        y = (y - theScene.getHeight() / 2.0);
+                        // newAngle = (Math.toDegrees(Math.atan2(y, x)) + 90);
+                        // newAngle = (Math.toDegrees(Math.atan2(y, x)) + 90);
 
-					// Calculate angle and update
-					x = (x - theScene.getWidth()/2.0);
-					y = (y - theScene.getHeight()/2.0);
-					// newAngle = (Math.toDegrees(Math.atan2(y, x)) + 90);
-					// newAngle = (Math.toDegrees(Math.atan2(y, x)) + 90);
+                        newAngle = (Math.toDegrees(Math.atan2(y, x)) + 90.0);
+                        theSnake.setAngle(newAngle, gc);
+                        if (newAngle % 90 != 0.0) {
+                            // adjust velocities based on angle
+                            double acute = ((theSnake.getAngle() + 90.0) % 90);
+                            // double acute = (newAngle%90);
+                            double xSpeed = Speed * acute / 90.0;
+                            double ySpeed = Speed - xSpeed;
 
-					newAngle = (Math.toDegrees(Math.atan2(y, x)) + 90.0);
-                    theSnake.setAngle(newAngle, gc);
-					if(newAngle%90!=0.0 )
-					{
-					// adjust velocities based on angle
-					double acute = ((theSnake.getAngle()+90.0)%90);
-					// double acute = (newAngle%90);
-					double xSpeed = Speed * acute / 90.0; 
-				    double ySpeed = Speed - xSpeed;	
+                            // System.out.println("DEBUG" + x + " " + y +  "     " + newAngle + "    " + xSpeed + " " + ySpeed);
+                            if (newAngle > -90.0 && newAngle < 0.0) // upper left quarter
+                            {
+                                setBGVelX(ySpeed);
+                                setBGVelY(xSpeed);
+                            } else if (newAngle > 0.0 && newAngle <= 90.0) // upp right corner
+                            {
+                                setBGVelX(-xSpeed);
+                                setBGVelY(ySpeed);
+                            } else if (newAngle > 90.0 && newAngle <= 180.0) // lower right corner
+                            {
+                                setBGVelX(-ySpeed);
+                                setBGVelY(-xSpeed);
+                            } else if (newAngle > 180.0 && newAngle <= 270.0) // lower left corner
+                            {
+                                setBGVelX(xSpeed);
+                                setBGVelY(-ySpeed);
+                            }
+                        }
+                    }
+                }
 
-					// System.out.println("DEBUG" + x + " " + y +  "     " + newAngle + "    " + xSpeed + " " + ySpeed);
-					if(newAngle > -90.0 && newAngle < 0.0 ) // upper left quarter
-					{
-					    setBGVelX(ySpeed); 
-					    setBGVelY(xSpeed);
-					}
-					else if (newAngle > 0.0 && newAngle <= 90.0) // upp right corner
-					{
-					    setBGVelX(-xSpeed);
-					    setBGVelY(ySpeed);
-					}
-					else if (newAngle > 90.0 && newAngle <= 180.0) // lower right corner
-					{
-					    setBGVelX(-ySpeed);
-					    setBGVelY(-xSpeed);
-					}
-					else if (newAngle > 180.0 && newAngle <= 270.0) // lower left corner
-					{
-					    setBGVelX(xSpeed);
-					    setBGVelY(-ySpeed);
-					}
-					}
-					}
-				}
+                double newAngle2 = 0.0;
+                // collision detection
+                Iterator<Sprite> appleIter = appleList.iterator();
+                while (appleIter.hasNext()) {
+                    Sprite apple = appleIter.next();
+                    if (theSnake.intersects(apple)) {
+                        appleIter.remove();
+                        score.value++;
+                    }
+                    
+                    newAngle2 = SAI.calAngle(apple);
+                }
+                theSnake2.setAngle(newAngle2, gc);
+                //theSnake2.setVelocity(newAngle2, bgY);
+                //theSnake2.up
+                
 
-				// collision detection
-				Iterator<Sprite> appleIter = appleList.iterator();
-				while (appleIter.hasNext()) {
-					Sprite apple = appleIter.next();
-					if (theSnake.intersects(apple)) {
-						appleIter.remove();
-						score.value++;
-					}
-				}
+                // render
+                gc.clearRect(0, 0, WindowWidth, WindowHeight);
 
-				// render
-				gc.clearRect(0, 0, WindowWidth, WindowHeight);
+                setBGX(getBGX() + (getBGVelX() * elapsedTime));
+                setBGY(getBGY() + (getBGVelY() * elapsedTime));
 
-				setBGX(getBGX() + (getBGVelX()*elapsedTime));
-				setBGY(getBGY() + (getBGVelY()*elapsedTime));
+                // (getBGX() + getBGVelX()), (getBGY() + getBGVelY()),
+                theScene.setFill(new ImagePattern(cracked,
+                        getBGX(), getBGY(),
+                        cracked.getWidth(), cracked.getHeight(), false));
 
-				// (getBGX() + getBGVelX()), (getBGY() + getBGVelY()),
-				theScene.setFill(new ImagePattern(cracked, 
-					getBGX(), getBGY(), 
-					cracked.getWidth(), cracked.getHeight(), false));
+                theSnake.render(gc);
 
-			    theSnake.render(gc);
+                theSnake2.render(gc);
+                
+                for (Sprite apple : appleList) {
+                    apple.render(gc);
+                }
 
-				for (Sprite apple : appleList) {
-					apple.render(gc);
-				}
+                String pointsText = "Score: " + (100 * score.value) + " , angle: " + (newAngle2 - 90.0);
+                gc.fillText(pointsText, 360, 24);
+                gc.strokeText(pointsText, 360, 24);
+            }
 
-				String pointsText = "Score: " + (100 * score.value);
-				gc.fillText(pointsText, 360, 24);
-				gc.strokeText(pointsText, 360, 24);
-			}
+        }.start();
 
+        primaryStage.show();
+    }
 
-		}.start();
-	
-		primaryStage.show();
-	}
-
-	/**
-	 * @param args the command line arguments
-	 */
-	public static void main(String[] args) {
-		launch(args);
-	}
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String[] args) {
+        launch(args);
+    }
 }
