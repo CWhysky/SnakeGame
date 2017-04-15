@@ -131,20 +131,20 @@ public class Snakey extends Application {
         theSnake.setPosition((theScene.getWidth() / 2) - 32, (theScene.getHeight() / 2) - 32);
         // theSnake.setAngle(180, gc);
         
-         Sprite theSnake2 = new Sprite();
+        Sprite theSnake2 = new Sprite();
         theSnake2.setImage("snake_head_red.png");
-        theSnake2.setPosition((theScene.getWidth() / 4) - 32, (theScene.getHeight() / 4) - 32);
+        theSnake2.setPosition( 200, 200);
         SnakeAI SAI = new SnakeAI(theSnake2);
 
         setBGVelX(0);
         setBGVelY(Speed);
         ArrayList<Sprite> appleList = new ArrayList<Sprite>();
 
-        for (int i = 0; i < 1; i++) {
+        for (int i = 0; i < 15; i++) {
             Sprite apple = new Sprite();
             apple.setImage("apple.png");
-            double px = 350 * Math.random() + 50;
-            double py = 350 * Math.random() + 50;
+            double px = 500 * Math.random() + 50;
+            double py = 500 * Math.random() + 50;
             apple.setPosition(px, py);
             appleList.add(apple);
         }
@@ -216,22 +216,26 @@ public class Snakey extends Application {
                         }
                     }
                 }
-
-                double newAngle2 = 0.0;
+                
                 // collision detection
                 Iterator<Sprite> appleIter = appleList.iterator();
                 while (appleIter.hasNext()) {
                     Sprite apple = appleIter.next();
-                    if (theSnake.intersects(apple)) {
+                    if (theSnake.intersects(apple) || theSnake2.intersects(apple)) {  //testing
                         appleIter.remove();
                         score.value++;
+                        SAI.mem = false; //testing
+                        continue;
                     }
-                    
-                    newAngle2 = SAI.calAngle(apple);
+                    if(SAI.mem == false){
+                        SAI.memAngle = SAI.calAngle(apple);
+                        SAI.mem = true;
+                    }
                 }
-                theSnake2.setAngle(newAngle2, gc);
-                //theSnake2.setVelocity(newAngle2, bgY);
-                //theSnake2.up
+                theSnake2.setAngle(SAI.memAngle, gc);
+                theSnake2.setVelocity(Math.cos(Math.toRadians((SAI.memAngle-90.0)))*100, Math.sin(Math.toRadians((SAI.memAngle-90.0)))*100);
+                //theSnake2.setVelocity(100, 0);
+                theSnake2.update(elapsedTime, theScene);
                 
 
                 // render
@@ -253,7 +257,7 @@ public class Snakey extends Application {
                     apple.render(gc);
                 }
 
-                String pointsText = "Score: " + (100 * score.value) + " , angle: " + (newAngle2 - 90.0);
+                String pointsText = "Score: " + (100 * score.value) + " , angle: " + (SAI.memAngle - 90.0);
                 gc.fillText(pointsText, 360, 24);
                 gc.strokeText(pointsText, 360, 24);
             }

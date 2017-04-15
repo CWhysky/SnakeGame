@@ -13,6 +13,8 @@ public class SnakeAI {
     
     Snake snake;
     Sprite snakeSprite;
+    public double memAngle = 0.0;
+    public boolean mem = false;
     
     public SnakeAI(Snake snake){
         this.snake = snake;
@@ -30,7 +32,7 @@ public class SnakeAI {
         return;
     }
     
-    //calculate the angle
+    //calculate the angle between the snake and apple
     public double calAngle(Sprite apple){
         double x = apple.getPosX() - snakeSprite.getPosX();
         double y = apple.getPosY() - snakeSprite.getPosY();
