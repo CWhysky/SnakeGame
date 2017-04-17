@@ -74,8 +74,8 @@ public class Snakey extends Application {
 		int Speed = 500;
 		int WindowWidth = 640;
 		int WindowHeight = 640;
-		int GameGridWidth = 4096;
-		int GameGridHeight = 4096;
+		int GameGridWidth = 496;
+		int GameGridHeight = 496;
 
 		Scene theScene = new Scene(root, WindowWidth, WindowHeight);
 		primaryStage.setTitle("Snakey!");
@@ -148,26 +148,26 @@ public class Snakey extends Application {
                 // wall sprite
                 ArrayList<Sprite> wallList = new ArrayList<Sprite>();
 
-		for (int i = 0; i < GameGridWidth; i+=18)
+		for (int i = 0; i < GameGridWidth; i+=17)
 		{
 		    Sprite wall = new Sprite();
 		    wall.setImage("wall.png");       
-		    wall.setPosition(i, (WindowWidth - (GameGridWidth/2)));
+		    wall.setPosition(i, ((WindowWidth/2) - (GameGridWidth/2)));
 		    wallList.add( wall );
                     
                     wall = new Sprite();
 		    wall.setImage("wall.png");       
-		    wall.setPosition((WindowHeight - (GameGridHeight/2)), i);
+		    wall.setPosition(((WindowHeight/2) - (GameGridHeight/2)), i);
 		    wallList.add( wall );
                     
                     wall = new Sprite();
 		    wall.setImage("wall.png");       
-		    wall.setPosition((WindowWidth + (GameGridWidth/2)), i);
+		    wall.setPosition(((WindowWidth/2) + (GameGridWidth/2)), i);
 		    wallList.add( wall );
                     
                     wall = new Sprite();
 		    wall.setImage("wall.png");       
-		    wall.setPosition(i, (WindowHeight + (GameGridHeight/2)));
+		    wall.setPosition(i, ((WindowHeight/2) + (GameGridHeight/2)));
 		    wallList.add( wall );
 		}
 
@@ -280,14 +280,15 @@ public class Snakey extends Application {
 			    theSnake.render(gc);
 
 				for (Sprite apple : appleList) {
-					apple.render(gc);
+					apple.setPosition((apple.getSpriteX() + getBGVelX() * elapsedTime),
+                                                (apple.getSpriteY() + getBGVelY() * elapsedTime));
+		                        apple.render(gc);
 				}
                                 
                                 for (Sprite wall : wallList) {
-                                        wall.addVelocity((wall.getSpriteX() + (wall.getSpriteX()*elapsedTime)), (wall.getSpriteY() + (wall.getSpriteY()*elapsedTime)));
-					wall.setPosition(bgX, bgY);
-                                        wall.update(elapsedTime, theScene);
-                                        wall.render(gc);
+                                        wall.setPosition((wall.getSpriteX() + getBGVelX() * elapsedTime),(
+                                                wall.getSpriteY() + getBGVelY() * elapsedTime));
+		                        wall.render(gc);
 				}
 
 				String pointsText = "Score: " + (100 * score.value);
