@@ -215,4 +215,12 @@ public class Sprite {
 		gc.restore(); // back to original state (before rotation)
 	}
 
+    double getSpriteX() {
+        return positionX;
+    }
+
+    double getSpriteY() {
+        return positionY;
+    }
+
 }

@@ -145,6 +145,32 @@ public class Snakey extends Application {
 			appleList.add(apple);
 		}
 
+                // wall sprite
+                ArrayList<Sprite> wallList = new ArrayList<Sprite>();
+
+		for (int i = 0; i < GameGridWidth; i+=18)
+		{
+		    Sprite wall = new Sprite();
+		    wall.setImage("wall.png");       
+		    wall.setPosition(i, (WindowWidth - (GameGridWidth/2)));
+		    wallList.add( wall );
+                    
+                    wall = new Sprite();
+		    wall.setImage("wall.png");       
+		    wall.setPosition((WindowHeight - (GameGridHeight/2)), i);
+		    wallList.add( wall );
+                    
+                    wall = new Sprite();
+		    wall.setImage("wall.png");       
+		    wall.setPosition((WindowWidth + (GameGridWidth/2)), i);
+		    wallList.add( wall );
+                    
+                    wall = new Sprite();
+		    wall.setImage("wall.png");       
+		    wall.setPosition(i, (WindowHeight + (GameGridHeight/2)));
+		    wallList.add( wall );
+		}
+
 		LongValue lastNanoTime = new LongValue(System.nanoTime());
 		IntValue score = new IntValue(0);
 
@@ -231,6 +257,15 @@ public class Snakey extends Application {
 					}
 				}
 
+                                Iterator<Sprite> wallIter = wallList.iterator();
+				while (wallIter.hasNext()) {
+					Sprite wall = wallIter.next();
+					if (theSnake.intersects(wall)) {
+						System.out.println("dead");
+                                                //reset back to 0
+					}
+				}
+
 				// render
 				gc.clearRect(0, 0, WindowWidth, WindowHeight);
 
@@ -246,6 +281,13 @@ public class Snakey extends Application {
 
 				for (Sprite apple : appleList) {
 					apple.render(gc);
+				}
+                                
+                                for (Sprite wall : wallList) {
+                                        wall.addVelocity((wall.getSpriteX() + (wall.getSpriteX()*elapsedTime)), (wall.getSpriteY() + (wall.getSpriteY()*elapsedTime)));
+					wall.setPosition(bgX, bgY);
+                                        wall.update(elapsedTime, theScene);
+                                        wall.render(gc);
 				}
 
 				String pointsText = "Score: " + (100 * score.value);
