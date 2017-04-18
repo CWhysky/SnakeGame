@@ -144,6 +144,35 @@ public class Snakey extends Application {
 			appleList.add(apple);
 		}
 
+
+                // wall sprite
+                ArrayList<Sprite> wallList = new ArrayList<Sprite>();
+
+		for (int i = 0; i <= GameGridWidth; i+=144)
+		{
+                    // top
+		    Sprite wall = new Sprite();
+		    wall.setImage("cracked.png");       
+		    wall.setPosition(i-((WindowHeight/2)), ((WindowHeight/2)-(GameGridWidth/2)));
+		    wallList.add( wall );
+                    // bottom
+                    wall = new Sprite();
+		    wall.setImage("cracked.png");       
+		    wall.setPosition(i-(WindowHeight/2), ((WindowHeight/2)-(GameGridHeight/2)));
+		    wallList.add( wall );
+                    // left
+                    wall = new Sprite();
+		    wall.setImage("cracked.png");       
+		    wall.setPosition(((WindowHeight/2) - (GameGridHeight/2)), i-(WindowHeight/2));
+		    wallList.add( wall );
+                    // right
+                    wall = new Sprite();
+		    wall.setImage("cracked.png");       
+		    wall.setPosition(((WindowWidth/2) + (GameGridWidth/2)), i-(WindowWidth/2));
+		    wallList.add( wall );
+                    
+		}
+
 		LongValue lastNanoTime = new LongValue(System.nanoTime());
 	    // The Score in the uppper right corner
 	    IntValue score = new IntValue(0);
@@ -230,6 +259,15 @@ public class Snakey extends Application {
 						score.value++;
 					}
 				}
+                                
+                                Iterator<Sprite> wallIter = wallList.iterator();
+				while (wallIter.hasNext()) {
+					Sprite wall = wallIter.next();
+					if (theSnake.intersects(wall)) {
+						System.out.println("dead");
+                                                //reset back to 0
+					}
+				}
 
 				// render
 				gc.clearRect(0, 0, WindowWidth, WindowHeight);
@@ -245,9 +283,17 @@ public class Snakey extends Application {
 			    theSnake.render(gc);
 
 				for (Sprite apple : appleList) {
-					apple.render(gc);
+					apple.setPosition((apple.getSpriteX() + getBGVelX() * elapsedTime),
+                                                (apple.getSpriteY() + getBGVelY() * elapsedTime));
+		                        apple.render(gc);
 				}
-
+                                
+                                for (Sprite wall : wallList) {
+                                        wall.setPosition((wall.getSpriteX() + getBGVelX() * elapsedTime),(
+                                                wall.getSpriteY() + getBGVelY() * elapsedTime));
+		                        wall.render(gc);
+				}
+                                
 				String pointsText = "Score: " + (100 * score.value);
 				gc.fillText(pointsText, 360, 24);
 				gc.strokeText(pointsText, 360, 24);
