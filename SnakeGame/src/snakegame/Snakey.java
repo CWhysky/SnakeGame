@@ -158,7 +158,7 @@ public class Snakey extends Application {
                     // bottom
                     wall = new Sprite();
 		    wall.setImage("cracked.png");       
-		    wall.setPosition(i-(WindowHeight/2), ((WindowHeight/2)-(GameGridHeight/2)));
+		    wall.setPosition(i-(WindowHeight/2), ((WindowHeight/2)+(GameGridHeight/2)));
 		    wallList.add( wall );
                     // left
                     wall = new Sprite();
