@@ -5,9 +5,12 @@
  */
 package snakegame;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+
 /**
  *
- * @author Darren ZL Zhen
+ * @author Darren ZL Zhen, Tim Beiko 
  */
 public class SnakeAI {
     
@@ -27,9 +30,27 @@ public class SnakeAI {
     }
     
     //calculate the shortest Distance apple with snake
-    public void shortestApple(Sprite apple){
+    public Sprite shortestApple(ArrayList<Sprite> appleList){
+        double minDist = 999999999;
+        Sprite closestApple  = null;
         
-        return;
+        Iterator<Sprite> appleIter = appleList.iterator();
+        while (appleIter.hasNext()) {
+            Sprite apple = appleIter.next();
+            double ax = apple.getPosX();
+            double ay = apple.getPosY();
+            
+            double sx = this.snakeSprite.getPosX();
+            double sy = this.snakeSprite.getPosY();
+            
+            double dist = java.lang.Math.sqrt(java.lang.Math.pow((ax*ax - sx*sx),2) + java.lang.Math.pow((ay*ay - sy*sy),2));
+            if (dist < minDist) {
+                minDist = dist;
+                closestApple = apple;
+            }                
+        }
+        
+        return closestApple;
     }
     
     //calculate the angle between the snake and apple

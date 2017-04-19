@@ -228,7 +228,8 @@ public class Snakey extends Application {
                         continue;
                     }
                     if(SAI.mem == false){
-                        SAI.memAngle = SAI.calAngle(apple);
+                        Sprite closeApple = SAI.shortestApple(appleList);
+                        SAI.memAngle = SAI.calAngle(closeApple);
                         SAI.mem = true;
                     }
                 }
