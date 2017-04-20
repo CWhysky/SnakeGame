@@ -130,39 +130,39 @@ public class Snakey extends Application {
         theSnake.setImage("snake_head_red.png");
         theSnake.setPosition((theScene.getWidth() / 2) - 32, (theScene.getHeight() / 2) - 32);
         // theSnake.setAngle(180, gc);
-        
+
         Sprite theSnake2 = new Sprite();
         theSnake2.setImage("snake_head_red.png");
-        theSnake2.setPosition( 200, 200);
+        theSnake2.setPosition(200, 200);
         SnakeAI SAI = new SnakeAI(theSnake2, true);
-        
+
         setBGVelX(0);
         setBGVelY(Speed);
         ArrayList<Sprite> appleList = new ArrayList<Sprite>();
 
-        for (int i = 0; i < 100; i++) {
+        for (int i = 0; i < 70; i++) {
             Sprite apple = new Sprite();
             apple.setImage("apple.png");
             double px = -1500 * Math.random() + 50;
             double py = 1500 * Math.random() + 50;
             apple.setPosition(px, py);
             appleList.add(apple);
-                        
-                        apple = new Sprite();
+
+            apple = new Sprite();
             apple.setImage("apple.png");
             px = 1500 * Math.random() + 50;
             py = -1500 * Math.random() + 50;
             apple.setPosition(px, py);
             appleList.add(apple);
-                        
-                        apple = new Sprite();
+
+            apple = new Sprite();
             apple.setImage("apple.png");
             px = -1500 * Math.random() + 50;
             py = -1500 * Math.random() + 50;
             apple.setPosition(px, py);
             appleList.add(apple);
-                        
-                        apple = new Sprite();
+
+            apple = new Sprite();
             apple.setImage("apple.png");
             px = 1500 * Math.random() + 50;
             py = 1500 * Math.random() + 50;
@@ -170,34 +170,33 @@ public class Snakey extends Application {
             appleList.add(apple);
         }
 
-
         // wall sprite
         ArrayList<Sprite> wallList = new ArrayList<Sprite>();
 
-        for (int i = 0; i <= GameGridWidth+2000; i+=144)
-        {
-                    // top
+        for (int i = 0; i <= GameGridWidth + 400; i += 144) {
+            // top
             Sprite wall = new Sprite();
-            wall.setImage("cracked.png");       
-            wall.setPosition(i-(GameGridWidth/2), ((WindowHeight/2)-(GameGridWidth/2)));
-            wallList.add( wall );
-                    // bottom
-                    wall = new Sprite();
-            wall.setImage("cracked.png");       
-            wall.setPosition(i-(GameGridWidth/2), ((WindowHeight/2)+(GameGridHeight/2)));
-            wallList.add( wall );
-                    // left
-                    wall = new Sprite();
-            wall.setImage("cracked.png");       
-            wall.setPosition(((WindowHeight/2) -(GameGridWidth/2)), i-(GameGridWidth/2));
-            wallList.add( wall );
-                    // right
-                    wall = new Sprite();
-            wall.setImage("cracked.png");       
-            wall.setPosition(((WindowWidth/2) + (GameGridWidth/2)), i-(GameGridWidth/2));
-            wallList.add( wall );
+            wall.setImage("cracked.png");
+            wall.setPosition(i - (GameGridWidth / 2), ((WindowHeight / 2) - (GameGridWidth / 2)));
+            wallList.add(wall);
+            // bottom
+            wall = new Sprite();
+            wall.setImage("cracked.png");
+            wall.setPosition(i - (GameGridWidth / 2), ((WindowHeight / 2) + (GameGridHeight / 2)));
+            wallList.add(wall);
+            // left
+            wall = new Sprite();
+            wall.setImage("cracked.png");
+            wall.setPosition(((WindowHeight / 2) - (GameGridWidth / 2)), i - (GameGridWidth / 2));
+            wallList.add(wall);
+            // right
+            wall = new Sprite();
+            wall.setImage("cracked.png");
+            wall.setPosition(((WindowWidth / 2) + (GameGridWidth / 2)), i - (GameGridWidth / 2));
+            wallList.add(wall);
+
         }
-        
+
         LongValue lastNanoTime = new LongValue(System.nanoTime());
         IntValue score = new IntValue(0);
 
@@ -265,7 +264,7 @@ public class Snakey extends Application {
                         }
                     }
                 }
-                
+
                 // collision detection
                 Iterator<Sprite> appleIter = appleList.iterator();
                 while (appleIter.hasNext()) {
@@ -276,19 +275,30 @@ public class Snakey extends Application {
                         SAI.mem = false; //testing
                         continue;
                     }
-                    if(SAI.mem == false){
+                    if (SAI.mem == false) {
                         Sprite nextApple = apple;
-                        if (SAI.picksClosest)
+                        if (SAI.picksClosest) {
                             nextApple = SAI.shortestApple(appleList);
+                        }
                         SAI.memAngle = SAI.calAngle(nextApple);
                         SAI.mem = true;
                     }
                 }
+
+                Iterator<Sprite> wallIter = wallList.iterator();
+                while (wallIter.hasNext()) {
+                    Sprite wall = wallIter.next();
+                    if (theSnake.intersects(wall)) {
+                        System.out.println("dead");
+                        score.value = 0;
+                        //reset back to 0
+                    }
+                }
+
                 theSnake2.setAngle(SAI.memAngle, gc);
-                theSnake2.setVelocity(Math.cos(Math.toRadians((SAI.memAngle-90.0)))*100, Math.sin(Math.toRadians((SAI.memAngle-90.0)))*100);
+                theSnake2.setVelocity(Math.cos(Math.toRadians((SAI.memAngle - 90.0))) * 100, Math.sin(Math.toRadians((SAI.memAngle - 90.0))) * 100);
                 //theSnake2.setVelocity(100, 0);
                 theSnake2.update(elapsedTime, theScene);
-                
 
                 // render
                 gc.clearRect(0, 0, WindowWidth, WindowHeight);
@@ -304,17 +314,16 @@ public class Snakey extends Application {
                 theSnake.render(gc);
 
                 theSnake2.render(gc);
-                
+
                 for (Sprite apple : appleList) {
                     apple.setPosition((apple.getSpriteX() + getBGVelX() * elapsedTime),
-                                      (apple.getSpriteY() + getBGVelY() * elapsedTime));
-                                apple.render(gc);
+                            (apple.getSpriteY() + getBGVelY() * elapsedTime));
+                    apple.render(gc);
                 }
-                                
-                                for (Sprite wall : wallList) {
-                                        wall.setPosition((wall.getSpriteX() + getBGVelX() * elapsedTime),(
-                                                wall.getSpriteY() + getBGVelY() * elapsedTime));
-                                wall.render(gc);
+
+                for (Sprite wall : wallList) {
+                    wall.setPosition((wall.getSpriteX() + getBGVelX() * elapsedTime), (wall.getSpriteY() + getBGVelY() * elapsedTime));
+                    wall.render(gc);
                 }
 
                 String pointsText = "Score: " + (100 * score.value) + " , angle: " + (SAI.memAngle - 90.0);
