@@ -1,5 +1,6 @@
 package snakegame;
 
+
 import java.util.ArrayList;
 import javafx.application.Application;
 import javafx.event.EventHandler;
@@ -76,10 +77,23 @@ public class Snakey extends Application {
 		int WindowHeight = 640;
 		int GameGridWidth = 4096;
 		int GameGridHeight = 4096;
-
+                
+                
+                
+                //Todo: Menu Scene
+                Scene menuScene = new Scene(root, WindowWidth, WindowHeight);
+                //Todo: Menu Layout
+                
+                //Todo: Menu Button
+                //Todo: Menu Button Function
+                
+                
 		Scene theScene = new Scene(root, WindowWidth, WindowHeight);
 		primaryStage.setTitle("Snakey!");
 		primaryStage.setScene(theScene);
+                
+                
+                
 		Canvas canvas = new Canvas(WindowWidth, WindowHeight);
 
 		ArrayList<String> input = new ArrayList<String>();
