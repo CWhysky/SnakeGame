@@ -196,7 +196,6 @@ public class Snakey extends Application {
             wall.setImage("cracked.png");       
             wall.setPosition(((WindowWidth/2) + (GameGridWidth/2)), i-(GameGridWidth/2));
             wallList.add( wall );
-                    
         }
         
         LongValue lastNanoTime = new LongValue(System.nanoTime());
@@ -306,7 +305,7 @@ public class Snakey extends Application {
                 
                 for (Sprite apple : appleList) {
                     apple.setPosition((apple.getSpriteX() + getBGVelX() * elapsedTime),
-                                                (apple.getSpriteY() + getBGVelY() * elapsedTime));
+                                      (apple.getSpriteY() + getBGVelY() * elapsedTime));
                                 apple.render(gc);
                 }
                                 
