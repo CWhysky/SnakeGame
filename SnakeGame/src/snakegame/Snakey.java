@@ -17,8 +17,10 @@ import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import java.util.Iterator;
 import javafx.animation.AnimationTimer;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.transform.Rotate;
 import javafx.scene.transform.Scale;
@@ -68,7 +70,7 @@ public class Snakey extends Application {
 	}
 
 	@Override
-	public void start(Stage primaryStage) {
+	public void start(Stage primaryStage)throws Exception {
                 //Todo: Set game menu
 		// StackPane root = new StackPane();
 		Group root = new Group();
@@ -79,13 +81,6 @@ public class Snakey extends Application {
 		int GameGridHeight = 4096;
                 
                 
-                
-                //Todo: Menu Scene
-                Scene menuScene = new Scene(root, WindowWidth, WindowHeight);
-                //Todo: Menu Layout
-                
-                //Todo: Menu Button
-                //Todo: Menu Button Function
                 
                 
 		Scene theScene = new Scene(root, WindowWidth, WindowHeight);
@@ -269,10 +264,24 @@ public class Snakey extends Application {
 
 
 		}.start();
+                
+                //Todo: Menu Scene
+                //Scene menuScene = new Scene(root, WindowWidth, WindowHeight);
+                
+                //Todo: Menu Layout
+                /**
+                Pane menuLayout = (Pane) FXMLLoader.load(Snakey.class.getResource("SnakeMenuLayout.fxml"));
+                primaryStage.setScene(new Scene(menuLayout));
+                primaryStage.show();
+                **/
+                //Todo: Menu Button
+                //Todo: Menu Button Function
+                
 	
 		primaryStage.show();
+                
 	}
-
+            
 	/**
 	 * @param args the command line arguments
 	 */
