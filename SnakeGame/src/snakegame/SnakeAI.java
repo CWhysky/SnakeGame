@@ -44,6 +44,7 @@ public class SnakeAI {
             double sy = this.snakeSprite.getPosY();
             
             double dist = java.lang.Math.sqrt(java.lang.Math.pow((ax*ax - sx*sx),2) + java.lang.Math.pow((ay*ay - sy*sy),2));
+            
             if (dist < minDist) {
                 minDist = dist;
                 closestApple = apple;
