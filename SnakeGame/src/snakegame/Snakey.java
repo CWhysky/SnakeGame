@@ -265,17 +265,14 @@ public class Snakey extends Application {
 
 		}.start();
                 
-                //Todo: Menu Scene
-                //Scene menuScene = new Scene(root, WindowWidth, WindowHeight);
-                
-                //Todo: Menu Layout
+                //Menu Scene: Complete
+                //Menu Layouy: Complete
                 /**
                 Pane menuLayout = (Pane) FXMLLoader.load(Snakey.class.getResource("SnakeMenuLayout.fxml"));
                 primaryStage.setScene(new Scene(menuLayout));
                 primaryStage.show();
                 **/
-                //Todo: Menu Button
-                //Todo: Menu Button Function
+                //Todo: Menu Button Functions
                 
 	
 		primaryStage.show();

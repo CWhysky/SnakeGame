@@ -6,9 +6,9 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<Pane maxHeight="640.0" maxWidth="640.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="640.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<Pane fx:id="snakeMenu" maxHeight="640.0" maxWidth="640.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="640.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="MenuController">
    <children>
-      <Button layoutX="217.0" layoutY="320.0" mnemonicParsing="false" text="Play Game">
+      <Button fx:id="playGameButton" layoutX="217.0" layoutY="320.0" mnemonicParsing="false" onAction="#onPlayGameclick" text="Play Game">
          <font>
             <Font size="34.0" />
          </font>
@@ -16,7 +16,7 @@
             <SepiaTone />
          </effect>
       </Button>
-      <Button layoutX="248.0" layoutY="461.0" mnemonicParsing="false" prefHeight="51.0" prefWidth="144.0" text="Exit">
+      <Button fx:id="exitButton" layoutX="248.0" layoutY="461.0" mnemonicParsing="false" onAction="#onExitClick" prefHeight="51.0" prefWidth="144.0" text="Exit">
          <font>
             <Font size="24.0" />
          </font></Button>
@@ -25,7 +25,7 @@
             <Font size="64.0" />
          </font>
       </Label>
-      <Button layoutX="248.0" layoutY="401.0" mnemonicParsing="false" prefHeight="51.0" prefWidth="144.0" text="Options">
+      <Button fx:id="optionsButton" layoutX="248.0" layoutY="401.0" mnemonicParsing="false" onAction="#onOptionsClick" prefHeight="51.0" prefWidth="144.0" text="Options">
          <font>
             <Font size="23.0" />
          </font>
