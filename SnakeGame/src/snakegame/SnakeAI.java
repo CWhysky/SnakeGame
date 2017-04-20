@@ -18,16 +18,20 @@ public class SnakeAI {
     Sprite snakeSprite;
     public double memAngle = 0.0;
     public boolean mem = false;
+    public boolean picksClosest;
     
-    public SnakeAI(Snake snake){
+    public SnakeAI(Snake snake, boolean picksClosest){
         this.snake = snake;
         this.snakeSprite = null;
+        this.picksClosest = picksClosest;
     }
     
-    public SnakeAI(Sprite snakeSprite){
+    public SnakeAI(Sprite snakeSprite, boolean picksClosest){
         this.snake = null;
         this.snakeSprite = snakeSprite;
+        this.picksClosest = picksClosest;
     }
+    
     
     //calculate the shortest Distance apple with snake
     public Sprite shortestApple(ArrayList<Sprite> appleList){

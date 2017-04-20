@@ -134,8 +134,8 @@ public class Snakey extends Application {
         Sprite theSnake2 = new Sprite();
         theSnake2.setImage("snake_head_red.png");
         theSnake2.setPosition( 200, 200);
-        SnakeAI SAI = new SnakeAI(theSnake2);
-
+        SnakeAI SAI = new SnakeAI(theSnake2, true);
+        
         setBGVelX(0);
         setBGVelY(Speed);
         ArrayList<Sprite> appleList = new ArrayList<Sprite>();
@@ -277,8 +277,10 @@ public class Snakey extends Application {
                         continue;
                     }
                     if(SAI.mem == false){
-                        Sprite closeApple = SAI.shortestApple(appleList);
-                        SAI.memAngle = SAI.calAngle(closeApple);
+                        Sprite nextApple = apple;
+                        if (SAI.picksClosest)
+                            nextApple = SAI.shortestApple(appleList);
+                        SAI.memAngle = SAI.calAngle(nextApple);
                         SAI.mem = true;
                     }
                 }
