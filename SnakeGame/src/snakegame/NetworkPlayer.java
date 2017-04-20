@@ -9,6 +9,6 @@ package snakegame;
  *
  * @author ascott
  */
-public class SnakeHead {
+public class NetworkPlayer extends Player {
 	
 }

@@ -9,6 +9,6 @@ package snakegame;
  *
  * @author ascott
  */
-public class Snake {
+public class Snake extends Sprite {
 	
 }
