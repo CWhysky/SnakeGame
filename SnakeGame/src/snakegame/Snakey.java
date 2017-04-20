@@ -135,11 +135,32 @@ public class Snakey extends Application {
 		setBGVelY(Speed);
 		ArrayList<Sprite> appleList = new ArrayList<Sprite>();
 
-		for (int i = 0; i < 15; i++) {
+		for (int i = 0; i < 100; i++) {
 			Sprite apple = new Sprite();
 			apple.setImage("apple.png");
-			double px = 350 * Math.random() + 50;
-			double py = 350 * Math.random() + 50;
+			double px = -1500 * Math.random() + 50;
+			double py = 1500 * Math.random() + 50;
+			apple.setPosition(px, py);
+			appleList.add(apple);
+                        
+                        apple = new Sprite();
+			apple.setImage("apple.png");
+			px = 1500 * Math.random() + 50;
+			py = -1500 * Math.random() + 50;
+			apple.setPosition(px, py);
+			appleList.add(apple);
+                        
+                        apple = new Sprite();
+			apple.setImage("apple.png");
+			px = -1500 * Math.random() + 50;
+			py = -1500 * Math.random() + 50;
+			apple.setPosition(px, py);
+			appleList.add(apple);
+                        
+                        apple = new Sprite();
+			apple.setImage("apple.png");
+			px = 1500 * Math.random() + 50;
+			py = 1500 * Math.random() + 50;
 			apple.setPosition(px, py);
 			appleList.add(apple);
 		}
@@ -148,27 +169,27 @@ public class Snakey extends Application {
                 // wall sprite
                 ArrayList<Sprite> wallList = new ArrayList<Sprite>();
 
-		for (int i = 0; i <= GameGridWidth; i+=144)
+		for (int i = 0; i <= GameGridWidth+2000; i+=144)
 		{
                     // top
 		    Sprite wall = new Sprite();
 		    wall.setImage("cracked.png");       
-		    wall.setPosition(i-((WindowHeight/2)), ((WindowHeight/2)-(GameGridWidth/2)));
+		    wall.setPosition(i-(GameGridWidth/2), ((WindowHeight/2)-(GameGridWidth/2)));
 		    wallList.add( wall );
                     // bottom
                     wall = new Sprite();
 		    wall.setImage("cracked.png");       
-		    wall.setPosition(i-(WindowHeight/2), ((WindowHeight/2)+(GameGridHeight/2)));
+		    wall.setPosition(i-(GameGridWidth/2), ((WindowHeight/2)+(GameGridHeight/2)));
 		    wallList.add( wall );
                     // left
                     wall = new Sprite();
 		    wall.setImage("cracked.png");       
-		    wall.setPosition(((WindowHeight/2) - (GameGridHeight/2)), i-(WindowHeight/2));
+		    wall.setPosition(((WindowHeight/2) -(GameGridWidth/2)), i-(GameGridWidth/2));
 		    wallList.add( wall );
                     // right
                     wall = new Sprite();
 		    wall.setImage("cracked.png");       
-		    wall.setPosition(((WindowWidth/2) + (GameGridWidth/2)), i-(WindowWidth/2));
+		    wall.setPosition(((WindowWidth/2) + (GameGridWidth/2)), i-(GameGridWidth/2));
 		    wallList.add( wall );
                     
 		}
@@ -281,7 +302,7 @@ public class Snakey extends Application {
 					stars.getWidth(), stars.getHeight(), false));
 
 			    theSnake.render(gc);
-
+                            
 				for (Sprite apple : appleList) {
 					apple.setPosition((apple.getSpriteX() + getBGVelX() * elapsedTime),
                                                 (apple.getSpriteY() + getBGVelY() * elapsedTime));
