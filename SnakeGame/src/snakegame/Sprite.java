@@ -39,7 +39,15 @@ public class Sprite {
 		velocityY = 0.0;
 		angle = 0.0;
 	}
-
+        
+        public double getPosX(){
+            return positionX;
+        }
+        
+        public double getPosY(){
+            return positionY;
+        }
+        
 	public void setImage(Image i) {
 		image = i;
 		width = i.getWidth();
