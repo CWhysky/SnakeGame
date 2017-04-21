@@ -20,9 +20,9 @@
          <font>
             <Font size="24.0" />
          </font></Button>
-      <Label layoutX="62.0" layoutY="128.0" text="Snakey: The Game">
+      <Label layoutX="31.0" layoutY="162.0" text="Snakey: The Game">
          <font>
-            <Font size="64.0" />
+            <Font name="Verdana" size="60.0" />
          </font>
       </Label>
       <Button fx:id="optionsButton" layoutX="248.0" layoutY="401.0" mnemonicParsing="false" onAction="#onOptionsClick" prefHeight="51.0" prefWidth="144.0" text="Options">

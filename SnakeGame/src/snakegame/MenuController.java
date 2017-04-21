@@ -24,10 +24,15 @@ public class MenuController {
     private Pane snakeMenu;
 
     @FXML
-    void onPlayGameclick(ActionEvent event) {
+    void onPlayGameclick(ActionEvent event) throws Exception {
+        
+             /**
+		Scene theScene = new Scene(root, WindowWidth, WindowHeight);
+                Snakey.beginGame(newStage);
+           **/
        //Pane snakeyMenu = (Pane) FXMLLoader.load(getClass().getResource("SnakeOptionsLayout.fxml"));
        //snakeMenu.getChildren().setAll(snakeyMenu);
-       
+
     }
 
     @FXML

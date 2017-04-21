@@ -5,15 +5,19 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 
 public class OptionsMenuController {
 
     @FXML
+    private TextField numberOfPlayers;
+    
+    @FXML
     private CheckBox aiSnakesCheckbox;
 
     @FXML
-    private CheckBox onlineGameCheckbox;
+    private TextField networkHostname;
 
     @FXML
     private Button optionsBackButton;
@@ -33,7 +37,12 @@ public class OptionsMenuController {
     }
 
     @FXML
-    void onOnlineGameChecked(ActionEvent event) {
+    void onNumberOfPlayerstyped(ActionEvent event) {
+
+    }
+    
+        @FXML
+    void onNetworkHostnametyped(ActionEvent event) {
 
     }
 
