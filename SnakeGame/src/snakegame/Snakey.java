@@ -73,6 +73,7 @@ public class Snakey extends Application {
 	public void start(Stage primaryStage)throws Exception {
                 //Todo: Set game menu
 		// StackPane root = new StackPane();
+                
 		Group root = new Group();
 		int Speed = 500;
 		int WindowWidth = 640;
@@ -82,11 +83,11 @@ public class Snakey extends Application {
                 
                 
                 
-                
+             
 		Scene theScene = new Scene(root, WindowWidth, WindowHeight);
 		primaryStage.setTitle("Snakey!");
 		primaryStage.setScene(theScene);
-                
+           
                 
                 
 		Canvas canvas = new Canvas(WindowWidth, WindowHeight);
@@ -266,16 +267,14 @@ public class Snakey extends Application {
 		}.start();
                 
                 //Menu Scene: Complete
-                //Menu Layouy: Complete
-                /**
-                Pane menuLayout = (Pane) FXMLLoader.load(Snakey.class.getResource("SnakeMenuLayout.fxml"));
-                primaryStage.setScene(new Scene(menuLayout));
-                primaryStage.show();
-                **/
-                //Todo: Menu Button Functions
+                //Menu Layout: Complete
                 
-	
-		primaryStage.show();
+                Pane snakeMenu = (Pane) FXMLLoader.load(getClass().getResource("SnakeMenuLayout.fxml"));
+                primaryStage.setScene(new Scene(snakeMenu));
+                primaryStage.show();
+                
+                //Todo: Menu Button Functions
+                //primaryStage.show();
                 
 	}
             

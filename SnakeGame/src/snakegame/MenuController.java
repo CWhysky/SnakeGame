@@ -1,4 +1,5 @@
 package snakegame;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -20,12 +21,12 @@ public class MenuController {
 
     @FXML
     void onPlayGameclick(ActionEvent event) {
-
+        
     }
 
     @FXML
     void onExitClick(ActionEvent event) {
-
+        System.exit(0);
     }
 
     @FXML

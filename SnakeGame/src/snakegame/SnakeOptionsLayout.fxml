@@ -1,36 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
+<?import snakegame.OptionsMenuController?>
 <?import javafx.scene.text.*?>
 <?import javafx.scene.control.*?>
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="640.0" minWidth="640.0" prefHeight="640.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="OptionsMenuController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="640.0" minWidth="640.0" prefHeight="640.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="snakegame.OptionsMenuController">
    <children>
       <Label layoutX="208.0" layoutY="92.0" text="Options">
          <font>
             <Font size="64.0" />
          </font>
       </Label>
-      <Button fx:id="optionsBackButton" layoutX="245.0" layoutY="441.0" mnemonicParsing="false" onAction="#onOptionsBackButtonClick" prefHeight="50.0" prefWidth="150.0" text="Back">
+      <Button fx:id="optionsBackButton" layoutX="245.0" layoutY="490.0" mnemonicParsing="false" onAction="#onOptionsBackButtonClick" prefHeight="50.0" prefWidth="150.0" text="Back">
          <font>
             <Font size="23.0" />
          </font>
       </Button>
-      <Button fx:id="smallResolutionButton" layoutX="44.0" layoutY="235.0" mnemonicParsing="false" onAction="#onSmallResolutionClick" text="640 x 640">
-         <font>
-            <Font size="36.0" />
-         </font>
-      </Button>
-      <Button fx:id="largeResolutionButton" layoutX="400.0" layoutY="235.0" mnemonicParsing="false" onAction="#onLargeResolutionButtonClick" text="840 x 840">
-         <font>
-            <Font size="36.0" />
-         </font>
-      </Button>
-      <Label layoutX="239.0" layoutY="185.0" text="Resolution Size">
+      <Label layoutX="239.0" layoutY="185.0">
          <font>
             <Font size="24.0" />
          </font>
       </Label>
+      <CheckBox fx:id="aiSnakesCheckbox" layoutX="197.0" layoutY="256.0" mnemonicParsing="false" onAction="#onAiSnakesChecked" text="AI Snakes">
+         <font>
+            <Font size="32.0" />
+         </font>
+      </CheckBox>
+      <CheckBox fx:id="onlineGameCheckbox" layoutX="197.0" layoutY="332.0" mnemonicParsing="false" onAction="#onOnlineGameChecked" text="Online Game">
+         <font>
+            <Font size="32.0" />
+         </font>
+      </CheckBox>
    </children>
 </Pane>
