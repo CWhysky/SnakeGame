@@ -268,15 +268,14 @@ public class Snakey extends Application {
                 
                 //Menu Scene: Complete
                 //Menu Layout: Complete
-                
+                //start() will bein the game, create a scene first before we run start() on the onclickplay.
                 Pane snakeMenu = (Pane) FXMLLoader.load(getClass().getResource("SnakeMenuLayout.fxml"));
                 primaryStage.setScene(new Scene(snakeMenu));
                 primaryStage.show();
                 
                 //Todo: Menu Button Functions
                 //primaryStage.show();
-                
-	}
+                }
             
 	/**
 	 * @param args the command line arguments
