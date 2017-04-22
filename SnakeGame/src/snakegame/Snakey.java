@@ -24,7 +24,9 @@ import javafx.scene.transform.Scale;
 import javafx.scene.transform.Translate;
 
 public class Snakey extends Application {
-
+    Sprite theSnake2;
+    SnakeAI SAI;
+    
     // Background Velocity, Accessors, and Settings
     double bgVelX = 0.0;
     double bgVelY = 0.0;
@@ -131,10 +133,10 @@ public class Snakey extends Application {
         theSnake.setPosition((theScene.getWidth() / 2) - 32, (theScene.getHeight() / 2) - 32);
         // theSnake.setAngle(180, gc);
 
-        Sprite theSnake2 = new Sprite();
+        theSnake2 = new Sprite();
         theSnake2.setImage("snake_head_red.png");
         theSnake2.setPosition(200, 200);
-        SnakeAI SAI = new SnakeAI(theSnake2, true);
+        SAI = new SnakeAI(theSnake2, true);
 
         setBGVelX(0);
         setBGVelY(Speed);
@@ -266,6 +268,7 @@ public class Snakey extends Application {
                 }
 
                 // collision detection
+                Sprite nextApple = appleList.get(0);
                 Iterator<Sprite> appleIter = appleList.iterator();
                 while (appleIter.hasNext()) {
                     Sprite apple = appleIter.next();
@@ -273,10 +276,10 @@ public class Snakey extends Application {
                         appleIter.remove();
                         score.value++;
                         SAI.mem = false; //testing
-                        continue;
+                        break;
                     }
                     if (SAI.mem == false) {
-                        Sprite nextApple = apple;
+                        nextApple = apple;
                         if (SAI.picksClosest) {
                             nextApple = SAI.shortestApple(appleList);
                         }
@@ -289,19 +292,32 @@ public class Snakey extends Application {
                 while (wallIter.hasNext()) {
                     Sprite wall = wallIter.next();
                     if (theSnake.intersects(wall)) {
-                        System.out.println("dead");
                         score.value = 0;
                         setBGVelX(0);
                         setBGVelY(0);
                         //reset back to 0
                     }
+                    
+                    if (theSnake2.intersects(wall)) {
+                        theSnake2 = new Sprite();
+                        theSnake2.setImage("snake_head_red.png");
+                        theSnake2.setPosition(1500 * Math.random() + 50, 1500 * Math.random() + 50);
+                        SAI = new SnakeAI(theSnake2, true);
+                    }
+                    
                 }
-
-                theSnake2.setAngle(SAI.memAngle, gc);
-                theSnake2.setVelocity(Math.cos(Math.toRadians((SAI.memAngle - 90.0))) * 100, Math.sin(Math.toRadians((SAI.memAngle - 90.0))) * 100);
-                //theSnake2.setVelocity(100, 0);
-                theSnake2.update(elapsedTime, theScene);
-
+                
+                
+                double nextAngle = SAI.calAngle(nextApple)+90;
+                double currentAngle = SAI.memAngle+90;
+                       
+                if (Math.abs(nextAngle - currentAngle) < 135) {
+                    SAI.memAngle = SAI.calAngle(nextApple);
+                    theSnake2.setAngle(SAI.memAngle, gc);
+                    theSnake2.setVelocity(Math.cos(Math.toRadians((SAI.memAngle - 90.0))) * 100, Math.sin(Math.toRadians((SAI.memAngle - 90.0))) * 100);
+                    theSnake2.update(elapsedTime, theScene);
+                }
+                
                 // render
                 gc.clearRect(0, 0, WindowWidth, WindowHeight);
 
@@ -313,9 +329,9 @@ public class Snakey extends Application {
                         getBGX(), getBGY(),
                         cracked.getWidth(), cracked.getHeight(), false));
 
+                theSnake2.render(gc);
                 theSnake.render(gc);
 
-                theSnake2.render(gc);
 
                 for (Sprite apple : appleList) {
                     apple.setPosition((apple.getSpriteX() + getBGVelX() * elapsedTime),
