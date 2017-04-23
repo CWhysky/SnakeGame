@@ -25,6 +25,10 @@ import javafx.scene.transform.Translate;
 
 public class Snakey extends Application {
 
+    //growCounter to see when to add a body piece
+    private int growCounter;
+    private int NEXT_GROW = 1;
+
     // Background Velocity, Accessors, and Settings
     double bgVelX = 0.0;
     double bgVelY = 0.0;
@@ -67,16 +71,24 @@ public class Snakey extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-
-        // StackPane root = new StackPane();
-        Group root = new Group();
+        
         int Speed = 500;
         int WindowWidth = 640;
         int WindowHeight = 640;
         int GameGridWidth = 4096;
         int GameGridHeight = 4096;
-
+        // StackPane root = new StackPane();
+        Group root = new Group();
         Scene theScene = new Scene(root, WindowWidth, WindowHeight);
+        Snake theSnake = new Snake();
+        Sprite headSnake = new Sprite();
+        headSnake.setImage("snake_head_red.png");
+        headSnake.setPosition((theScene.getWidth() / 2) - 32, (theScene.getHeight() / 2) - 32);
+        theSnake.setHead(headSnake);
+        growCounter = 0;
+
+        
+        
         primaryStage.setTitle("Snakey!");
         primaryStage.setScene(theScene);
         Canvas canvas = new Canvas(WindowWidth, WindowHeight);
@@ -117,18 +129,16 @@ public class Snakey extends Application {
                 mouseInput.add(1, y);
             }
         });
-
+        
         GraphicsContext gc = canvas.getGraphicsContext2D();
 
+        theSnake.getHead().setAngle(0, gc);
         Font theFont = Font.font("Helvetica", FontWeight.BOLD, 24);
         gc.setFont(theFont);
         gc.setFill(Color.YELLOW);
         gc.setStroke(Color.BLACK);
         gc.setLineWidth(1);
 
-        Sprite theSnake = new Sprite();
-        theSnake.setImage("snake_head_red.png");
-        theSnake.setPosition((theScene.getWidth() / 2) - 32, (theScene.getHeight() / 2) - 32);
         // theSnake.setAngle(180, gc);
 
         Sprite theSnake2 = new Sprite();
@@ -235,10 +245,10 @@ public class Snakey extends Application {
                         // newAngle = (Math.toDegrees(Math.atan2(y, x)) + 90);
 
                         newAngle = (Math.toDegrees(Math.atan2(y, x)) + 90.0);
-                        theSnake.setAngle(newAngle, gc);
+                        theSnake.getHead().setAngle(newAngle, gc);
                         if (newAngle % 90 != 0.0) {
                             // adjust velocities based on angle
-                            double acute = ((theSnake.getAngle() + 90.0) % 90);
+                            double acute = ((theSnake.getHead().getAngle() + 90.0) % 90);
                             // double acute = (newAngle%90);
                             double xSpeed = Speed * acute / 90.0;
                             double ySpeed = Speed - xSpeed;
@@ -262,19 +272,39 @@ public class Snakey extends Application {
                                 setBGVelY(-ySpeed);
                             }
                         }
+                        theSnake.update(bgVelX, bgVelY);
+                        
                     }
+                    //theSnake.setSecondChgs();
                 }
+                
+                theSnake.velocityChanges(elapsedTime , theScene);
 
                 // collision detection
                 Iterator<Sprite> appleIter = appleList.iterator();
                 while (appleIter.hasNext()) {
                     Sprite apple = appleIter.next();
-                    if (theSnake.intersects(apple) || theSnake2.intersects(apple)) {  //testing
+                    if (theSnake.getHead().intersects(apple)) {  //testing
                         appleIter.remove();
                         score.value++;
+                        growCounter++;
                         SAI.mem = false; //testing
                         continue;
                     }
+                    
+                    if(growCounter >= NEXT_GROW){
+                        Sprite bodySnake = new Sprite();
+                            bodySnake.setImage("snake_body_red.png");
+                            bodySnake.setPosition(theSnake);
+                            if(theSnake.size() == 1){
+                                bodySnake.setVelocity(-bgVelX, -bgVelY);
+                            }else{
+                                bodySnake.setVelocity(theSnake);
+                            }
+                            theSnake.addBody(bodySnake);
+                            NEXT_GROW = NEXT_GROW + 1;
+                    }
+                    
                     if (SAI.mem == false) {
                         Sprite nextApple = apple;
                         if (SAI.picksClosest) {
@@ -288,7 +318,7 @@ public class Snakey extends Application {
                 Iterator<Sprite> wallIter = wallList.iterator();
                 while (wallIter.hasNext()) {
                     Sprite wall = wallIter.next();
-                    if (theSnake.intersects(wall)) {
+                    if (theSnake.getHead().intersects(wall)) {
                         System.out.println("dead");
                         score.value = 0;
                         setBGVelX(0);
@@ -313,9 +343,13 @@ public class Snakey extends Application {
                         getBGX(), getBGY(),
                         cracked.getWidth(), cracked.getHeight(), false));
 
-                theSnake.render(gc);
+                theSnake.getHead().render(gc);
 
                 theSnake2.render(gc);
+                
+                for (int i = 0; i < theSnake.getSize(); i++) {
+                    theSnake.getSegement(i).render(gc);
+                }
 
                 for (Sprite apple : appleList) {
                     apple.setPosition((apple.getSpriteX() + getBGVelX() * elapsedTime),
@@ -331,6 +365,7 @@ public class Snakey extends Application {
                 String pointsText = "Score: " + (100 * score.value) + " , angle: " + (SAI.memAngle - 90.0);
                 gc.fillText(pointsText, 360, 24);
                 gc.strokeText(pointsText, 360, 24);
+                
             }
 
         }.start();
