@@ -299,6 +299,14 @@ public class Snakey extends Application {
 
                 theSnake2.setAngle(SAI.memAngle, gc);
                 theSnake2.setVelocity(Math.cos(Math.toRadians((SAI.memAngle - 90.0))) * 100, Math.sin(Math.toRadians((SAI.memAngle - 90.0))) * 100);
+
+				// As part of the AISnake's new position, add in the change
+				// (difference) in the previous position vs current
+				// In order to do this, we need to keep track of the last 
+				// position relative to each sprite (so, in the sprite)
+				theSnake2.setPosition(theSnake2.getPosX() + getBGVelX() * elapsedTime,
+					theSnake2.getPosY() + getBGVelY() * elapsedTime);
+
                 //theSnake2.setVelocity(100, 0);
                 theSnake2.update(elapsedTime, theScene);
 
