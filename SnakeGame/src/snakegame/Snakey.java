@@ -298,7 +298,8 @@ public class Snakey extends Application {
                 }
 
                 theSnake2.setAngle(SAI.memAngle, gc);
-                theSnake2.setVelocity(Math.cos(Math.toRadians((SAI.memAngle - 90.0))) * 100, Math.sin(Math.toRadians((SAI.memAngle - 90.0))) * 100);
+                // theSnake2.setVelocity(Math.cos(Math.toRadians((SAI.memAngle - 90.0))) * 100, Math.sin(Math.toRadians((SAI.memAngle - 90.0))) * 100);
+                theSnake2.setVelocity(Math.cos(Math.toRadians((SAI.memAngle - 90.0))) * Speed/2, Math.sin(Math.toRadians((SAI.memAngle - 90.0))) * Speed/2);
 
 				// update the Snake2's position relative to the change
 				// background velocity
