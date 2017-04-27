@@ -104,7 +104,7 @@ public class Sprite {
 
 	public void render(GraphicsContext gc) {
 		// gc.drawImage(image, positionX, positionY);
-		drawRotatedImage(gc, image, angle, positionX, positionY);
+		drawRotatedImage(gc, image, -angle, positionX, positionY);
 	}
 
 	public Rectangle2D getBoundary() {
@@ -203,19 +203,17 @@ public class Sprite {
     }
     
     public void checkPositions(){
-        if(!changeX.isEmpty()){
-            if(isInRange()){
+        if(!changeX.isEmpty() && isInRange()){
                 changeX.remove();
                 changeY.remove();
                 velocityX = changeVelX.remove();
                 velocityY = changeVelY.remove();
-            }
         }
     }
     
     private boolean isInRange(){
-        return (((positionX >= changeX.getFirst() - 5) || (positionX <= changeX.getFirst() + 5)) 
-                && ((positionY >= changeY.getFirst() - 5) || (positionY <= changeY.getFirst() + 5)));
+        return (((positionX >= changeX.getFirst() - 30.5) && (positionX <= changeX.getFirst() + 30.5)) 
+                && ((positionY >= changeY.getFirst() - 30.5) && (positionY <= changeY.getFirst() + 30.5)));
     }
     
     public void setChgs(double x, double y, double velX, double velY, double angle){
@@ -230,6 +228,21 @@ public class Sprite {
         velocityX = snake.getLast().getVelocityX();
         velocityY = snake.getLast().getVelocityY();
         angle = snake.getLast().getAngle();
-        System.out.println(velocityX + " " + velocityY);
+        //System.out.println(velocityX + " " + velocityY);
+    }
+    
+    public void update(Snake snake, int i){
+        double rootTheta = (snake.getSegement(i-1).getAngle()) * (Math.PI/180);
+        double radius = snake.getSegement(i-1).getWidth();
+        
+        double nX = Math.sin(rootTheta) * radius;
+        nX = nX/2;
+        
+        double nY = Math.cos(rootTheta) * radius;
+        nY = nY/2;
+        
+        positionX = (nX + snake.getSegement(i-1).getSpriteX());
+        positionY = (nY + snake.getSegement(i-1).getPosY());
+        angle = (snake.getSegement(i-1).getAngle());
     }
 }

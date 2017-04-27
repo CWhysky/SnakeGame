@@ -276,6 +276,7 @@ public class Snakey extends Application {
                             
                         }
                         theSnake.getHead().setVelocity(-getBGVelX(), -getBGVelY());
+                        theSnake.getHead().setAngle(-newAngle, gc);
                         theSnake.setSecondChgs();
                     }
                     
@@ -325,9 +326,10 @@ public class Snakey extends Application {
                 }
                 
                 for (int i = 1; i < theSnake.getSize(); i++) {
-                    theSnake.getSegement(i).setPosition(theSnake.getSegement(i).getPosX() + bgVelX * elapsedTime, 
-                                                        theSnake.getSegement(i).getPosY() + bgVelY * elapsedTime);
-                    theSnake.getSegement(i).update(elapsedTime, theScene);
+                  //  theSnake.getSegement(i).setPosition(theSnake.getSegement(i).getPosX() + bgVelX * elapsedTime, 
+                  //                                      theSnake.getSegement(i).getPosY() + bgVelY * elapsedTime);
+                  //  theSnake.getSegement(i).update(elapsedTime, theScene);
+                  theSnake.getSegement(i).update(theSnake, i);
                 }
                 
                 
