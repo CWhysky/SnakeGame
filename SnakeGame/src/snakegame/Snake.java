@@ -53,37 +53,27 @@ public class Snake {
             return (Sprite)snake.getLast();
         }
         
-        public void velocityChanges(double time, Scene scene){
+        public void velocityChanges(){
             if(snake.getFirst() != snake.getLast()){
+                Sprite temp;
                 for(int i = 1; i < snake.size(); i++){
-                    Sprite temp = (Sprite)snake.get(i);
-                    if(temp.checkVelChange()){
-                        temp.update(time, scene);
-                        temp.checkPositions();
-                    }
+                    temp = snake.get(i);
+                    temp.setChgs(snake.get(i-1).getPosX(), snake.get(i-1).getPosY(), 
+                                 snake.get(i-1).getVelocityX(), snake.get(i-1).getVelocityY(), snake.get(i-1).getAngle());
+                    temp.checkPositions();
                 }
             }
         }
-      /*  public void setSecondChgs(){
+        public void setSecondChgs(){
             if(snake.getFirst() != snake.getLast()){
                 Sprite temp = (Sprite)snake.getFirst();
                 Sprite temp2 = (Sprite)snake.get(1);
                 temp2.setChgs(temp.getSpriteX(), temp.getSpriteY(), temp.getVelocityX(), 
-                              temp.getVelocityY(), temp.getAngle());
+                        temp.getVelocityY(), temp.getAngle());
+                
             }    
-        }*/
-        
-        public void update(double bgVelX, double bgVelY){
-            if((velX != bgVelX) || (velY != bgVelY)){
-                velX = bgVelX;
-                velY = bgVelY;
-                Sprite head = (Sprite)snake.getFirst();
-                for(int i = 1; i < snake.size(); i++){
-                    Sprite temp = (Sprite)snake.get(i);
-                    temp.setChgs(head.getPosX(), head.getPosY(), velX, velY);
-                }
-            }
         }
+
         public int size(){
             return snake.size();
         }

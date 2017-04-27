@@ -77,6 +77,7 @@ public class Snakey extends Application {
         int WindowHeight = 640;
         int GameGridWidth = 4096;
         int GameGridHeight = 4096;
+        Snakey background = this;
         // StackPane root = new StackPane();
         Group root = new Group();
         Scene theScene = new Scene(root, WindowWidth, WindowHeight);
@@ -84,6 +85,7 @@ public class Snakey extends Application {
         Sprite headSnake = new Sprite();
         headSnake.setImage("snake_head_red.png");
         headSnake.setPosition((theScene.getWidth() / 2) - 32, (theScene.getHeight() / 2) - 32);
+        headSnake.setVelocity(0, -Speed);
         theSnake.setHead(headSnake);
         growCounter = 0;
 
@@ -271,15 +273,14 @@ public class Snakey extends Application {
                                 setBGVelX(xSpeed);
                                 setBGVelY(-ySpeed);
                             }
+                            
                         }
-                        theSnake.update(bgVelX, bgVelY);
-                        
+                        theSnake.getHead().setVelocity(-getBGVelX(), -getBGVelY());
+                        theSnake.setSecondChgs();
                     }
-                    //theSnake.setSecondChgs();
-                }
-                
-                theSnake.velocityChanges(elapsedTime , theScene);
-
+                    
+                }                
+                theSnake.velocityChanges();
                 // collision detection
                 Iterator<Sprite> appleIter = appleList.iterator();
                 while (appleIter.hasNext()) {
@@ -295,12 +296,8 @@ public class Snakey extends Application {
                     if(growCounter >= NEXT_GROW){
                         Sprite bodySnake = new Sprite();
                             bodySnake.setImage("snake_body_red.png");
-                            bodySnake.setPosition(theSnake);
-                            if(theSnake.size() == 1){
-                                bodySnake.setVelocity(-bgVelX, -bgVelY);
-                            }else{
-                                bodySnake.setVelocity(theSnake);
-                            }
+                            bodySnake.setPosition(theSnake);                           
+                            bodySnake.setVelocity(theSnake);
                             theSnake.addBody(bodySnake);
                             NEXT_GROW = NEXT_GROW + 1;
                     }
@@ -326,6 +323,14 @@ public class Snakey extends Application {
                         //reset back to 0
                     }
                 }
+                
+                for (int i = 1; i < theSnake.getSize(); i++) {
+                    theSnake.getSegement(i).setPosition(theSnake.getSegement(i).getPosX() + bgVelX * elapsedTime, 
+                                                        theSnake.getSegement(i).getPosY() + bgVelY * elapsedTime);
+                    theSnake.getSegement(i).update(elapsedTime, theScene);
+                }
+                
+                
 
                 theSnake2.setAngle(SAI.memAngle, gc);
                 theSnake2.setVelocity(Math.cos(Math.toRadians((SAI.memAngle - 90.0))) * 100, Math.sin(Math.toRadians((SAI.memAngle - 90.0))) * 100);

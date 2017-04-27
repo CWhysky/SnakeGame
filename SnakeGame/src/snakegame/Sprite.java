@@ -188,6 +188,7 @@ public class Sprite {
         
         positionX = (nX + snake.getLast().getSpriteX());
         positionY = (nY + snake.getLast().getPosY());
+        
     }
     
     public double getWidth(){
@@ -202,21 +203,22 @@ public class Sprite {
     }
     
     public void checkPositions(){
-        if(isInRange()){
-            System.out.println("checkPositions Passed" + positionX);
-            changeX.remove();
-            changeY.remove();
-            velocityX = changeVelX.remove();
-            velocityY = changeVelY.remove();
+        if(!changeX.isEmpty()){
+            if(isInRange()){
+                changeX.remove();
+                changeY.remove();
+                velocityX = changeVelX.remove();
+                velocityY = changeVelY.remove();
+            }
         }
     }
     
     private boolean isInRange(){
-        return (((positionX >= changeX.getFirst() - 0.5)||(positionX <= changeX.getFirst() + 0.5))
-                &&((positionY >= changeY.getFirst() - 0.5)||(positionY >= changeY.getFirst()+ 0.5)));    
+        return (((positionX >= changeX.getFirst() - 5) || (positionX <= changeX.getFirst() + 5)) 
+                && ((positionY >= changeY.getFirst() - 5) || (positionY <= changeY.getFirst() + 5)));
     }
     
-    public void setChgs(double x, double y, double velX, double velY){
+    public void setChgs(double x, double y, double velX, double velY, double angle){
 //      System.out.println("x=" + x+ " y="+y+" velX="+velX+"velY="+velY+" angle="+angle);
         changeX.add(x);
         changeY.add(y);
@@ -228,5 +230,6 @@ public class Sprite {
         velocityX = snake.getLast().getVelocityX();
         velocityY = snake.getLast().getVelocityY();
         angle = snake.getLast().getAngle();
+        System.out.println(velocityX + " " + velocityY);
     }
 }
