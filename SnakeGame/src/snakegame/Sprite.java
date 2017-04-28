@@ -228,21 +228,5 @@ public class Sprite {
         velocityX = snake.getLast().getVelocityX();
         velocityY = snake.getLast().getVelocityY();
         angle = snake.getLast().getAngle();
-        //System.out.println(velocityX + " " + velocityY);
-    }
-    
-    public void update(Snake snake, int i){
-        double rootTheta = (snake.getSegement(i-1).getAngle()) * (Math.PI/180);
-        double radius = snake.getSegement(i-1).getWidth();
-        
-        double nX = Math.sin(rootTheta) * radius;
-        nX = nX/2;
-        
-        double nY = Math.cos(rootTheta) * radius;
-        nY = nY/2;
-        
-        positionX = (nX + snake.getSegement(i-1).getSpriteX());
-        positionY = (nY + snake.getSegement(i-1).getPosY());
-        angle = (snake.getSegement(i-1).getAngle());
     }
 }

@@ -95,8 +95,8 @@ public class Snakey extends Application {
         primaryStage.setScene(theScene);
         Canvas canvas = new Canvas(WindowWidth, WindowHeight);
 
-        ArrayList<String> input = new ArrayList<String>();
-        ArrayList<Double> mouseInput = new ArrayList<Double>();
+        ArrayList<String> input = new ArrayList();
+        ArrayList<Double> mouseInput = new ArrayList();
 
         Image cracked = new Image("stars5.jpg");
         theScene.setFill(new ImagePattern(cracked,
@@ -326,10 +326,9 @@ public class Snakey extends Application {
                 }
                 
                 for (int i = 1; i < theSnake.getSize(); i++) {
-                  //  theSnake.getSegement(i).setPosition(theSnake.getSegement(i).getPosX() + bgVelX * elapsedTime, 
-                  //                                      theSnake.getSegement(i).getPosY() + bgVelY * elapsedTime);
-                  //  theSnake.getSegement(i).update(elapsedTime, theScene);
-                  theSnake.getSegement(i).update(theSnake, i);
+                  theSnake.getSegement(i).setPosition(theSnake.getSegement(i).getPosX() + bgVelX * elapsedTime, 
+                                                      theSnake.getSegement(i).getPosY() + bgVelY * elapsedTime);
+                  theSnake.getSegement(i).update(elapsedTime, theScene);
                 }
                 
                 
