@@ -319,8 +319,6 @@ public class Snakey extends Application {
                     if (theSnake.getHead().intersects(wall)) {
                         System.out.println("dead");
                         score.value = 0;
-                        setBGVelX(0);
-                        setBGVelY(0);
                         //reset back to 0
                     }
                 }
