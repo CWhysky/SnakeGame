@@ -4,6 +4,7 @@ package snakegame;
  *
  * @author 
  */
-public class Wall extends Sprite {
+public class Wall extends Sprite 
+{
 	
 }

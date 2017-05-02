@@ -33,7 +33,7 @@ public class Snakey extends Application
     public void start(Stage primaryStage) 
     {
         
-        int Speed = 200;
+        int Speed = 300;
         int WindowWidth = 640;
         int WindowHeight = 640;
         int GameGridWidth = 4096;
@@ -113,10 +113,9 @@ public class Snakey extends Application
         theSnake2.setPosition(200, 200);
         SnakeAI SAI = new SnakeAI(theSnake2, true);
 
-        backgroundMV.setBGVelX(0);
-        //setBGVelX(0);
-        backgroundMV.setBGVelY(Speed);
-        //setBGVelY(Speed);
+        backgroundMV.setBackGroundVelX(0);
+        backgroundMV.setBackGroundVelY(Speed);
+       
         ArrayList<Sprite> appleList = new ArrayList<Sprite>();
 
         for (int i = 0; i < 70; i++)
@@ -153,7 +152,8 @@ public class Snakey extends Application
         // wall sprite
         ArrayList<Sprite> wallList = new ArrayList<Sprite>();
 
-        for (int i = 0; i <= GameGridWidth + 400; i += 144) {
+        for (int i = 0; i <= GameGridWidth + 400; i += 144) 
+        {
             // top
             Sprite wall = new Sprite();
             wall.setImage("cracked.png");
@@ -221,7 +221,8 @@ public class Snakey extends Application
 
                         newAngle = (Math.toDegrees(Math.atan2(y, x)) + 90.0);
                         theSnake.getHead().setAngle(newAngle, gc);
-                        if (newAngle % 90 != 0.0) {
+                        if (newAngle % 90 != 0.0) 
+                        {
                             // adjust velocities based on angle
                             double acute = ((theSnake.getHead().getAngle() + 90.0) % 90);
                             // double acute = (newAngle%90);
@@ -231,27 +232,27 @@ public class Snakey extends Application
                             // System.out.println("DEBUG" + x + " " + y +  "     " + newAngle + "    " + xSpeed + " " + ySpeed);
                             if (newAngle > -90.0 && newAngle < 0.0) // upper left quarter
                             {
-                                backgroundMV.setBGVelX(ySpeed);
-                                backgroundMV.setBGVelY(xSpeed);
+                                backgroundMV.setBackGroundVelX(ySpeed);
+                                backgroundMV.setBackGroundVelY(xSpeed);
                             } 
                             else if (newAngle > 0.0 && newAngle <= 90.0) // upp right corner
                             {
-                                backgroundMV.setBGVelX(-xSpeed);
-                                backgroundMV.setBGVelY(ySpeed);
+                                backgroundMV.setBackGroundVelX(-xSpeed);
+                                backgroundMV.setBackGroundVelY(ySpeed);
                             } 
                             else if (newAngle > 90.0 && newAngle <= 180.0) // lower right corner
                             {
-                                backgroundMV.setBGVelX(-ySpeed);
-                                backgroundMV.setBGVelY(-xSpeed);
+                                backgroundMV.setBackGroundPosX(-ySpeed);
+                                backgroundMV.setBackGroundVelY(-xSpeed);
                             } 
                             else if (newAngle > 180.0 && newAngle <= 270.0) // lower left corner
                             {
-                                backgroundMV.setBGVelX(xSpeed);
-                                backgroundMV.setBGVelY(-ySpeed);
+                                backgroundMV.setBackGroundVelX(xSpeed);
+                                backgroundMV.setBackGroundVelY(-ySpeed);
                             }
                             
                         }
-                        theSnake.getHead().setVelocity(-backgroundMV.getBGVelX(), -backgroundMV.getBGVelY());
+                        theSnake.getHead().setVelocity(-backgroundMV.getBackGroundVelX(), -backgroundMV.getBackGroundVelY());
                         theSnake.getHead().setAngle(-newAngle, gc);
                         theSnake.setSecondChgs();
                     }
@@ -308,8 +309,8 @@ public class Snakey extends Application
                 
                 for (int i = 1; i < theSnake.getSize(); i++) 
                 {
-                  theSnake.getSegement(i).setPosition(theSnake.getSegement(i).getPosX() + backgroundMV.getBGVelX() * elapsedTime, //  bgVelX * elapsedTime, 
-                                                      theSnake.getSegement(i).getPosY() + backgroundMV.getBGVelY() * elapsedTime); //bgVelY * elapsedTime);
+                  theSnake.getSegement(i).setPosition(theSnake.getSegement(i).getPosX() + backgroundMV.getBackGroundVelX() * elapsedTime, //  bgVelX * elapsedTime, 
+                                                      theSnake.getSegement(i).getPosY() + backgroundMV.getBackGroundVelY() * elapsedTime); //bgVelY * elapsedTime);
                   theSnake.getSegement(i).update(elapsedTime, theScene);
                 }
                 
@@ -320,8 +321,8 @@ public class Snakey extends Application
 
 				// update the Snake2's position relative to the change
 				// background velocity
-				theSnake2.setPosition(theSnake2.getPosX() + backgroundMV.getBGVelX() * elapsedTime, //getBGVelX() * elapsedTime,
-					theSnake2.getPosY() + backgroundMV.getBGVelY() * elapsedTime); //getBGVelY() * elapsedTime);
+				theSnake2.setPosition(theSnake2.getPosX() + backgroundMV.getBackGroundVelX() * elapsedTime,
+					theSnake2.getPosY() + backgroundMV.getBackGroundVelY() * elapsedTime); 
 
             
                 theSnake2.update(elapsedTime, theScene);
@@ -329,16 +330,11 @@ public class Snakey extends Application
                 // render
                 gc.clearRect(0, 0, WindowWidth, WindowHeight);
 
-                //setBGX(getBGX() + (getBGVelX() * elapsedTime));
-                backgroundMV.setBGX(backgroundMV.getBGX() + (backgroundMV.getBGVelX() + elapsedTime));
-                //setBGY(getBGY() + (getBGVelY() * elapsedTime));
-                backgroundMV.setBGY(backgroundMV.getBGY() + (backgroundMV.getBGVelY() + elapsedTime));
+                backgroundMV.setBackGroundPosX(backgroundMV.getBackGroundPosX() + (backgroundMV.getBackGroundVelX() + elapsedTime));              
+                backgroundMV.setBackGroundPosY(backgroundMV.getBackGroundPosY() + (backgroundMV.getBackGroundVelY() + elapsedTime));
               
-               // theScene.setFill(new ImagePattern(cracked,
-               //         getBGX(), getBGY(),
-               //         cracked.getWidth(), cracked.getHeight(), false));
-                theScene.setFill(new ImagePattern(cracked, backgroundMV.getBGX(),
-                                     backgroundMV.getBGY(), cracked.getWidth(),
+                theScene.setFill(new ImagePattern(cracked, backgroundMV.getBackGroundPosX(),
+                                     backgroundMV.getBackGroundPosY(), cracked.getWidth(),
                                      cracked.getHeight(), false));
                 
                 theSnake.getHead().render(gc);
@@ -352,14 +348,15 @@ public class Snakey extends Application
 
                 for (Sprite apple : appleList)
                 {
-                    apple.setPosition((apple.getSpriteX() + backgroundMV.getBGVelX() * elapsedTime),
-                            (apple.getSpriteY() + backgroundMV.getBGVelY() * elapsedTime));
+                    apple.setPosition((apple.getSpriteX() + backgroundMV.getBackGroundVelX() * elapsedTime),
+                            (apple.getSpriteY() + backgroundMV.getBackGroundVelY() * elapsedTime));
                     apple.render(gc);
                 }
 
                 for (Sprite wall : wallList) 
                 {
-                    wall.setPosition((wall.getSpriteX() + backgroundMV.getBGVelX() * elapsedTime), (wall.getSpriteY() + backgroundMV.getBGVelY() * elapsedTime));
+                    wall.setPosition((wall.getSpriteX() + backgroundMV.getBackGroundVelX() * elapsedTime), 
+                            (wall.getSpriteY() + backgroundMV.getBackGroundVelY() * elapsedTime));
                     wall.render(gc);
                 }
 
@@ -377,7 +374,8 @@ public class Snakey extends Application
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) 
+    {
         launch(args);
     }
 }

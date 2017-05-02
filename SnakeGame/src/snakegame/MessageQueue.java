@@ -9,6 +9,7 @@ package snakegame;
  *
  * @author ascott
  */
-public class MessageQueue {
+public class MessageQueue 
+{
 	
 }

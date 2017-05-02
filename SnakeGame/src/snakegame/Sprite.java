@@ -52,72 +52,86 @@ public class Sprite
             changeVelY = new LinkedList();
 	}
         
-        public double getPosX(){
+        public double getPosX()
+        {
             return positionX;
         }
         
-        public double getPosY(){
+        public double getPosY()
+        {
             return positionY;
         }
         
-	public void setImage(Image i) {
+	public void setImage(Image i)
+        {
 		image = i;
 		width = i.getWidth();
 		height = i.getHeight();
 	}
 
-	public Image getImage() {
+	public Image getImage() 
+        {
 		return image;
 	}
 
-	public double getAngle() {
+	public double getAngle() 
+        {
 		return angle;
 	}
 
-	public void setAngle(double newAngle, GraphicsContext gc) {
+	public void setAngle(double newAngle, GraphicsContext gc) 
+        {
 		angle = newAngle;
 	}
 
-	public void setImage(String filename) {
+	public void setImage(String filename) 
+        {
 		Image i = new Image(filename);
 
 		setImage(i);
 	}
 
-	public void setPosition(double x, double y) {
+	public void setPosition(double x, double y) 
+        {
 		positionX = x;
 		positionY = y;
 	}
 
-	public void setVelocity(double x, double y) {
+	public void setVelocity(double x, double y) 
+        {
 		velocityX = x;
 		velocityY = y;
 	}
 
-	public void addVelocity(double x, double y) {
+	public void addVelocity(double x, double y) 
+        {
 		velocityX += x;
 		velocityY += y;
 	}
 
-	public void update(double time, Scene scene) {
+	public void update(double time, Scene scene) 
+        {
             positionX += velocityX * time;
             positionY += velocityY * time;
 	}
 
-	public void render(GraphicsContext gc) {
-		// gc.drawImage(image, positionX, positionY);
-		drawRotatedImage(gc, image, -angle, positionX, positionY);
+	public void render(GraphicsContext gc) 
+        {
+	   drawRotatedImage(gc, image, -angle, positionX, positionY);
 	}
 
-	public Rectangle2D getBoundary() {
+	public Rectangle2D getBoundary() 
+        {
 		return new Rectangle2D(positionX, positionY, width, height);
 	}
 
-	public boolean intersects(Sprite s) {
+	public boolean intersects(Sprite s) 
+        {
 		return s.getBoundary().intersects(this.getBoundary());
 	}
 
-	public String toString() {
+	public String toString() 
+        {
 		return " Position: [" + positionX + "," + positionY + "]"
 			+ " Velocity: [" + velocityX + "," + velocityY + "]";
 	}
@@ -135,7 +149,8 @@ public class Sprite
 	 * @param py the y pivot co-ordinate for the rotation (in canvas
 	 * co-ordinates).
 	 */
-	private void rotate(GraphicsContext gc, double angle, double px, double py) {
+	private void rotate(GraphicsContext gc, double angle, double px, double py)
+        {
 		Rotate r = new Rotate(angle, px, py);
 		gc.setTransform(r.getMxx(), r.getMyx(), r.getMxy(), r.getMyy(), r.getTx(), r.getTy());
 	}
@@ -153,29 +168,36 @@ public class Sprite
 	 * @param tlpy the top left y co-ordinate where the image will be plotted
 	 * (in canvas co-ordinates).
 	 */
-	private void drawRotatedImage(GraphicsContext gc, Image image, double angle, double tlpx, double tlpy) {
+	private void drawRotatedImage(GraphicsContext gc, Image image, double angle, double tlpx, double tlpy) 
+        {
 		gc.save(); // saves the current state on stack, including the current transform
 		rotate(gc, angle, tlpx + image.getWidth() / 2, tlpy + image.getHeight() / 2);
 		gc.drawImage(image, tlpx, tlpy);
 		gc.restore(); // back to original state (before rotation)
 	}
-    double getSpriteX() {
+        
+    double getSpriteX() 
+    {
         return positionX;
     }
 
-    double getSpriteY() {
+    double getSpriteY()
+    {
         return positionY;
     }
     
-    double getVelocityX(){
+    double getVelocityX()
+    {
         return velocityX;
     }
     
-    double getVelocityY(){
+    double getVelocityY()
+    {
         return velocityY;
     }
 
-    public void setPosition(Snake snake){
+    public void setPosition(Snake snake)
+    {
         //The position of this segement has to be behind the current last segement
         //Meaning that if the segment is moving up left, then the segement should 
         //appear at the lower right.
@@ -193,19 +215,24 @@ public class Sprite
         
     }
     
-    public double getWidth(){
+    public double getWidth()
+    {
         return width;
     }
     
-    public boolean checkVelChange(){
-        if(!changeX.isEmpty()){
+    public boolean checkVelChange()
+    {
+        if(!changeX.isEmpty())
+        {
             return true;
         }
         return false;
     }
     
-    public void checkPositions(){
-        if(!changeX.isEmpty() && isInRange()){
+    public void checkPositions()
+    {
+        if(!changeX.isEmpty() && isInRange())
+        {
                 changeX.remove();
                 changeY.remove();
                 velocityX = changeVelX.remove();
@@ -213,20 +240,22 @@ public class Sprite
         }
     }
     
-    private boolean isInRange(){
+    private boolean isInRange()
+    {
         return (((positionX >= changeX.getFirst() - 30.5) && (positionX <= changeX.getFirst() + 30.5)) 
                 && ((positionY >= changeY.getFirst() - 30.5) && (positionY <= changeY.getFirst() + 30.5)));
     }
     
-    public void setChgs(double x, double y, double velX, double velY, double angle){
-//      System.out.println("x=" + x+ " y="+y+" velX="+velX+"velY="+velY+" angle="+angle);
+    public void setChgs(double x, double y, double velX, double velY, double angle)
+    {
         changeX.add(x);
         changeY.add(y);
         changeVelX.add(velX);
         changeVelY.add(velY);
     }
     
-    public void setVelocity(Snake snake){
+    public void setVelocity(Snake snake)
+    {
         velocityX = snake.getLast().getVelocityX();
         velocityY = snake.getLast().getVelocityY();
         angle = snake.getLast().getAngle();

@@ -9,63 +9,63 @@ package snakegame;
  *
  * @author Manuel
  */
+
 public class BackgroundMV 
 {
-    private double bgVelX;
-    private double bgVelY;
-    private double bgX;
-    private double bgY = 0.0;
+    private double backgroundVelX;
+    private double backgroundVelY;
+    private double backgroundPosX;
+    private double backgroundPosY = 0.0;
    
     //constructor
     public BackgroundMV()
     {
-        bgVelX = 0.0;
-        bgVelY = 0.0;
-        bgX = 0.0;
-        bgY = 0.0;
-        
+        backgroundVelX = 0.0;
+        backgroundVelY = 0.0;
+        backgroundPosX = 0.0;
+        backgroundPosY = 0.0;  
     }
-     
+    
     // Background Velocity, Accessors, and Settings
-    double getBGVelX() 
+    double getBackGroundVelX() 
     {
-        return bgVelX;
+        return backgroundVelX;
     }
 
-    double getBGVelY() 
+    double getBackGroundVelY() 
     {
-        return bgVelY;
+        return backgroundVelY;
     }
 
-    void setBGVelX(double num) 
+    void setBackGroundVelX(double velocity) 
     {
-        bgVelX = num;
+        backgroundVelX = velocity;
     }
 
-    void setBGVelY(double num) 
+    void setBackGroundVelY(double velocity) 
     {
-        bgVelY = num;
+        backgroundVelY = velocity;
     }
 
     // Background Position, Accessors, and Setter
-    double getBGX() 
+    double getBackGroundPosX() 
     {
-        return bgX;
+        return backgroundPosX;
     }
 
-    double getBGY()
+    double getBackGroundPosY()
     {
-        return bgY;
+        return backgroundPosY;
     }
 
-    void setBGX(double num) 
+    void setBackGroundPosX(double Xposition) 
     {
-        bgX = num;
+        backgroundPosX = Xposition;
     }
 
-    void setBGY(double num) 
+    void setBackGroundPosY(double Yposition) 
     {
-        bgY = num;
+        backgroundPosY = Yposition;
     }
     
 }

@@ -9,6 +9,7 @@ package snakegame;
  *
  * @author ascott
  */
-public class Apple extends Sprite {
+public class Apple extends Sprite 
+{
 	
 }

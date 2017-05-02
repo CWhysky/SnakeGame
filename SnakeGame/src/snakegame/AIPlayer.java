@@ -9,6 +9,7 @@ package snakegame;
  *
  * @author ascott
  */
-public class AIPlayer extends Player {
+public class AIPlayer extends Player 
+{
 	
 }

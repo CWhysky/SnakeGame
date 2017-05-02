@@ -9,6 +9,7 @@ package snakegame;
  *
  * @author ascott
  */
-public class Player {
+public class Player 
+{
 	
 }
