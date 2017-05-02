@@ -15,7 +15,7 @@ public class BackgroundMV
     private double backgroundVelX;
     private double backgroundVelY;
     private double backgroundPosX;
-    private double backgroundPosY = 0.0;
+    private double backgroundPosY;
    
     //constructor
     public BackgroundMV()
