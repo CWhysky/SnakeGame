@@ -23,7 +23,8 @@ import javafx.scene.transform.Rotate;
  * @author ascott
  * 
  */
-public class Sprite {
+public class Sprite
+{
 
 	private Image image;
 	private double positionX;
@@ -38,7 +39,8 @@ public class Sprite {
         private LinkedList<Double> changeVelX;
         private LinkedList<Double> changeVelY;
 
-	public Sprite() {
+	public Sprite() 
+        {
             positionX = 0.0;
             positionY = 0.0;
             velocityX = 0.0;

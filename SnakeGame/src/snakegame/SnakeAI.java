@@ -12,7 +12,8 @@ import java.util.Iterator;
  *
  * @author Darren ZL Zhen, Tim Beiko 
  */
-public class SnakeAI {
+public class SnakeAI 
+{
     
     Snake snake;
     Sprite snakeSprite;
@@ -20,13 +21,15 @@ public class SnakeAI {
     public boolean mem = false;
     public boolean picksClosest;
     
-    public SnakeAI(Snake snake, boolean picksClosest){
+    public SnakeAI(Snake snake, boolean picksClosest)
+    {
         this.snake = snake;
         this.snakeSprite = null;
         this.picksClosest = picksClosest;
     }
     
-    public SnakeAI(Sprite snakeSprite, boolean picksClosest){
+    public SnakeAI(Sprite snakeSprite, boolean picksClosest)
+    {
         this.snake = null;
         this.snakeSprite = snakeSprite;
         this.picksClosest = picksClosest;
@@ -34,12 +37,14 @@ public class SnakeAI {
     
     
     //calculate the shortest Distance apple with snake
-    public Sprite shortestApple(ArrayList<Sprite> appleList){
+    public Sprite shortestApple(ArrayList<Sprite> appleList)
+    {
         double minDist = 999999999;
         Sprite closestApple  = null;
         
         Iterator<Sprite> appleIter = appleList.iterator();
-        while (appleIter.hasNext()) {
+        while (appleIter.hasNext()) 
+        {
             Sprite apple = appleIter.next();
             double ax = apple.getPosX();
             double ay = apple.getPosY();
@@ -49,7 +54,8 @@ public class SnakeAI {
             
             double dist = java.lang.Math.sqrt(java.lang.Math.pow((ax*ax - sx*sx),2) + java.lang.Math.pow((ay*ay - sy*sy),2));
             
-            if (dist < minDist) {
+            if (dist < minDist)
+            {
                 minDist = dist;
                 closestApple = apple;
             }                
@@ -59,7 +65,8 @@ public class SnakeAI {
     }
     
     //calculate the angle between the snake and apple
-    public double calAngle(Sprite apple){
+    public double calAngle(Sprite apple)
+    {
         double x = apple.getPosX() - snakeSprite.getPosX();
         double y = apple.getPosY() - snakeSprite.getPosY();
         double newAngle = (Math.toDegrees(Math.atan2(y, x))+90.0);

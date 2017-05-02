@@ -17,16 +17,20 @@ import javafx.stage.Stage;
  *
  * @author ascott
  */
-public class SnakeGame extends Application {
+public class SnakeGame extends Application 
+{
 	
 	@Override
-	public void start(Stage primaryStage) {
+	public void start(Stage primaryStage) 
+        {
 		Button btn = new Button();
 		btn.setText("Say 'Hello World'");
-		btn.setOnAction(new EventHandler<ActionEvent>() {
+		btn.setOnAction(new EventHandler<ActionEvent>() 
+                {
 			
 			@Override
-			public void handle(ActionEvent event) {
+			public void handle(ActionEvent event) 
+                        {
 				System.out.println("Hello World!");
 			}
 		});
@@ -44,7 +48,8 @@ public class SnakeGame extends Application {
 	/**
 	 * @param args the command line arguments
 	 */
-	public static void main(String[] args) {
+	public static void main(String[] args)
+        {
 		launch(args);
 	}
 	
