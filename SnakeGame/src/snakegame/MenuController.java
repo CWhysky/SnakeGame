@@ -8,6 +8,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
 
 public class MenuController {
 
@@ -25,14 +26,9 @@ public class MenuController {
 
     @FXML
     void onPlayGameclick(ActionEvent event) throws Exception {
-        
-             /**
-		Scene theScene = new Scene(root, WindowWidth, WindowHeight);
-                Snakey.beginGame(newStage);
-           **/
-       //Pane snakeyMenu = (Pane) FXMLLoader.load(getClass().getResource("SnakeOptionsLayout.fxml"));
-       //snakeMenu.getChildren().setAll(snakeyMenu);
-
+         Stage primaryStage = new Stage();
+         Snakey snakeGame = new Snakey();
+         snakeGame.beginGame(primaryStage);
     }
 
     @FXML

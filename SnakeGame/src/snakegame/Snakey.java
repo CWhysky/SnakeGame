@@ -71,8 +71,7 @@ public class Snakey extends Application {
 
 	@Override
 	public void start(Stage primaryStage)throws Exception {
-		// StackPane root = new StackPane();
-                
+                /**
 		Group root = new Group();
 		int Speed = 500;
 		int WindowWidth = 640;
@@ -80,15 +79,11 @@ public class Snakey extends Application {
 		int GameGridWidth = 4096;
 		int GameGridHeight = 4096;
                 
-                
-                
-             
+
 		Scene theScene = new Scene(root, WindowWidth, WindowHeight);
 		primaryStage.setTitle("Snakey!");
 		primaryStage.setScene(theScene);
            
-                
-                
 		Canvas canvas = new Canvas(WindowWidth, WindowHeight);
 
 		ArrayList<String> input = new ArrayList<String>();
@@ -263,6 +258,8 @@ public class Snakey extends Application {
 			}
                     }.start();
                 primaryStage.show();
+                **/
+               
                 //Menu Scene: Complete
                 //Menu Layout: Complete
                 //start() already constructs a scene and manipulates it for use. Have to find a way of running the Menu scene before "theScene".
@@ -274,27 +271,21 @@ public class Snakey extends Application {
                 
                 //Todo: Menu Button Functions             
                 }
-/**        
-           void beginGame (Stage primaryStage) throws Exception{
+    
+        public void beginGame (Stage primaryStage) throws Exception{
 
-		// StackPane root = new StackPane();
-                
 		Group root = new Group();
 		int Speed = 500;
 		int WindowWidth = 640;
 		int WindowHeight = 640;
 		int GameGridWidth = 4096;
 		int GameGridHeight = 4096;
-                
-                
-                
-             
+
 		Scene theScene = new Scene(root, WindowWidth, WindowHeight);
 		primaryStage.setTitle("Snakey!");
 		primaryStage.setScene(theScene);
            
-                
-                
+  
 		Canvas canvas = new Canvas(WindowWidth, WindowHeight);
 
 		ArrayList<String> input = new ArrayList<String>();
@@ -467,11 +458,10 @@ public class Snakey extends Application {
 				gc.fillText(pointsText, 360, 24);
 				gc.strokeText(pointsText, 360, 24);
 			}
-                    }.start();
+                    };//.start();
                 primaryStage.show();
         };
            
-**/
         
         
         

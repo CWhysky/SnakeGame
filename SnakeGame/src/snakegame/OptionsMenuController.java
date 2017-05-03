@@ -21,8 +21,8 @@ public class OptionsMenuController {
 
     @FXML
     private Button optionsBackButton;
-    
-    @FXML
+     
+   @FXML
     private Pane optionsPane;
 
     @FXML
