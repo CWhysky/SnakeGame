@@ -175,16 +175,6 @@ public class Sprite
 		gc.drawImage(image, tlpx, tlpy);
 		gc.restore(); // back to original state (before rotation)
 	}
-        
-    //double getSpriteX() 
-    //{
-    //    return positionX;
-    //}
-
-    //double getSpriteY()
-    //{
-    //    return positionY;
-    //}
     
     double getVelocityX()
     {
@@ -246,7 +236,7 @@ public class Sprite
                 && ((positionY >= changeY.getFirst() - 30.5) && (positionY <= changeY.getFirst() + 30.5)));
     }
     
-    public void setChgs(double x, double y, double velX, double velY, double angle)
+    public void setChanges(double x, double y, double velX, double velY, double angle)
     {
         changeX.add(x);
         changeY.add(y);

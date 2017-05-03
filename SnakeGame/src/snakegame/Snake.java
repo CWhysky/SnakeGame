@@ -71,7 +71,7 @@ public class Snake
                     if(velocityCheck(i))
                     {
                         temp = snake.get(i);
-                        temp.setChgs(snake.get(i-1).getPositionX(), snake.get(i-1).getPositionY(), 
+                        temp.setChanges(snake.get(i-1).getPositionX(), snake.get(i-1).getPositionY(), 
                                      snake.get(i-1).getVelocityX(), snake.get(i-1).getVelocityY(), snake.get(i-1).getAngle());
                         temp.checkPositions();
                     }
@@ -84,7 +84,7 @@ public class Snake
             {
                     Sprite temp = (Sprite)snake.getFirst();
                     Sprite temp2 = (Sprite)snake.get(1);
-                    temp2.setChgs(temp.getPositionX(), temp.getPositionY(), temp.getVelocityX(), 
+                    temp2.setChanges(temp.getPositionX(), temp.getPositionY(), temp.getVelocityX(), 
                             temp.getVelocityY(), temp.getAngle());
                     temp2.checkPositions();
             }    
