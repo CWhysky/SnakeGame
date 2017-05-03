@@ -303,7 +303,8 @@ public class Snakey extends Application
                     {
                         System.out.println("dead");
                         score.value = 0;
-                        //reset back to 0
+                        backgroundMV.setBackGroundVelX(0);
+                        backgroundMV.setBackGroundVelY(0);
                     }
                 }
                 
