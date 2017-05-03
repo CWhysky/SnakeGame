@@ -12,6 +12,7 @@ import java.util.Iterator;
  *
  * @author Darren ZL Zhen, Tim Beiko 
  */
+
 public class SnakeAI 
 {
     
@@ -46,11 +47,11 @@ public class SnakeAI
         while (appleIter.hasNext()) 
         {
             Sprite apple = appleIter.next();
-            double ax = apple.getPosX();
-            double ay = apple.getPosY();
+            double ax = apple.getPositionX();
+            double ay = apple.getPositionY();
             
-            double sx = this.snakeSprite.getPosX();
-            double sy = this.snakeSprite.getPosY();
+            double sx = this.snakeSprite.getPositionX();
+            double sy = this.snakeSprite.getPositionY();
             
             double dist = java.lang.Math.sqrt(java.lang.Math.pow((ax*ax - sx*sx),2) + java.lang.Math.pow((ay*ay - sy*sy),2));
             
@@ -67,9 +68,9 @@ public class SnakeAI
     //calculate the angle between the snake and apple
     public double calAngle(Sprite apple)
     {
-        double x = apple.getPosX() - snakeSprite.getPosX();
-        double y = apple.getPosY() - snakeSprite.getPosY();
-        double newAngle = (Math.toDegrees(Math.atan2(y, x))+90.0);
+        double x = apple.getPositionX() - snakeSprite.getPositionX();
+        double y = apple.getPositionY() - snakeSprite.getPositionY();
+        double newAngle = (Math.toDegrees(Math.atan2(y, x)) + 90.0);
         
         return newAngle;
     }

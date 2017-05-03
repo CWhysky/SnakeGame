@@ -52,12 +52,12 @@ public class Sprite
             changeVelY = new LinkedList();
 	}
         
-        public double getPosX()
+        public double getPositionX()
         {
             return positionX;
         }
         
-        public double getPosY()
+        public double getPositionY()
         {
             return positionY;
         }
@@ -176,15 +176,15 @@ public class Sprite
 		gc.restore(); // back to original state (before rotation)
 	}
         
-    double getSpriteX() 
-    {
-        return positionX;
-    }
+    //double getSpriteX() 
+    //{
+    //    return positionX;
+    //}
 
-    double getSpriteY()
-    {
-        return positionY;
-    }
+    //double getSpriteY()
+    //{
+    //    return positionY;
+    //}
     
     double getVelocityX()
     {
@@ -210,8 +210,8 @@ public class Sprite
         double nY = Math.cos(rootTheta) * radius;
         nY = nY/2;
         
-        positionX = (nX + snake.getLast().getSpriteX());
-        positionY = (nY + snake.getLast().getPosY());
+        positionX = (nX + snake.getLast().getPositionX());
+        positionY = (nY + snake.getLast().getPositionY());
         
     }
     

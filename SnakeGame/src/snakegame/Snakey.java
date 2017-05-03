@@ -309,8 +309,8 @@ public class Snakey extends Application
                 
                 for (int i = 1; i < theSnake.getSize(); i++) 
                 {
-                  theSnake.getSegement(i).setPosition(theSnake.getSegement(i).getPosX() + backgroundMV.getBackGroundVelX() * elapsedTime, //  bgVelX * elapsedTime, 
-                                                      theSnake.getSegement(i).getPosY() + backgroundMV.getBackGroundVelY() * elapsedTime); //bgVelY * elapsedTime);
+                  theSnake.getSegement(i).setPosition(theSnake.getSegement(i).getPositionX() + backgroundMV.getBackGroundVelX() * elapsedTime, //  bgVelX * elapsedTime, 
+                                                      theSnake.getSegement(i).getPositionY() + backgroundMV.getBackGroundVelY() * elapsedTime); //bgVelY * elapsedTime);
                   theSnake.getSegement(i).update(elapsedTime, theScene);
                 }
                 
@@ -321,8 +321,8 @@ public class Snakey extends Application
 
 				// update the Snake2's position relative to the change
 				// background velocity
-				theSnake2.setPosition(theSnake2.getPosX() + backgroundMV.getBackGroundVelX() * elapsedTime,
-					theSnake2.getPosY() + backgroundMV.getBackGroundVelY() * elapsedTime); 
+				theSnake2.setPosition(theSnake2.getPositionX() + backgroundMV.getBackGroundVelX() * elapsedTime,
+					theSnake2.getPositionY() + backgroundMV.getBackGroundVelY() * elapsedTime); 
 
             
                 theSnake2.update(elapsedTime, theScene);
@@ -348,15 +348,15 @@ public class Snakey extends Application
 
                 for (Sprite apple : appleList)
                 {
-                    apple.setPosition((apple.getSpriteX() + backgroundMV.getBackGroundVelX() * elapsedTime),
-                            (apple.getSpriteY() + backgroundMV.getBackGroundVelY() * elapsedTime));
+                    apple.setPosition((apple.getPositionX() + backgroundMV.getBackGroundVelX() * elapsedTime),
+                            (apple.getPositionY() + backgroundMV.getBackGroundVelY() * elapsedTime));
                     apple.render(gc);
                 }
 
                 for (Sprite wall : wallList) 
                 {
-                    wall.setPosition((wall.getSpriteX() + backgroundMV.getBackGroundVelX() * elapsedTime), 
-                            (wall.getSpriteY() + backgroundMV.getBackGroundVelY() * elapsedTime));
+                    wall.setPosition((wall.getPositionX() + backgroundMV.getBackGroundVelX() * elapsedTime), 
+                            (wall.getPositionY() + backgroundMV.getBackGroundVelY() * elapsedTime));
                     wall.render(gc);
                 }
 
