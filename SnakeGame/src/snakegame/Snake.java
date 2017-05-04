@@ -59,7 +59,11 @@ public class Snake {
             return snake.getLast();
         }
         
-        public void velocityChanges(){
+        public void updateHead(){
+            snake.getFirst().setHeadVelocityChanges();
+        }
+        
+   /*     public void velocityChanges(){
             if(snake.getFirst() != snake.getLast()){
                 for(int i = 2; i < snake.size(); i++){
                     if(velocityCheck(i)){
@@ -88,5 +92,5 @@ public class Snake {
         private boolean velocityCheck(int i){
             return ((snake.get(i).getVelocityX() != snake.get(i-1).getVelocityX())&&
                     (snake.get(i).getVelocityY() != snake.get(i-1).getVelocityY()));
-        }
+        }*/
 }

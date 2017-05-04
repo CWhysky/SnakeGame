@@ -28,8 +28,8 @@ public class Snakey extends Application {
     // Background Velocity, Accessors, and Settings
     double bgVelX = 0.0;
     double bgVelY = 0.0;
-    int nextGrow = 1;
-    int growCounter = 0;
+    int growThreshold = 1;
+    int applesEaten = 0;
 
     double getBGVelX() {
         return bgVelX;
@@ -269,10 +269,12 @@ public class Snakey extends Application {
                                 setBGVelX(xSpeed);
                                 setBGVelY(-ySpeed);
                             }
-                            theSnake.getHead().setVelocity(-getBGVelX(), -getBGVelY());
-                            theSnake.getHead().setAngle(-newAngle, gc);
+                            
                         }
+                        
                     }
+                    theSnake.getHead().setVelocity(-getBGVelX(), -getBGVelY());
+                    theSnake.getHead().setAngle(-newAngle, gc);
                 }
 
                 // collision detection
@@ -282,18 +284,18 @@ public class Snakey extends Application {
                     if (theSnake.getHead().intersects(apple) || theSnake2.intersects(apple)) {  //testing
                         appleIter.remove();
                         score.value++;
-                        growCounter++;
+                        applesEaten++;
                         SAI.mem = false; //testing
                         continue;
                     }
                     
-                    if(growCounter >= nextGrow){
+                    if(applesEaten >= growThreshold){
                         Sprite bodySnake = new Sprite();
                             bodySnake.setImage("snake_body_red.png");
-                            bodySnake.setPosition(theSnake);                           
+                            bodySnake.setPosition(theSnake);                         
                             bodySnake.setVelocity(theSnake);
                             theSnake.addBody(bodySnake);
-                            nextGrow = nextGrow + 1;
+                            growThreshold =  growThreshold + 1;
                     }
 
                     if (SAI.mem == false) {
@@ -342,15 +344,16 @@ public class Snakey extends Application {
                         getBGX(), getBGY(),
                         cracked.getWidth(), cracked.getHeight(), false));
 
+                theSnake.updateHead();
                 
                 for (int i = 1; i < theSnake.getSize(); i++) {
+                  theSnake.getSegement(i).setChangeVel(theSnake.getSegement(i-1));
                   theSnake.getSegement(i).setPosition(theSnake.getSegement(i).getPosX() + bgVelX * elapsedTime, 
                                                       theSnake.getSegement(i).getPosY() + bgVelY * elapsedTime);
                   theSnake.getSegement(i).update(elapsedTime, theScene);
                   theSnake.getSegement(i).render(gc);
                 }
                 theSnake.getHead().render(gc);
-
                 theSnake2.render(gc);
 
                 for (Sprite apple : appleList) {

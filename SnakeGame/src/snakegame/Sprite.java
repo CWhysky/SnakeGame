@@ -32,10 +32,8 @@ public class Sprite {
 	private double width;
 	private double height;
 	private double angle;
-        private LinkedList<Double> changeX;
-        private LinkedList<Double> changeY;
-        private LinkedList<Double> changeVelX;
-        private LinkedList<Double> changeVelY;
+        private Double velChangeX;
+        private Double velChangeY;
 
 	public Sprite() {
             positionX = 0.0;
@@ -43,10 +41,9 @@ public class Sprite {
             velocityX = 0.0;
             velocityY = 0.0;
             angle = 0.0;
-            changeX = new LinkedList();
-            changeY = new LinkedList();
-            changeVelX = new LinkedList();
-            changeVelY = new LinkedList();
+            velChangeX = null;
+            velChangeY = null;
+            
 	}
         
         public double getPosX(){
@@ -186,7 +183,39 @@ public class Sprite {
         return width;
     }
     
-    public boolean checkVelChange(){
+    public void setVelocity(Snake snake){
+        velocityX = snake.getLast().getVelocityX();
+        velocityY = snake.getLast().getVelocityY();
+        angle = snake.getLast().getAngle();
+    }
+    
+    public double getVelocityY(){
+        return velocityY;
+    }
+    
+    public double getVelocityX(){
+        return velocityX;
+    }
+    
+    public void setChangeVel(Sprite snakePiece){
+        if(velChangeX != null && velChangeY != null){
+            velocityX = velChangeX;
+            velocityY = velChangeY;
+            
+            velChangeX = snakePiece.getVelocityX();
+            velChangeY = snakePiece.getVelocityY();           
+        }else{
+            velChangeX = snakePiece.getVelocityX();
+            velChangeY = snakePiece.getVelocityY();
+        }
+    }
+    
+    public void setHeadVelocityChanges(){
+        velChangeX = velocityX;
+        velChangeY = velocityY;
+    }
+    
+ /*   public boolean checkVelChange(){
         if(!changeX.isEmpty()){
             return true;
         }
@@ -215,17 +244,7 @@ public class Sprite {
         changeVelY.add(velY);
     }
     
-    public void setVelocity(Snake snake){
-        velocityX = snake.getLast().getVelocityX();
-        velocityY = snake.getLast().getVelocityY();
-        angle = snake.getLast().getAngle();
-    }
     
-    double getVelocityX(){
-        return velocityX;
-    }
     
-    double getVelocityY(){
-        return velocityY;
-    }
+    */
 }
