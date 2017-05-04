@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.image.*?>
 <?import javafx.scene.effect.*?>
 <?import javafx.scene.text.*?>
 <?import javafx.scene.control.*?>
@@ -8,6 +10,11 @@
 
 <Pane fx:id="snakeMenu" maxHeight="640.0" maxWidth="640.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="640.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="snakegame.MenuController">
    <children>
+      <ImageView fitHeight="654.0" fitWidth="640.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../space.png" />
+         </image>
+      </ImageView>
       <Button fx:id="playGameButton" layoutX="217.0" layoutY="320.0" mnemonicParsing="false" onAction="#onPlayGameclick" text="Play Game">
          <font>
             <Font size="34.0" />
@@ -24,6 +31,15 @@
          <font>
             <Font name="Verdana" size="60.0" />
          </font>
+         <textFill>
+            <LinearGradient endX="1.0" endY="1.0">
+               <stops>
+                  <Stop color="#dba95ab5" />
+                  <Stop color="#dba85ab5" offset="0.4892364814156495" />
+                  <Stop color="WHITE" offset="1.0" />
+               </stops>
+            </LinearGradient>
+         </textFill>
       </Label>
       <Button fx:id="optionsButton" layoutX="248.0" layoutY="401.0" mnemonicParsing="false" onAction="#onOptionsClick" prefHeight="51.0" prefWidth="144.0" text="Options">
          <font>
