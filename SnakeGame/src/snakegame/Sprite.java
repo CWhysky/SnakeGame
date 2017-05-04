@@ -1,6 +1,8 @@
 package snakegame;
 
+import java.util.ArrayDeque;
 import java.util.LinkedList;
+import java.util.Queue;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.canvas.GraphicsContext;
@@ -34,6 +36,9 @@ public class Sprite {
 	private double angle;
         private Double velChangeX;
         private Double velChangeY;
+        private Double angleChange;
+        private ArrayDeque<Double> delayBufferX;
+        private ArrayDeque<Double> delayBufferY;
 
 	public Sprite() {
             positionX = 0.0;
@@ -43,6 +48,8 @@ public class Sprite {
             angle = 0.0;
             velChangeX = null;
             velChangeY = null;
+            delayBufferX = new ArrayDeque();
+            delayBufferY = new ArrayDeque();
             
 	}
         
@@ -198,21 +205,32 @@ public class Sprite {
     }
     
     public void setChangeVel(Sprite snakePiece){
-        if(velChangeX != null && velChangeY != null){
+        if(velChangeX != null && velChangeY != null && delayBufferX.size() >= 2){
             velocityX = velChangeX;
             velocityY = velChangeY;
             
-            velChangeX = snakePiece.getVelocityX();
-            velChangeY = snakePiece.getVelocityY();           
+            velChangeX = delayBufferX.remove();
+            velChangeY = delayBufferY.remove();
+//            angleChange = delayBuffer.remove();
+            
+            delayBufferX.add(snakePiece.getVelocityX());
+            delayBufferY.add(snakePiece.getVelocityY());
+        }else if(delayBufferX.size() >= 2){
+            velChangeX = delayBufferX.remove();
+            velChangeY = delayBufferY.remove();
+            //angleChange = snakePiece.getAngle();
+            delayBufferX.add(snakePiece.getVelocityX());
+            delayBufferY.add(snakePiece.getVelocityY());
         }else{
-            velChangeX = snakePiece.getVelocityX();
-            velChangeY = snakePiece.getVelocityY();
+            delayBufferX.add(snakePiece.getVelocityX());
+            delayBufferY.add(snakePiece.getVelocityY());
         }
     }
     
     public void setHeadVelocityChanges(){
         velChangeX = velocityX;
         velChangeY = velocityY;
+        angleChange = angle;
     }
     
  /*   public boolean checkVelChange(){
