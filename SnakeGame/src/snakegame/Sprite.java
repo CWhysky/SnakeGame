@@ -1,7 +1,5 @@
 package snakegame;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.canvas.GraphicsContext;
@@ -33,21 +31,13 @@ public class Sprite {
 	private double width;
 	private double height;
 	private double angle;
-        private LinkedList<Double> changeX;
-        private LinkedList<Double> changeY;
-        private LinkedList<Double> changeVelX;
-        private LinkedList<Double> changeVelY;
 
 	public Sprite() {
-            positionX = 0.0;
-            positionY = 0.0;
-            velocityX = 0.0;
-            velocityY = 0.0;
-            angle = 0.0;
-            changeX = new LinkedList();
-            changeY = new LinkedList();
-            changeVelX = new LinkedList();
-            changeVelY = new LinkedList();
+		positionX = 0.0;
+		positionY = 0.0;
+		velocityX = 0.0;
+		velocityY = 0.0;
+		angle = 0.0;
 	}
         
         public double getPosX(){
@@ -98,8 +88,8 @@ public class Sprite {
 	}
 
 	public void update(double time, Scene scene) {
-            positionX += velocityX * time;
-            positionY += velocityY * time;
+		positionX += velocityX * time;
+		positionY += velocityY * time;
 	}
 
 	public void render(GraphicsContext gc) {
@@ -163,70 +153,5 @@ public class Sprite {
 
     double getSpriteY() {
         return positionY;
-    }
-    
-    double getVelocityX(){
-        return velocityX;
-    }
-    
-    double getVelocityY(){
-        return velocityY;
-    }
-
-    public void setPosition(Snake snake){
-        //The position of this segement has to be behind the current last segement
-        //Meaning that if the segment is moving up left, then the segement should 
-        //appear at the lower right.
-        double rootTheta = (snake.getLast().getAngle()) * (Math.PI/180);
-        double radius = snake.getLast().getWidth();
-        
-        double nX = Math.sin(rootTheta) * radius;
-        nX = nX/2;
-        
-        double nY = Math.cos(rootTheta) * radius;
-        nY = nY/2;
-        
-        positionX = (nX + snake.getLast().getSpriteX());
-        positionY = (nY + snake.getLast().getPosY());
-        
-    }
-    
-    public double getWidth(){
-        return width;
-    }
-    
-    public boolean checkVelChange(){
-        if(!changeX.isEmpty()){
-            return true;
-        }
-        return false;
-    }
-    
-    public void checkPositions(){
-        if(!changeX.isEmpty() && isInRange()){
-                changeX.remove();
-                changeY.remove();
-                velocityX = changeVelX.remove();
-                velocityY = changeVelY.remove();
-        }
-    }
-    
-    private boolean isInRange(){
-        return (((positionX >= changeX.getFirst() - 30.5) && (positionX <= changeX.getFirst() + 30.5)) 
-                && ((positionY >= changeY.getFirst() - 30.5) && (positionY <= changeY.getFirst() + 30.5)));
-    }
-    
-    public void setChgs(double x, double y, double velX, double velY, double angle){
-//      System.out.println("x=" + x+ " y="+y+" velX="+velX+"velY="+velY+" angle="+angle);
-        changeX.add(x);
-        changeY.add(y);
-        changeVelX.add(velX);
-        changeVelY.add(velY);
-    }
-    
-    public void setVelocity(Snake snake){
-        velocityX = snake.getLast().getVelocityX();
-        velocityY = snake.getLast().getVelocityY();
-        angle = snake.getLast().getAngle();
     }
 }
