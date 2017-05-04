@@ -36,7 +36,7 @@
                <stops>
                   <Stop color="#dba95ab5" />
                   <Stop color="#dba85ab5" offset="0.4892364814156495" />
-                  <Stop color="WHITE" offset="1.0" />
+                  <Stop color="#fffffffc" offset="1.0" />
                </stops>
             </LinearGradient>
          </textFill>
