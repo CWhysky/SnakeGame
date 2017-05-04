@@ -33,12 +33,12 @@ public class OptionsMenuController {
 
     @FXML
     void onAiSnakesChecked(ActionEvent event) {
-
+           
     }
 
     @FXML
     void onNumberOfPlayerstyped(ActionEvent event) {
-
+        
     }
     
         @FXML

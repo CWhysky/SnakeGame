@@ -29,6 +29,8 @@ public class MenuController {
          Stage primaryStage = new Stage();
          Snakey snakeGame = new Snakey();
          snakeGame.beginGame(primaryStage);
+         
+         
     }
 
     @FXML

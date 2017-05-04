@@ -28,7 +28,7 @@ import javafx.scene.transform.Translate;
 
 
 public class Snakey extends Application {
-
+        
 	// Background Velocity, Accessors, and Settings
 	double bgVelX = 0.0;
 	double bgVelY = 0.0;
@@ -278,8 +278,8 @@ public class Snakey extends Application {
 		int Speed = 500;
 		int WindowWidth = 640;
 		int WindowHeight = 640;
-		int GameGridWidth = 4096;
-		int GameGridHeight = 4096;
+		//int GameGridWidth = 4096;
+		//int GameGridHeight = 4096;
 
 		Scene theScene = new Scene(root, WindowWidth, WindowHeight);
 		primaryStage.setTitle("Snakey!");
@@ -458,7 +458,7 @@ public class Snakey extends Application {
 				gc.fillText(pointsText, 360, 24);
 				gc.strokeText(pointsText, 360, 24);
 			}
-                    };//.start();
+                    }.start();
                 primaryStage.show();
         };
            
