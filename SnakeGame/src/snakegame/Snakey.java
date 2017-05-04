@@ -28,6 +28,8 @@ public class Snakey extends Application {
     // Background Velocity, Accessors, and Settings
     double bgVelX = 0.0;
     double bgVelY = 0.0;
+    int nextGrow = 1;
+    int growCounter = 0;
 
     double getBGVelX() {
         return bgVelX;
@@ -75,6 +77,8 @@ public class Snakey extends Application {
         int WindowHeight = 640;
         int GameGridWidth = 4096;
         int GameGridHeight = 4096;
+        
+        
 
 
         Scene theScene = new Scene(root, WindowWidth, WindowHeight);
@@ -127,10 +131,13 @@ public class Snakey extends Application {
         gc.setStroke(Color.BLACK);
         gc.setLineWidth(1);
 
-        Sprite theSnake = new Sprite();
-        theSnake.setImage("snake_head_red.png");
-        theSnake.setPosition((theScene.getWidth() / 2) - 32, (theScene.getHeight() / 2) - 32);
+        Snake theSnake = new Snake();
+        Sprite snakeHead = new Sprite();
+   
+        snakeHead.setImage("snake_head_red.png");
+        snakeHead.setPosition((theScene.getWidth() / 2) - 32, (theScene.getHeight() / 2) - 32);
         // theSnake.setAngle(180, gc);
+        theSnake.setHead(snakeHead);
 
         Sprite theSnake2 = new Sprite();
         theSnake2.setImage("snake_head_red.png");
@@ -236,10 +243,10 @@ public class Snakey extends Application {
                         // newAngle = (Math.toDegrees(Math.atan2(y, x)) + 90);
 
                         newAngle = (Math.toDegrees(Math.atan2(y, x)) + 90.0);
-                        theSnake.setAngle(newAngle, gc);
+                        theSnake.getHead().setAngle(newAngle, gc);
                         if (newAngle % 90 != 0.0) {
                             // adjust velocities based on angle
-                            double acute = ((theSnake.getAngle() + 90.0) % 90);
+                            double acute = ((theSnake.getHead().getAngle() + 90.0) % 90);
                             // double acute = (newAngle%90);
                             double xSpeed = Speed * acute / 90.0;
                             double ySpeed = Speed - xSpeed;
@@ -262,8 +269,8 @@ public class Snakey extends Application {
                                 setBGVelX(xSpeed);
                                 setBGVelY(-ySpeed);
                             }
-                            
-                            theSnake.setAngle(-newAngle, gc);
+                            theSnake.getHead().setVelocity(-getBGVelX(), -getBGVelY());
+                            theSnake.getHead().setAngle(-newAngle, gc);
                         }
                     }
                 }
@@ -272,11 +279,21 @@ public class Snakey extends Application {
                 Iterator<Sprite> appleIter = appleList.iterator();
                 while (appleIter.hasNext()) {
                     Sprite apple = appleIter.next();
-                    if (theSnake.intersects(apple) || theSnake2.intersects(apple)) {  //testing
+                    if (theSnake.getHead().intersects(apple) || theSnake2.intersects(apple)) {  //testing
                         appleIter.remove();
                         score.value++;
+                        growCounter++;
                         SAI.mem = false; //testing
                         continue;
+                    }
+                    
+                    if(growCounter >= nextGrow){
+                        Sprite bodySnake = new Sprite();
+                            bodySnake.setImage("snake_body_red.png");
+                            bodySnake.setPosition(theSnake);                           
+                            bodySnake.setVelocity(theSnake);
+                            theSnake.addBody(bodySnake);
+                            nextGrow = nextGrow + 1;
                     }
 
                     if (SAI.mem == false) {
@@ -292,7 +309,7 @@ public class Snakey extends Application {
                 Iterator<Sprite> wallIter = wallList.iterator();
                 while (wallIter.hasNext()) {
                     Sprite wall = wallIter.next();
-                    if (theSnake.intersects(wall)) {
+                    if (theSnake.getHead().intersects(wall)) {
                         System.out.println("dead");
                         score.value = 0;
                         setBGVelX(0);
@@ -325,7 +342,14 @@ public class Snakey extends Application {
                         getBGX(), getBGY(),
                         cracked.getWidth(), cracked.getHeight(), false));
 
-                theSnake.render(gc);
+                
+                for (int i = 1; i < theSnake.getSize(); i++) {
+                  theSnake.getSegement(i).setPosition(theSnake.getSegement(i).getPosX() + bgVelX * elapsedTime, 
+                                                      theSnake.getSegement(i).getPosY() + bgVelY * elapsedTime);
+                  theSnake.getSegement(i).update(elapsedTime, theScene);
+                  theSnake.getSegement(i).render(gc);
+                }
+                theSnake.getHead().render(gc);
 
                 theSnake2.render(gc);
 
