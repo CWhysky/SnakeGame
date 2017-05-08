@@ -28,7 +28,7 @@ public class Snakey extends Application {
     // Background Velocity, Accessors, and Settings
     double bgVelX = 0.0;
     double bgVelY = 0.0;
-    int growThreshold = 1;
+    int growThreshold = 5;
     int applesEaten = 0;
 
     double getBGVelX() {
@@ -214,7 +214,7 @@ public class Snakey extends Application {
             public void handle(long currentNanoTime) {
 
                 // calculate time since last update.
-                double elapsedTime = (currentNanoTime - lastNanoTime.value) / 1000000000.0;
+                double elapsedTime = (currentNanoTime - lastNanoTime.value) / 900000000.0;
                 lastNanoTime.value = currentNanoTime;
 
                 double newAngle = 0.0;

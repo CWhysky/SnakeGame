@@ -39,6 +39,7 @@ public class Sprite {
         private Double angleChange;
         private ArrayDeque<Double> delayBufferX;
         private ArrayDeque<Double> delayBufferY;
+        private ArrayDeque<Double> delayBufferA;
 
 	public Sprite() {
             positionX = 0.0;
@@ -50,6 +51,7 @@ public class Sprite {
             velChangeY = null;
             delayBufferX = new ArrayDeque();
             delayBufferY = new ArrayDeque();
+            delayBufferA = new ArrayDeque();
             
 	}
         
@@ -208,22 +210,28 @@ public class Sprite {
         if(velChangeX != null && velChangeY != null && delayBufferX.size() >= 2){
             velocityX = velChangeX;
             velocityY = velChangeY;
+            angle = angleChange;
             
             velChangeX = delayBufferX.remove();
             velChangeY = delayBufferY.remove();
-//            angleChange = delayBuffer.remove();
+            angleChange = delayBufferA.remove();
             
             delayBufferX.add(snakePiece.getVelocityX());
             delayBufferY.add(snakePiece.getVelocityY());
+            delayBufferA.add(snakePiece.getAngle());
         }else if(delayBufferX.size() >= 2){
             velChangeX = delayBufferX.remove();
             velChangeY = delayBufferY.remove();
-            //angleChange = snakePiece.getAngle();
+            angleChange = delayBufferA.remove();
+            
+            delayBufferA.add(snakePiece.getAngle());
             delayBufferX.add(snakePiece.getVelocityX());
             delayBufferY.add(snakePiece.getVelocityY());
         }else{
+            delayBufferA.add(snakePiece.getAngle());
             delayBufferX.add(snakePiece.getVelocityX());
             delayBufferY.add(snakePiece.getVelocityY());
+            
         }
     }
     
