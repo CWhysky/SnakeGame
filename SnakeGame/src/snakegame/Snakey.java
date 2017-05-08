@@ -72,7 +72,7 @@ public class Snakey extends Application {
 
         // StackPane root = new StackPane();
         Group root = new Group();
-        int Speed = 500;
+        int Speed = 300;
         int WindowWidth = 640;
         int WindowHeight = 640;
         int GameGridWidth = 4096;
@@ -345,6 +345,7 @@ public class Snakey extends Application {
                         cracked.getWidth(), cracked.getHeight(), false));
 
                 theSnake.updateHead();
+                
                 
                 for (int i = 1; i < theSnake.getSize(); i++) {
                   theSnake.getSegement(i).setChangeVel(theSnake.getSegement(i-1));
