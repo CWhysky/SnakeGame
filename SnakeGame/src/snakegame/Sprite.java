@@ -228,4 +228,6 @@ public class Sprite {
     double getVelocityY(){
         return velocityY;
     }
+    
+    
 }

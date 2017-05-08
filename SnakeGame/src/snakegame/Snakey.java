@@ -30,6 +30,9 @@ public class Snakey extends Application {
     double bgVelY = 0.0;
     int nextGrow = 1;
     int growCounter = 0;
+    boolean bodyUpdateFlag = false;
+
+    
 
     double getBGVelX() {
         return bgVelX;
@@ -77,9 +80,6 @@ public class Snakey extends Application {
         int WindowHeight = 640;
         int GameGridWidth = 4096;
         int GameGridHeight = 4096;
-        
-        
-
 
         Scene theScene = new Scene(root, WindowWidth, WindowHeight);
         primaryStage.setTitle("Snakey!");
@@ -131,23 +131,31 @@ public class Snakey extends Application {
         gc.setStroke(Color.BLACK);
         gc.setLineWidth(1);
 
+        // Primary Snake
         Snake theSnake = new Snake();
         Sprite snakeHead = new Sprite();
-   
         snakeHead.setImage("snake_head_red.png");
         snakeHead.setPosition((theScene.getWidth() / 2) - 32, (theScene.getHeight() / 2) - 32);
         // theSnake.setAngle(180, gc);
         theSnake.setHead(snakeHead);
-
+ 
+        // Invisible snake used for snake buffer
+        Snake theSnakeBuffer = new Snake();
+        Sprite snakeBufferHead = new Sprite();
+        snakeBufferHead.setImage("snake_head_red.png");
+        snakeBufferHead.setPosition((theScene.getWidth() / 2) - 32, (theScene.getHeight() / 2) -32);
+        theSnakeBuffer.setHead(snakeBufferHead);
+        
+        // AI Snake
         Sprite theSnake2 = new Sprite();
         theSnake2.setImage("snake_head_red.png");
         theSnake2.setPosition(200, 200);
         SnakeAI SAI = new SnakeAI(theSnake2, true);
-
+        
         setBGVelX(0);
         setBGVelY(Speed);
-        ArrayList<Sprite> appleList = new ArrayList<Sprite>();
 
+        ArrayList<Sprite> appleList = new ArrayList<Sprite>();
         for (int i = 0; i < 70; i++) {
             Sprite apple = new Sprite();
             apple.setImage("apple.png");
@@ -180,7 +188,6 @@ public class Snakey extends Application {
 
         // wall sprite
         ArrayList<Sprite> wallList = new ArrayList<Sprite>();
-
         for (int i = 0; i <= GameGridWidth + 400; i += 144) {
             // top
             Sprite wall = new Sprite();
@@ -206,19 +213,16 @@ public class Snakey extends Application {
         }
 
         LongValue lastNanoTime = new LongValue(System.nanoTime());
+        LongValue delayTime = new LongValue(System.nanoTime());
         IntValue score = new IntValue(0);
-
         new AnimationTimer() {
-
             @Override
             public void handle(long currentNanoTime) {
-
                 // calculate time since last update.
                 double elapsedTime = (currentNanoTime - lastNanoTime.value) / 1000000000.0;
                 lastNanoTime.value = currentNanoTime;
 
                 double newAngle = 0.0;
-
                 // game logic
                 if (!mouseInput.isEmpty()) {
                     double x = mouseInput.get(0);
@@ -251,6 +255,14 @@ public class Snakey extends Application {
                             double xSpeed = Speed * acute / 90.0;
                             double ySpeed = Speed - xSpeed;
 
+                            if((currentNanoTime - delayTime.value) > 200000)
+                            {
+                            // update our snake buffer with current settings before setting new on the primary snake
+                            theSnakeBuffer.getHead().setVelocity(theSnake.getHead().getVelocityX(), theSnake.getHead().getVelocityY());
+                            theSnakeBuffer.getHead().setAngle(theSnake.getHead().getAngle(), gc);
+                            bodyUpdateFlag = true;
+                            delayTime.value = currentNanoTime;
+                            }
                             // System.out.println("DEBUG" + x + " " + y +  "     " + newAngle + "    " + xSpeed + " " + ySpeed);
                             if (newAngle > -90.0 && newAngle < 0.0) // upper left quarter
                             {
@@ -286,14 +298,15 @@ public class Snakey extends Application {
                         SAI.mem = false; //testing
                         continue;
                     }
-                    
-                    if(growCounter >= nextGrow){
+
+                    if (growCounter >= nextGrow) {
                         Sprite bodySnake = new Sprite();
-                            bodySnake.setImage("snake_body_red.png");
-                            bodySnake.setPosition(theSnake);                           
-                            bodySnake.setVelocity(theSnake);
-                            theSnake.addBody(bodySnake);
-                            nextGrow = nextGrow + 1;
+                        bodySnake.setImage("snake_body_red.png");
+                        bodySnake.setPosition(theSnake);
+                        bodySnake.setVelocity(theSnake);
+                        theSnake.addBody(bodySnake);
+                        theSnakeBuffer.addBody(bodySnake);
+                        nextGrow = nextGrow + 1;
                     }
 
                     if (SAI.mem == false) {
@@ -316,41 +329,43 @@ public class Snakey extends Application {
                         setBGVelY(0);
                         //reset back to 0
                     }
-                }                
-                
+                }
 
+                // update the Snake2's position relative to the change
+                // background velocity
                 theSnake2.setAngle(SAI.memAngle, gc);
-                // theSnake2.setVelocity(Math.cos(Math.toRadians((SAI.memAngle - 90.0))) * 100, Math.sin(Math.toRadians((SAI.memAngle - 90.0))) * 100);
-                theSnake2.setVelocity(Math.cos(Math.toRadians((SAI.memAngle - 90.0))) * Speed/2, Math.sin(Math.toRadians((SAI.memAngle - 90.0))) * Speed/2);
-
-				// update the Snake2's position relative to the change
-				// background velocity
-				theSnake2.setPosition(theSnake2.getPosX() + getBGVelX() * elapsedTime,
-					theSnake2.getPosY() + getBGVelY() * elapsedTime);
-
+                theSnake2.setVelocity(Math.cos(Math.toRadians((SAI.memAngle - 90.0))) * Speed / 2, Math.sin(Math.toRadians((SAI.memAngle - 90.0))) * Speed / 2);
+                theSnake2.setPosition(theSnake2.getPosX() + getBGVelX() * elapsedTime, theSnake2.getPosY() + getBGVelY() * elapsedTime);
                 //theSnake2.setVelocity(100, 0);
                 theSnake2.update(elapsedTime, theScene);
 
-                // render
+                // render whole board
                 gc.clearRect(0, 0, WindowWidth, WindowHeight);
 
+                // update background velocity
                 setBGX(getBGX() + (getBGVelX() * elapsedTime));
                 setBGY(getBGY() + (getBGVelY() * elapsedTime));
 
                 // (getBGX() + getBGVelX()), (getBGY() + getBGVelY()),
-                theScene.setFill(new ImagePattern(cracked,
-                        getBGX(), getBGY(),
-                        cracked.getWidth(), cracked.getHeight(), false));
+                // draw the walls?
+                theScene.setFill(new ImagePattern(cracked, getBGX(), getBGY(), cracked.getWidth(), cracked.getHeight(), false));
 
-                
-                for (int i = 1; i < theSnake.getSize(); i++) {
-                  theSnake.getSegement(i).setPosition(theSnake.getSegement(i).getPosX() + bgVelX * elapsedTime, 
-                                                      theSnake.getSegement(i).getPosY() + bgVelY * elapsedTime);
-                  theSnake.getSegement(i).update(elapsedTime, theScene);
-                  theSnake.getSegement(i).render(gc);
+                if(bodyUpdateFlag) {
+                    for (int i = theSnake.getSize()-1; i > 0; i--) {
+                        theSnake.getSegement(i).setPosition(
+                            theSnakeBuffer.getSegement(i-1).getPosX() + (bgVelX * elapsedTime),
+                            theSnakeBuffer.getSegement(i-1).getPosY() + (bgVelY * elapsedTime));
+                        theSnake.getSegement(i).setAngle(theSnakeBuffer.getSegement(i-1).getAngle(), gc);
+                        theSnake.getSegement(i).render(gc);
+                    }
+                  bodyUpdateFlag = false;
                 }
-                theSnake.getHead().render(gc);
 
+                for (int i = theSnake.getSize()-1; i > 0; i--) {
+                    theSnake.getSegement(i).update(elapsedTime, theScene);
+                }
+                
+                theSnake.getHead().render(gc);
                 theSnake2.render(gc);
 
                 for (Sprite apple : appleList) {
