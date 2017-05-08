@@ -15,6 +15,7 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import java.util.Iterator;
+import java.util.List;
 import javafx.animation.AnimationTimer;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.image.ImageView;
@@ -134,13 +135,13 @@ public class Snakey extends Application {
         Snake theSnake = new Snake();
         Sprite snakeHead = new Sprite();
    
-        snakeHead.setImage("snake_head_red.png");
+        snakeHead.setImage("snake_head_purple.png");
         snakeHead.setPosition((theScene.getWidth() / 2) - 32, (theScene.getHeight() / 2) - 32);
         // theSnake.setAngle(180, gc);
         theSnake.setHead(snakeHead);
 
         Sprite theSnake2 = new Sprite();
-        theSnake2.setImage("snake_head_red.png");
+        theSnake2.setImage("snake_head_green.png");
         theSnake2.setPosition(200, 200);
         SnakeAI SAI = new SnakeAI(theSnake2, true);
 
@@ -289,7 +290,7 @@ public class Snakey extends Application {
                     
                     if(growCounter >= nextGrow){
                         Sprite bodySnake = new Sprite();
-                            bodySnake.setImage("snake_body_red.png");
+                            bodySnake.setImage("snake_body_purple.png");
                             bodySnake.setPosition(theSnake);                           
                             bodySnake.setVelocity(theSnake);
                             theSnake.addBody(bodySnake);
@@ -350,7 +351,7 @@ public class Snakey extends Application {
                   theSnake.getSegement(i).render(gc);
                 }
                 theSnake.getHead().render(gc);
-
+                
                 theSnake2.render(gc);
 
                 for (Sprite apple : appleList) {
@@ -358,7 +359,15 @@ public class Snakey extends Application {
                             (apple.getSpriteY() + getBGVelY() * elapsedTime));
                     apple.render(gc);
                 }
+                List<Sprite> appleListMoving = appleList.subList(10, 40);
+                for (Sprite apple : appleListMoving) {
+                    apple.setVelocity(Math.cos(Math.toRadians((Math.random() - 90.0))) * Speed/14, Math.sin(Math.toRadians((Math.random() - 90.0))) * Speed/6);
 
+                    apple.setPosition((apple.getSpriteX() + getBGVelX() * elapsedTime),
+                            (apple.getSpriteY() + getBGVelY() * elapsedTime));
+                    apple.update(elapsedTime, theScene);
+                    apple.render(gc);
+                }
                 for (Sprite wall : wallList) {
                     wall.setPosition((wall.getSpriteX() + getBGVelX() * elapsedTime), (wall.getSpriteY() + getBGVelY() * elapsedTime));
                     wall.render(gc);
