@@ -32,6 +32,10 @@ public class SnakeAI {
         this.picksClosest = picksClosest;
     }
     
+    public void setHead(Sprite head){
+        this.snakeSprite = head;
+    }
+    
     
     //calculate the shortest Distance apple with snake
     public Sprite shortestApple(ArrayList<Sprite> appleList){
