@@ -54,6 +54,16 @@ public class Snake {
         snake.add(s);
     }
     
+    public LinkedList<Sprite> getBody() {
+        return snake;
+    }
+    
+    public void dropTail() {
+        Sprite h = snake.getFirst();
+        snake = new LinkedList();
+        snake.addFirst(h);
+    }
+    
     /**
      * returns the size of the snake
      * @return the size of the snake
@@ -78,4 +88,5 @@ public class Snake {
     public Sprite getLast(){
         return snake.getLast();
     }      
+    
 }

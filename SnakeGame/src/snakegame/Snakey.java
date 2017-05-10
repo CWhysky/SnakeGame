@@ -16,6 +16,7 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import java.util.Iterator;
+import java.util.LinkedList;
 import javafx.animation.AnimationTimer;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.SnapshotParameters;
@@ -33,6 +34,8 @@ public class Snakey extends Application {
     int growCounterAI1 = 0;
     int growCounterAI2 = 0;
     int growCounterAI3 = 0;
+    
+    ArrayList<Snake> SAIs = new ArrayList<Snake>();
     
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -79,7 +82,7 @@ public class Snakey extends Application {
         //it takes the information from the mouse and stores it into the ArrayList mouseInput
         //with the information from x first.
         theScene.setOnMouseMoved(
-                new EventHandler<MouseEvent>() {
+            new EventHandler<MouseEvent>() {
             public void handle(MouseEvent e) {
                 Double x = e.getX();
                 Double y = e.getY();
@@ -112,6 +115,7 @@ public class Snakey extends Application {
         theSnake1.setHead(snakeHead);
         SnakeAI SAI1 = new SnakeAI(theSnake1, true);
         SAI1.setHead(snakeHead);
+        SAIs.add(theSnake1);
 
         // AI Snake
         //TODO: Make this a snake object and make the appropriate modifications to the code
@@ -122,6 +126,8 @@ public class Snakey extends Application {
         theSnake2.setHead(snakeHead);
         SnakeAI SAI2 = new SnakeAI(theSnake2, true);
         SAI2.setHead(snakeHead);
+        SAIs.add(theSnake2);
+
         
         // AI Snake
         //TODO: Make this a snake object and make the appropriate modifications to the code
@@ -132,6 +138,7 @@ public class Snakey extends Application {
         theSnake3.setHead(snakeHead);
         SnakeAI SAI3 = new SnakeAI(theSnake3, true);
         SAI3.setHead(snakeHead);
+        SAIs.add(theSnake3);
         
         //Set the initial velocity of the background.
         bg.setBGVelX(0);
@@ -274,9 +281,65 @@ public class Snakey extends Application {
                     }
                 }
 
-                // collision detection
-                // TODO: Make collision detection for snake against other snakes, and the death logic
-                // and what happens when a player/AI snake dies.
+                // TODO: Add the death logic
+                
+                // Detecting collisions with player snake
+                Iterator<Snake> AISnakesIter = SAIs.iterator();
+                while(AISnakesIter.hasNext()) {
+                    Snake ai = AISnakesIter.next();
+                    LinkedList<Sprite> aiBody = ai.getBody();
+                    Iterator<Sprite> bodyIter = aiBody.iterator();
+                    
+                    while(bodyIter.hasNext()) {
+                        Sprite bodyPart = bodyIter.next();
+                        
+                        if (theSnake.getHead().intersects(bodyPart)){
+                            score.value = 0;
+                            bg.setBGVelX(0);
+                            bg.setBGVelY(0);
+                            // Both AI snake and player die
+                            // Go back to main menu
+                            
+                            // Line below is just for testing. If game stops, no need to respawn AI snake
+                            ai.getHead().setPosition(GameGridWidth/2 * Math.random() + 50, GameGridHeight/2 * Math.random() + 50);
+
+                            System.out.println("Game should be over");
+                        }
+                    
+                    }
+                }   
+                
+                // Detecting collisions between AI snakes
+                AISnakesIter = SAIs.iterator();
+                
+                while(AISnakesIter.hasNext()) {
+                    Snake ai = AISnakesIter.next();
+                    LinkedList<Sprite> aiBody = ai.getBody();
+                    Iterator<Sprite> bodyIter = aiBody.iterator();
+
+                    for (Snake snake : SAIs) {
+                        if (snake == ai)
+                            continue;
+                        
+                        while(bodyIter.hasNext()) {
+                            Sprite bodyPart = bodyIter.next();
+                            if (snake.getHead().intersects(bodyPart)){
+                                
+                                if(bodyPart == ai.getHead()) { // Head to head, both snakes respawn
+                                    snake.getHead().setPosition(GameGridWidth/2 * Math.random() + 50, GameGridHeight/2 * Math.random() + 50);
+                                    snake.dropTail();
+                                    ai.getHead().setPosition(GameGridWidth/2 * Math.random() + 50, GameGridHeight/2 * Math.random() + 50);
+                                    ai.dropTail();
+                                } else { // Only `snake` dies
+                                  snake.getHead().setPosition(GameGridWidth/2 * Math.random() + 50, GameGridHeight/2 * Math.random() + 50);
+                                  snake.dropTail();
+                                }
+                            }
+                        }
+                    
+                    }
+                }  
+
                 Iterator<Sprite> appleIter = appleList.iterator();
                 while (appleIter.hasNext()) {
                     Sprite apple = appleIter.next();
@@ -337,7 +400,7 @@ public class Snakey extends Application {
                         growCounterAI1 = 0;
                     }
 
-                                        if(growCounterAI2 >= nextGrow){
+                    if(growCounterAI2 >= nextGrow){
                         Sprite bodySnake2 = new Sprite();
                         bodySnake2.setImage("snake_body_green.png");
                         bodySnake2.setPosition(theSnake2);
@@ -346,7 +409,7 @@ public class Snakey extends Application {
                         growCounterAI2 = 0;
                     }
 
-                                        if(growCounterAI3 >= nextGrow){
+                    if(growCounterAI3 >= nextGrow){
                         Sprite bodySnake3 = new Sprite();
                         bodySnake3.setImage("snake_body_yellow.png");
                         bodySnake3.setPosition(theSnake3);
@@ -364,7 +427,7 @@ public class Snakey extends Application {
                         SAI1.memAngle = SAI1.calAngle(nextApple);
                         SAI1.mem = true;
                     }
-                                        //The AI snake picks the next closest apple to it if it eats an apple
+                    //The AI snake picks the next closest apple to it if it eats an apple
                     if (SAI2.mem == false) {
                         Sprite nextApple = apple;
                         if (SAI2.picksClosest) {
@@ -391,13 +454,14 @@ public class Snakey extends Application {
                     Sprite wall = wallIter.next();
                     if (theSnake.getHead().intersects(wall)) {
                         //TODO: return to menu on death.
-                        System.out.println("dead");
                         score.value = 0;
                         bg.setBGVelX(0);
                         bg.setBGVelY(0);
                         //reset back to 0
                     }
                 }
+                
+                //TODO: need to add AI snake and wall collisions.
 
                 // update the Snake2's position relative to the change
                 // background velocity

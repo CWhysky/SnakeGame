@@ -36,7 +36,6 @@ public class SnakeAI {
         this.snakeSprite = head;
     }
     
-    
     //calculate the shortest Distance apple with snake
     public Sprite shortestApple(ArrayList<Sprite> appleList){
         double minDist = 999999999;
