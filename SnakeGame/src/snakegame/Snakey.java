@@ -283,7 +283,7 @@ public class Snakey extends Application {
                     if (theSnake.getHead().intersects(apple)) 
                     { 
                         //appleIter.remove();
-                        apples.GenerateAppleInSameQuadrant(apple.getPosX(), apple.getPosY());
+                        apples.SpanwAppleInSameQ(apple.getPosX(), apple.getPosY());
                         apple.setPosition(apples.getXposition(), apples.getYpostion());
                         score.value++;
                         growCounterPlayer++;
@@ -292,7 +292,7 @@ public class Snakey extends Application {
                     
                     if(theSnake1.getHead().intersects(apple))
                     {
-                        apples1.GenerateAppleInSameQuadrant(apple.getPosX(), apple.getPosY());
+                        apples1.SpanwAppleInSameQ(apple.getPosX(), apple.getPosY());
                         apple.setPosition(apples.getXposition(), apples.getYpostion());
                         growCounterAI1++;
                         aiScore1.value++;
@@ -301,7 +301,7 @@ public class Snakey extends Application {
                     }
                     if(theSnake2.getHead().intersects(apple))
                     {
-                        apples2.GenerateAppleInSameQuadrant(apple.getPosX(), apple.getPosY());
+                        apples2.SpanwAppleInSameQ(apple.getPosX(), apple.getPosY());
                         apple.setPosition(apples.getXposition(), apples.getYpostion());
                         growCounterAI2++;
                         aiScore2.value++;
@@ -310,7 +310,7 @@ public class Snakey extends Application {
                     }
                     if(theSnake3.getHead().intersects(apple))
                     {
-                        apples3.GenerateAppleInSameQuadrant(apple.getPosX(), apple.getPosY());
+                        apples3.SpanwAppleInSameQ(apple.getPosX(), apple.getPosY());
                         apple.setPosition(apples.getXposition(), apples.getYpostion());
                         growCounterAI3++;
                         aiScore3.value++;

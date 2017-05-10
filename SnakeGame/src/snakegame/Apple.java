@@ -38,7 +38,7 @@ public class Apple extends Sprite
         return apple;
     }
     
-    public Sprite GenerateAppleInSameQuadrant(double Xquadrant, double Yquadrant)
+    public Sprite SpanwAppleInSameQ(double Xquadrant, double Yquadrant)
     {
       x = Xquadrant;
       y = Yquadrant;
