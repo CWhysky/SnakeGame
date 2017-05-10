@@ -1,5 +1,6 @@
 package snakegame;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import javafx.application.Application;
 import javafx.event.EventHandler;
@@ -16,8 +17,10 @@ import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import java.util.Iterator;
 import javafx.animation.AnimationTimer;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.transform.Rotate;
 import javafx.scene.transform.Scale;
@@ -32,7 +35,16 @@ public class Snakey extends Application {
     int growCounterAI3 = 0;
     
     @Override
-    public void start(Stage primaryStage) {
+    public void start(Stage primaryStage) throws Exception {
+        //Menu Scene: Complete
+        //Menu Layout: Complete
+                Pane snakeMenu = (Pane) FXMLLoader.load(getClass().getResource("SnakeMenuLayout.fxml"));
+                primaryStage.setScene(new Scene(snakeMenu));
+                primaryStage.show(); 
+    }
+
+  
+    public void beginGame(Stage primaryStage) {
 
         //Handles the speed and position of the window in relation to the game grid
         Background bg = new Background();
@@ -474,6 +486,7 @@ public class Snakey extends Application {
         primaryStage.show();
     }
 
+  
     /**
      * @param args the command line arguments
      */

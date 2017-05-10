@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane fx:id="optionsPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="640.0" minWidth="640.0" prefHeight="640.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="snakegame.OptionsMenuController">
+   <children>
+      <ImageView fitHeight="640.0" fitWidth="732.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../stars5.jpg" />
+         </image>
+      </ImageView>
+      <Label layoutX="203.0" layoutY="94.0" text="Options">
+         <font>
+            <Font name="Verdana" size="64.0" />
+         </font>
+         <textFill>
+            <LinearGradient endX="1.0" endY="1.0">
+               <stops>
+                  <Stop color="#dba95a" />
+                  <Stop color="#dba95a" offset="0.5017182130584192" />
+                  <Stop color="WHITE" offset="1.0" />
+               </stops>
+            </LinearGradient>
+         </textFill>
+      </Label>
+      <Button fx:id="optionsBackButton" layoutX="245.0" layoutY="490.0" mnemonicParsing="false" onAction="#onOptionsBackButtonClick" prefHeight="50.0" prefWidth="150.0" text="Back">
+         <font>
+            <Font size="23.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </Button>
+      <Label layoutX="239.0" layoutY="185.0">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+      <TextField fx:id="numberOfPlayers" layoutX="479.0" layoutY="303.0" onAction="#onNumberOfPlayerstyped" prefHeight="35.0" prefWidth="49.0" promptText="0-4">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></TextField>
+      <TextField fx:id="networkHostname" layoutX="345.0" layoutY="429.0" onAction="#onNetworkHostnametyped" prefHeight="35.0" prefWidth="180.0" promptText="localhost:8000">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></TextField>
+      <Label layoutX="259.0" layoutY="305.0" text="Number of AI Players" textFill="#dba95a">
+         <font>
+            <Font name="Verdana" size="20.0" />
+         </font>
+      </Label>
+      <Label layoutX="90.0" layoutY="432.0" text="Network Hostname:" textFill="#dba95a">
+         <font>
+            <Font name="Verdana" size="20.0" />
+         </font>
+      </Label>
+      <CheckBox fx:id="aiSnakesCheckbox" layoutX="103.0" layoutY="304.0" mnemonicParsing="false" text="AI Players" textFill="#dba95a">
+         <font>
+            <Font name="Verdana" size="20.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </CheckBox>
+      <Label layoutX="248.0" layoutY="391.0" text="Network Options" textFill="#dba95a">
+         <font>
+            <Font name="Verdana" size="19.0" />
+         </font>
+      </Label>
+      <Label layoutX="277.0" layoutY="238.0" text="AI Options">
+         <font>
+            <Font name="Verdana" size="19.0" />
+         </font>
+         <textFill>
+            <LinearGradient endX="1.0" endY="1.0">
+               <stops>
+                  <Stop color="#dba95a" />
+                  <Stop color="#dba95a" offset="0.5017182130584192" />
+                  <Stop color="WHITE" offset="1.0" />
+               </stops>
+            </LinearGradient>
+         </textFill>
+      </Label>
+   </children>
+</AnchorPane>
