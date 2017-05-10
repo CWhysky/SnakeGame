@@ -137,10 +137,16 @@ public class Snakey extends Application {
         bg.setBGVelX(0);
         bg.setBGVelY(Speed);
         
+        Apple apples = new Apple();
+        Apple apples1 = new Apple();
+        Apple apples2 = new Apple();
+        Apple apples3 = new Apple();
+        
         //Places the apples at the start of the game on the gameGrid
         //TODO: Make the apples respawn after they are eaten
         ArrayList<Sprite> appleList = new ArrayList<Sprite>();
-        for (int i = 0; i < 1000; i++) {
+        for (int i = 0; i < 50; i++) 
+        {
             Sprite apple = new Sprite();
             apple.setImage("apple.png");
             double px = -GameGridWidth/2 * Math.random() + 50;
@@ -274,29 +280,38 @@ public class Snakey extends Application {
                 Iterator<Sprite> appleIter = appleList.iterator();
                 while (appleIter.hasNext()) {
                     Sprite apple = appleIter.next();
-                    if (theSnake.getHead().intersects(apple)) {
-                        appleIter.remove();
+                    if (theSnake.getHead().intersects(apple)) 
+                    { 
+                        //appleIter.remove();
+                        apples.GenerateAppleInSameQuadrant(apple.getPosX(), apple.getPosY());
+                        apple.setPosition(apples.getXposition(), apples.getYpostion());
                         score.value++;
                         growCounterPlayer++;
                         continue;
                     }
                     
-                    if(theSnake1.getHead().intersects(apple)){
-                        appleIter.remove();
+                    if(theSnake1.getHead().intersects(apple))
+                    {
+                        apples1.GenerateAppleInSameQuadrant(apple.getPosX(), apple.getPosY());
+                        apple.setPosition(apples.getXposition(), apples.getYpostion());
                         growCounterAI1++;
                         aiScore1.value++;
                         SAI1.mem = false;
                         continue;
                     }
-                    if(theSnake2.getHead().intersects(apple)){
-                        appleIter.remove();
+                    if(theSnake2.getHead().intersects(apple))
+                    {
+                        apples2.GenerateAppleInSameQuadrant(apple.getPosX(), apple.getPosY());
+                        apple.setPosition(apples.getXposition(), apples.getYpostion());
                         growCounterAI2++;
                         aiScore2.value++;
                         SAI2.mem = false;
                         continue;
                     }
-                    if(theSnake3.getHead().intersects(apple)){
-                        appleIter.remove();
+                    if(theSnake3.getHead().intersects(apple))
+                    {
+                        apples3.GenerateAppleInSameQuadrant(apple.getPosX(), apple.getPosY());
+                        apple.setPosition(apples.getXposition(), apples.getYpostion());
                         growCounterAI3++;
                         aiScore3.value++;
                         SAI3.mem = false;
