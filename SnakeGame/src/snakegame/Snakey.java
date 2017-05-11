@@ -290,6 +290,7 @@ public class Snakey extends Application {
                     LinkedList<Sprite> aiBody = ai.getBody();
                     Iterator<Sprite> bodyIter = aiBody.iterator();
                     
+                    // Check collisions with AI snakes
                     while(bodyIter.hasNext()) {
                         Sprite bodyPart = bodyIter.next();
                         
@@ -307,6 +308,8 @@ public class Snakey extends Application {
                         }
                     
                     }
+                    
+                    // (maybe) TODO: Check collisions with itself
                 }   
                 
                 // Detecting collisions between AI snakes
@@ -458,6 +461,12 @@ public class Snakey extends Application {
                         bg.setBGVelX(0);
                         bg.setBGVelY(0);
                         //reset back to 0
+                    }
+                    for (Snake snake : SAIs) {
+                        if (snake.getHead().intersects(wall)){
+                            snake.getHead().setPosition(GameGridWidth/2 * Math.random() + 50, GameGridHeight/2 * Math.random() + 50);
+                            snake.dropTail();
+                        }
                     }
                 }
                 
