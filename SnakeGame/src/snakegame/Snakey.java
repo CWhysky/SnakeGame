@@ -30,10 +30,6 @@ import javafx.scene.transform.Translate;
 public class Snakey extends Application {
 
     int nextGrow = 1;
-    int growCounterPlayer = 0;
-    int growCounterAI1 = 0;
-    int growCounterAI2 = 0;
-    int growCounterAI3 = 0;
     
     ArrayList<Snake> SAIs = new ArrayList<Snake>();
     
@@ -352,7 +348,7 @@ public class Snakey extends Application {
                         apples.SpanwAppleInSameQ(apple.getPosX(), apple.getPosY());
                         apple.setPosition(apples.getXposition(), apples.getYpostion());
                         score.value++;
-                        growCounterPlayer++;
+                        theSnake.setGrowCount(theSnake.getGrowCount() + 1);
                         continue;
                     }
                     
@@ -360,7 +356,7 @@ public class Snakey extends Application {
                     {
                         apples1.SpanwAppleInSameQ(apple.getPosX(), apple.getPosY());
                         apple.setPosition(apples.getXposition(), apples.getYpostion());
-                        growCounterAI1++;
+                        theSnake1.setGrowCount(theSnake1.getGrowCount() + 1);
                         aiScore1.value++;
                         SAI1.mem = false;
                         continue;
@@ -369,7 +365,7 @@ public class Snakey extends Application {
                     {
                         apples2.SpanwAppleInSameQ(apple.getPosX(), apple.getPosY());
                         apple.setPosition(apples.getXposition(), apples.getYpostion());
-                        growCounterAI2++;
+                        theSnake2.setGrowCount(theSnake2.getGrowCount() + 1);
                         aiScore2.value++;
                         SAI2.mem = false;
                         continue;
@@ -378,47 +374,47 @@ public class Snakey extends Application {
                     {
                         apples3.SpanwAppleInSameQ(apple.getPosX(), apple.getPosY());
                         apple.setPosition(apples.getXposition(), apples.getYpostion());
-                        growCounterAI3++;
+                        theSnake3.setGrowCount(theSnake3.getGrowCount() + 1);
                         aiScore3.value++;
                         SAI3.mem = false;
                         continue;
                     }
                     
                     //If the snake should grow a new piece, grow a new piece.
-                    if (growCounterPlayer >= nextGrow) {
+                    if (theSnake.getGrowCount() >= nextGrow) {
                         Sprite bodySnake = new Sprite();
                         bodySnake.setImage("snake_body_purple.png");
                         bodySnake.setPosition(theSnake);
                         bodySnake.setVelocity(theSnake);
                         theSnake.addBody(bodySnake);
-                        growCounterPlayer = 0;
+                        theSnake.setGrowCount(0);
                     }
                     
-                    if(growCounterAI1 >= nextGrow){
+                    if(theSnake1.getGrowCount() >= nextGrow){
                         Sprite bodySnake1 = new Sprite();
                         bodySnake1.setImage("snake_body_red.png");
                         bodySnake1.setPosition(theSnake1);
                         bodySnake1.setVelocity(theSnake1);
                         theSnake1.addBody(bodySnake1);
-                        growCounterAI1 = 0;
+                        theSnake1.setGrowCount(0);
                     }
 
-                    if(growCounterAI2 >= nextGrow){
+                    if(theSnake2.getGrowCount() >= nextGrow){
                         Sprite bodySnake2 = new Sprite();
                         bodySnake2.setImage("snake_body_green.png");
                         bodySnake2.setPosition(theSnake2);
                         bodySnake2.setVelocity(theSnake2);
                         theSnake2.addBody(bodySnake2);
-                        growCounterAI2 = 0;
+                        theSnake2.setGrowCount(0);
                     }
 
-                    if(growCounterAI3 >= nextGrow){
+                    if(theSnake3.getGrowCount() >= nextGrow){
                         Sprite bodySnake3 = new Sprite();
                         bodySnake3.setImage("snake_body_yellow.png");
                         bodySnake3.setPosition(theSnake3);
                         bodySnake3.setVelocity(theSnake3);
                         theSnake3.addBody(bodySnake3);
-                        growCounterAI3 = 0;
+                        theSnake3.setGrowCount(0);
                     }
 
                     //The AI snake picks the next closest apple to it if it eats an apple

@@ -25,9 +25,11 @@ import javafx.scene.paint.Color;
  */
 public class Snake {
     private LinkedList<Sprite> snake;
-        
+    private int growCount;
+    
     public Snake(){
         snake = new LinkedList();
+        growCount = 0;
     }
     
     /**
@@ -70,6 +72,14 @@ public class Snake {
      */
     public int getSize(){
         return snake.size();
+    }
+    
+    public int getGrowCount() {
+        return growCount;
+    }
+    
+    public void setGrowCount(int gc) {
+        growCount = gc;
     }
     
     /**
