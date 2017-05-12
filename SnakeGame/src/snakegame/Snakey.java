@@ -321,42 +321,8 @@ public class Snakey extends Application {
                             }    
                         }
                     }
-                    
-                    
- 
                 }   
                 
-//                // Detecting collisions between AI snakes
-//                AISnakesIter = SAIs.iterator();
-//                
-//                while(AISnakesIter.hasNext()) {
-//                    Snake ai = AISnakesIter.next();
-//                    LinkedList<Sprite> aiBody = ai.getBody();
-//                    Iterator<Sprite> bodyIter = aiBody.iterator();
-//
-//                    for (Snake snake : SAIs) {
-//                        if (snake == ai)
-//                            continue;
-//                        
-//                        while(bodyIter.hasNext()) {
-//                            Sprite bodyPart = bodyIter.next();
-//                            if (snake.getHead().intersects(bodyPart)){
-//                                
-//                                if(bodyPart == ai.getHead()) { // Head to head, both snakes respawn
-//                                    snake.getHead().setPosition(GameGridWidth/2 * Math.random() + 50, GameGridHeight/2 * Math.random() + 50);
-//                                    snake.dropTail();
-//                                    ai.getHead().setPosition(GameGridWidth/2 * Math.random() + 50, GameGridHeight/2 * Math.random() + 50);
-//                                    ai.dropTail();
-//                                } else { // Only `snake` dies
-//                                  snake.getHead().setPosition(GameGridWidth/2 * Math.random() + 50, GameGridHeight/2 * Math.random() + 50);
-//                                  snake.dropTail();
-//                                }
-//                            }
-//                        }
-//                    
-//                    }
-//                }  
-
                 Iterator<Sprite> appleIter = appleList.iterator();
                 while (appleIter.hasNext()) {
                     Sprite apple = appleIter.next();
