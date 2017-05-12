@@ -30,8 +30,7 @@ import javafx.scene.transform.Translate;
 public class Snakey extends Application {
 
     int nextGrow = 1;
-    
-    ArrayList<Snake> SAIs = new ArrayList<Snake>();
+    ArrayList<Snake> snakes = new ArrayList<Snake>();
     
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -101,6 +100,7 @@ public class Snakey extends Application {
         snakeHead.setImage("snake_head_purple.png");
         snakeHead.setPosition((theScene.getWidth() / 2) - 32, (theScene.getHeight() / 2) - 32);
         theSnake.setHead(snakeHead);
+        snakes.add(theSnake);
 
         // AI Snake
         //TODO: Make this a snake object and make the appropriate modifications to the code
@@ -111,7 +111,7 @@ public class Snakey extends Application {
         theSnake1.setHead(snakeHead);
         SnakeAI SAI1 = new SnakeAI(theSnake1, true);
         SAI1.setHead(snakeHead);
-        SAIs.add(theSnake1);
+        snakes.add(theSnake1);
 
         // AI Snake
         //TODO: Make this a snake object and make the appropriate modifications to the code
@@ -122,7 +122,7 @@ public class Snakey extends Application {
         theSnake2.setHead(snakeHead);
         SnakeAI SAI2 = new SnakeAI(theSnake2, true);
         SAI2.setHead(snakeHead);
-        SAIs.add(theSnake2);
+        snakes.add(theSnake2);
 
         
         // AI Snake
@@ -134,7 +134,7 @@ public class Snakey extends Application {
         theSnake3.setHead(snakeHead);
         SnakeAI SAI3 = new SnakeAI(theSnake3, true);
         SAI3.setHead(snakeHead);
-        SAIs.add(theSnake3);
+        snakes.add(theSnake3);
         
         //Set the initial velocity of the background.
         bg.setBGVelX(0);
@@ -280,64 +280,82 @@ public class Snakey extends Application {
                 // TODO: Add the death logic
                 
                 // Detecting collisions with player snake
-                Iterator<Snake> AISnakesIter = SAIs.iterator();
-                while(AISnakesIter.hasNext()) {
-                    Snake ai = AISnakesIter.next();
+                Iterator<Snake> snakesIter = snakes.iterator();
+                Snake player = snakesIter.next(); // Player is first snake in `snakes` list
+                while(snakesIter.hasNext()) {
+                    Snake ai = snakesIter.next();
                     LinkedList<Sprite> aiBody = ai.getBody();
-                    Iterator<Sprite> bodyIter = aiBody.iterator();
+                    Iterator<Sprite> aiBodyIter = aiBody.iterator();
                     
-                    // Check collisions with AI snakes
-                    while(bodyIter.hasNext()) {
-                        Sprite bodyPart = bodyIter.next();
-                        
-                        if (theSnake.getHead().intersects(bodyPart)){
+                    LinkedList<Sprite> playerBody = player.getBody();
+                    Iterator<Sprite> playerBodyIter = playerBody.iterator();
+                    
+                    // Player head collides with AI body
+                    while(aiBodyIter.hasNext()) {
+                        Sprite bodyPart = aiBodyIter.next();
+                        if (player.getHead().intersects(bodyPart)){
                             score.value = 0;
                             bg.setBGVelX(0);
                             bg.setBGVelY(0);
                             // Both AI snake and player die
                             // Go back to main menu
-                            
                             // Line below is just for testing. If game stops, no need to respawn AI snake
                             ai.getHead().setPosition(GameGridWidth/2 * Math.random() + 50, GameGridHeight/2 * Math.random() + 50);
-
                             System.out.println("Game should be over");
                         }
-                    
                     }
                     
-                    // (maybe) TODO: Check collisions with itself
-                }   
-                
-                // Detecting collisions between AI snakes
-                AISnakesIter = SAIs.iterator();
-                
-                while(AISnakesIter.hasNext()) {
-                    Snake ai = AISnakesIter.next();
-                    LinkedList<Sprite> aiBody = ai.getBody();
-                    Iterator<Sprite> bodyIter = aiBody.iterator();
-
-                    for (Snake snake : SAIs) {
-                        if (snake == ai)
+                    // AI head collides with other snake body
+                    for (Snake s : snakes) {
+                        if (s == ai)
                             continue;
                         
-                        while(bodyIter.hasNext()) {
-                            Sprite bodyPart = bodyIter.next();
-                            if (snake.getHead().intersects(bodyPart)){
-                                
-                                if(bodyPart == ai.getHead()) { // Head to head, both snakes respawn
-                                    snake.getHead().setPosition(GameGridWidth/2 * Math.random() + 50, GameGridHeight/2 * Math.random() + 50);
-                                    snake.dropTail();
-                                    ai.getHead().setPosition(GameGridWidth/2 * Math.random() + 50, GameGridHeight/2 * Math.random() + 50);
-                                    ai.dropTail();
-                                } else { // Only `snake` dies
-                                  snake.getHead().setPosition(GameGridWidth/2 * Math.random() + 50, GameGridHeight/2 * Math.random() + 50);
-                                  snake.dropTail();
-                                }
-                            }
+                        LinkedList<Sprite> snakeBody = s.getBody();
+                        Iterator<Sprite> snakeBodyIter = snakeBody.iterator();
+                        
+                        while(snakeBodyIter.hasNext()) {
+                            Sprite bodyPart = snakeBodyIter.next();
+                            if (ai.getHead().intersects(bodyPart)){
+                                // AI player dies and respawns
+                                ai.getHead().setPosition(GameGridWidth/2 * Math.random() + 50, GameGridHeight/2 * Math.random() + 50);
+                            }    
                         }
-                    
                     }
-                }  
+                    
+                    
+ 
+                }   
+                
+//                // Detecting collisions between AI snakes
+//                AISnakesIter = SAIs.iterator();
+//                
+//                while(AISnakesIter.hasNext()) {
+//                    Snake ai = AISnakesIter.next();
+//                    LinkedList<Sprite> aiBody = ai.getBody();
+//                    Iterator<Sprite> bodyIter = aiBody.iterator();
+//
+//                    for (Snake snake : SAIs) {
+//                        if (snake == ai)
+//                            continue;
+//                        
+//                        while(bodyIter.hasNext()) {
+//                            Sprite bodyPart = bodyIter.next();
+//                            if (snake.getHead().intersects(bodyPart)){
+//                                
+//                                if(bodyPart == ai.getHead()) { // Head to head, both snakes respawn
+//                                    snake.getHead().setPosition(GameGridWidth/2 * Math.random() + 50, GameGridHeight/2 * Math.random() + 50);
+//                                    snake.dropTail();
+//                                    ai.getHead().setPosition(GameGridWidth/2 * Math.random() + 50, GameGridHeight/2 * Math.random() + 50);
+//                                    ai.dropTail();
+//                                } else { // Only `snake` dies
+//                                  snake.getHead().setPosition(GameGridWidth/2 * Math.random() + 50, GameGridHeight/2 * Math.random() + 50);
+//                                  snake.dropTail();
+//                                }
+//                            }
+//                        }
+//                    
+//                    }
+//                }  
 
                 Iterator<Sprite> appleIter = appleList.iterator();
                 while (appleIter.hasNext()) {
@@ -458,7 +476,9 @@ public class Snakey extends Application {
                         bg.setBGVelY(0);
                         //reset back to 0
                     }
-                    for (Snake snake : SAIs) {
+                    for (Snake snake : snakes) {
+                        if (snake == theSnake)
+                            continue;
                         if (snake.getHead().intersects(wall)){
                             snake.getHead().setPosition(GameGridWidth/2 * Math.random() + 50, GameGridHeight/2 * Math.random() + 50);
                             snake.dropTail();
