@@ -127,40 +127,6 @@ public class Snakey extends Application {
             snakes.add(ai);
         }
         
-//        // AI Snake
-//        //TODO: Make this a snake object and make the appropriate modifications to the code
-//        Snake theSnake1 = new Snake();
-//        snakeHead = new Sprite();
-//        snakeHead.setImage("snake_head_red.png");
-//        snakeHead.setPosition(200, 200);
-//        theSnake1.setHead(snakeHead);
-//        SnakeAI SAI1 = new SnakeAI(theSnake1, true);
-//        SAI1.setHead(snakeHead);
-//        snakes.add(theSnake1);
-//
-//        // AI Snake
-//        //TODO: Make this a snake object and make the appropriate modifications to the code
-//        Snake theSnake2 = new Snake();
-//        snakeHead = new Sprite();
-//        snakeHead.setImage("snake_head_green.png");
-//        snakeHead.setPosition(200, 200);
-//        theSnake2.setHead(snakeHead);
-//        SnakeAI SAI2 = new SnakeAI(theSnake2, true);
-//        SAI2.setHead(snakeHead);
-//        snakes.add(theSnake2);
-//
-//        
-//        // AI Snake
-//        //TODO: Make this a snake object and make the appropriate modifications to the code
-//        Snake theSnake3 = new Snake();
-//        snakeHead = new Sprite();
-//        snakeHead.setImage("head_yellow.png");
-//        snakeHead.setPosition(200, 200);
-//        theSnake3.setHead(snakeHead);
-//        SnakeAI SAI3 = new SnakeAI(theSnake3, true);
-//        SAI3.setHead(snakeHead);
-//        snakes.add(theSnake3);
-        
         //Set the initial velocity of the background.
         bg.setBGVelX(0);
         bg.setBGVelY(Speed);
@@ -232,12 +198,6 @@ public class Snakey extends Application {
 
         //The time of the last update
         LongValue lastNanoTime = new LongValue(System.nanoTime());
-        //The score of the player
-//        IntValue score = new IntValue(0);
-//        //The score of the AI
-//        IntValue aiScore1 = new IntValue(0);
-//        IntValue aiScore2 = new IntValue(0);
-//        IntValue aiScore3 = new IntValue(0);
         
         new AnimationTimer() {
             @Override
@@ -302,8 +262,7 @@ public class Snakey extends Application {
                     }
                 }
 
-                // TODO: Add the death logic
-                
+                // TODO: Add game-over 
                 // Detecting collisions with player snake
                 Iterator<Snake> snakesIter = snakes.iterator();
                 Snake player = snakesIter.next(); // Player is first snake in `snakes` list
@@ -323,7 +282,7 @@ public class Snakey extends Application {
                             bg.setBGVelX(0);
                             bg.setBGVelY(0);
                             // Both AI snake and player die
-                            // Go back to main menu
+                            // Show Game over
                             // Line below is just for testing. If game stops, no need to respawn AI snake
                             ai.getHead().setPosition(GameGridWidth/2 * Math.random() + 50, GameGridHeight/2 * Math.random() + 50);
                             System.out.println("Game should be over");
@@ -376,36 +335,6 @@ public class Snakey extends Application {
                         }
                     }
                     
-
-//                    
-//                    if(theSnake1.getHead().intersects(apple))
-//                    {
-//                        apples1.SpanwAppleInSameQ(apple.getPosX(), apple.getPosY());
-//                        apple.setPosition(apples.getXposition(), apples.getYpostion());
-//                        theSnake1.setGrowCount(theSnake1.getGrowCount() + 1);
-//                        aiScore1.value++;
-//                        SAI1.mem = false;
-//                        continue;
-//                    }
-//                    if(theSnake2.getHead().intersects(apple))
-//                    {
-//                        apples2.SpanwAppleInSameQ(apple.getPosX(), apple.getPosY());
-//                        apple.setPosition(apples.getXposition(), apples.getYpostion());
-//                        theSnake2.setGrowCount(theSnake2.getGrowCount() + 1);
-//                        aiScore2.value++;
-//                        SAI2.mem = false;
-//                        continue;
-//                    }
-//                    if(theSnake3.getHead().intersects(apple))
-//                    {
-//                        apples3.SpanwAppleInSameQ(apple.getPosX(), apple.getPosY());
-//                        apple.setPosition(apples.getXposition(), apples.getYpostion());
-//                        theSnake3.setGrowCount(theSnake3.getGrowCount() + 1);
-//                        aiScore3.value++;
-//                        SAI3.mem = false;
-//                        continue;
-//                    }
-                    
                     for (Snake s : snakes) {
                         if (s.getGrowCount() >= nextGrow) {
                             Sprite bodySnake = new Sprite();
@@ -416,42 +345,6 @@ public class Snakey extends Application {
                             s.setGrowCount(0);
                         }
                     }
-//                    //If the snake should grow a new piece, grow a new piece.
-//                    if (playerSnake.getGrowCount() >= nextGrow) {
-//                        Sprite bodySnake = new Sprite();
-//                        bodySnake.setImage("snake_body_purple.png");
-//                        bodySnake.setPosition(playerSnake);
-//                        bodySnake.setVelocity(playerSnake);
-//                        playerSnake.addBody(bodySnake);
-//                        playerSnake.setGrowCount(0);
-//                    }
-//                    
-//                    if(theSnake1.getGrowCount() >= nextGrow){
-//                        Sprite bodySnake1 = new Sprite();
-//                        bodySnake1.setImage("snake_body_red.png");
-//                        bodySnake1.setPosition(theSnake1);
-//                        bodySnake1.setVelocity(theSnake1);
-//                        theSnake1.addBody(bodySnake1);
-//                        theSnake1.setGrowCount(0);
-//                    }
-//
-//                    if(theSnake2.getGrowCount() >= nextGrow){
-//                        Sprite bodySnake2 = new Sprite();
-//                        bodySnake2.setImage("snake_body_green.png");
-//                        bodySnake2.setPosition(theSnake2);
-//                        bodySnake2.setVelocity(theSnake2);
-//                        theSnake2.addBody(bodySnake2);
-//                        theSnake2.setGrowCount(0);
-//                    }
-//
-//                    if(theSnake3.getGrowCount() >= nextGrow){
-//                        Sprite bodySnake3 = new Sprite();
-//                        bodySnake3.setImage("snake_body_yellow.png");
-//                        bodySnake3.setPosition(theSnake3);
-//                        bodySnake3.setVelocity(theSnake3);
-//                        theSnake3.addBody(bodySnake3);
-//                        theSnake3.setGrowCount(0);
-//                    }
 
                     for (SnakeAI ai : SAIs) {
                         if (ai.mem == false) {
@@ -463,34 +356,6 @@ public class Snakey extends Application {
                             ai.mem = true;
                         }
                     }
-//                    //The AI snake picks the next closest apple to it if it eats an apple
-//                    if (SAI1.mem == false) {
-//                        Sprite nextApple = apple;
-//                        if (SAI1.picksClosest) {
-//                            nextApple = SAI1.shortestApple(appleList);
-//                        }
-//                        SAI1.memAngle = SAI1.calAngle(nextApple);
-//                        SAI1.mem = true;
-//                    }
-//                    //The AI snake picks the next closest apple to it if it eats an apple
-//                    if (SAI2.mem == false) {
-//                        Sprite nextApple = apple;
-//                        if (SAI2.picksClosest) {
-//                            nextApple = SAI2.shortestApple(appleList);
-//                        }
-//                        SAI2.memAngle = SAI2.calAngle(nextApple);
-//                        SAI2.mem = true;
-//                    }
-//                    //The AI snake picks the next closest apple to it if it eats an apple
-//                    if (SAI3.mem == false) {
-//                        Sprite nextApple = apple;
-//                        if (SAI3.picksClosest) {
-//                            nextApple = SAI3.shortestApple(appleList);
-//                        }
-//                        SAI3.memAngle = SAI3.calAngle(nextApple);
-//                        SAI3.mem = true;
-//                    }
-
                 }
 
                 //Checks to see if a snake has hit a wall.
@@ -528,26 +393,6 @@ public class Snakey extends Application {
                     s.getHead().setPosition(s.getHead().getPosX() + bg.getBGVelX() * elapsedTime, s.getHead().getPosY() + bg.getBGVelY() * elapsedTime);
                     s.getHead().update(elapsedTime);
                 }
-                // update the Snake2's position relative to the change
-                // background velocity
-//                theSnake1.getHead().setAngle(SAI1.memAngle);
-//                theSnake1.getHead().setVelocity(Math.cos(Math.toRadians((SAI1.memAngle - 90.0))) * Speed / 2, Math.sin(Math.toRadians((SAI1.memAngle - 90.0))) * Speed / 2);
-//                theSnake1.getHead().setPosition(theSnake1.getHead().getPosX() + bg.getBGVelX() * elapsedTime, theSnake1.getHead().getPosY() + bg.getBGVelY() * elapsedTime);
-//                theSnake1.getHead().update(elapsedTime);
-//
-//                                // update the Snake2's position relative to the change
-//                // background velocity
-//                theSnake2.getHead().setAngle(SAI2.memAngle);
-//                theSnake2.getHead().setVelocity(Math.cos(Math.toRadians((SAI2.memAngle - 90.0))) * Speed / 2, Math.sin(Math.toRadians((SAI2.memAngle - 90.0))) * Speed / 2);
-//                theSnake2.getHead().setPosition(theSnake2.getHead().getPosX() + bg.getBGVelX() * elapsedTime, theSnake2.getHead().getPosY() + bg.getBGVelY() * elapsedTime);
-//                theSnake2.getHead().update(elapsedTime);
-//
-//                                // update the Snake2's position relative to the change
-//                // background velocity
-//                theSnake3.getHead().setAngle(SAI3.memAngle);
-//                theSnake3.getHead().setVelocity(Math.cos(Math.toRadians((SAI3.memAngle - 90.0))) * Speed / 2, Math.sin(Math.toRadians((SAI3.memAngle - 90.0))) * Speed / 2);
-//                theSnake3.getHead().setPosition(theSnake3.getHead().getPosX() + bg.getBGVelX() * elapsedTime, theSnake3.getHead().getPosY() + bg.getBGVelY() * elapsedTime);
-//                theSnake3.getHead().update(elapsedTime);
 
                 // render whole board
                 gc.clearRect(0, 0, WindowWidth, WindowHeight);
@@ -577,7 +422,6 @@ public class Snakey extends Application {
                         playerSnake.getHead().render(gc);
                     } else {
                         //Renders the AI snake
-                        System.out.println(s);
                         for (int i = s.getSize() - 1; i > 0; i--) {
                             s.getSegment(i).setPosition(
                                 s.getSegment(i - 1).getPosX() + (bg.bgVelX * elapsedTime),
@@ -588,36 +432,7 @@ public class Snakey extends Application {
                         s.getHead().render(gc);
                     }
                 }
-//                //Renders the AI snake
-//                for (int i = theSnake1.getSize() - 1; i > 0; i--) {
-//                    theSnake1.getSegment(i).setPosition(
-//                        theSnake1.getSegment(i - 1).getPosX() + (bg.bgVelX * elapsedTime),
-//                        theSnake1.getSegment(i - 1).getPosY() + (bg.bgVelY * elapsedTime));
-//                    theSnake1.getSegment(i).setAngle(theSnake1.getSegment(i - 1).getAngle());
-//                    theSnake1.getSegment(i).render(gc);
-//                }
-//                theSnake1.getHead().render(gc);
-//
-//                //Renders the AI snake
-//                for (int i = theSnake2.getSize() - 1; i > 0; i--) {
-//                    theSnake2.getSegment(i).setPosition(
-//                        theSnake2.getSegment(i - 1).getPosX() + (bg.bgVelX * elapsedTime),
-//                        theSnake2.getSegment(i - 1).getPosY() + (bg.bgVelY * elapsedTime));
-//                    theSnake2.getSegment(i).setAngle(theSnake2.getSegment(i - 1).getAngle());
-//                    theSnake2.getSegment(i).render(gc);
-//                }
-//                theSnake2.getHead().render(gc);
-//                
-//                //Renders the AI snake
-//                for (int i = theSnake3.getSize() - 1; i > 0; i--) {
-//                    theSnake3.getSegment(i).setPosition(
-//                        theSnake3.getSegment(i - 1).getPosX() + (bg.bgVelX * elapsedTime),
-//                        theSnake3.getSegment(i - 1).getPosY() + (bg.bgVelY * elapsedTime));
-//                    theSnake3.getSegment(i).setAngle(theSnake3.getSegment(i - 1).getAngle());
-//                    theSnake3.getSegment(i).render(gc);
-//                }
-//                theSnake3.getHead().render(gc);
-                
+
                 //places the apples on the gameGrid and adjusts for backgroud speed
                 for (Sprite apple : appleList) {
                     apple.setPosition((apple.getPosX() + bg.getBGVelX() * elapsedTime),
