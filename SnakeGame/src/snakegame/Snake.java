@@ -26,10 +26,13 @@ import javafx.scene.paint.Color;
 public class Snake {
     private LinkedList<Sprite> snake;
     private int growCount;
+    private String bodyColor;
+    private int score;
     
     public Snake(){
         snake = new LinkedList();
         growCount = 0;
+        score = 0;
     }
     
     /**
@@ -58,6 +61,14 @@ public class Snake {
     
     public LinkedList<Sprite> getBody() {
         return snake;
+    }
+    
+    public void setBodyColor(String bc) {
+        bodyColor = bc;
+    }
+    
+    public String getBodyColor() {
+        return bodyColor;
     }
     
     public void dropTail() {
@@ -97,6 +108,14 @@ public class Snake {
      */
     public Sprite getLast(){
         return snake.getLast();
-    }      
+    }   
+    
+    public void setScore(int s) {
+        score = s;
+    }
+    
+    public int getScore() {
+        return score;
+    }
     
 }
