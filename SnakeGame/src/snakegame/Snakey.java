@@ -281,7 +281,6 @@ public class Snakey extends Application {
                             player.setScore(0);
                             bg.setBGVelX(0);
                             bg.setBGVelY(0);
-                            primaryStage.close();
                             // Both AI snake and player die
                             // Show Game over
                             // Line below is just for testing. If game stops, no need to respawn AI snake
@@ -368,7 +367,6 @@ public class Snakey extends Application {
                         player.setScore(0);
                         bg.setBGVelX(0);
                         bg.setBGVelY(0);
-                        primaryStage.close();
                         //reset back to 0
                     }
                     for (Snake snake : snakes) {
