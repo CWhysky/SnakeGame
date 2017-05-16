@@ -13,7 +13,6 @@ import java.util.Iterator;
  * @author Darren ZL Zhen, Tim Beiko 
  */
 public class SnakeAI {
-    
     Snake snake;
     Sprite snakeSprite;
     public double memAngle = 0.0;
@@ -69,7 +68,4 @@ public class SnakeAI {
         
         return newAngle;
     }
-    
-    
-    
 }

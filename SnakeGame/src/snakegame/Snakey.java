@@ -50,7 +50,7 @@ public class Snakey extends Application {
     }
 
   
-    public void beginGame(Stage primaryStage) {
+    public void beginGame(Stage primaryStage) throws IOException {
 
         //Handles the speed and position of the window in relation to the game grid
         Background bg = new Background();
@@ -66,6 +66,7 @@ public class Snakey extends Application {
 
         //The window view
         Scene theScene = new Scene(root, WindowWidth, WindowHeight);
+        Scene randomScene = new Scene(FXMLLoader.load(getClass().getResource("SnakeDeadMenu.fxml")), WindowWidth, WindowHeight);
         primaryStage.setTitle("Snakey!");
         primaryStage.setScene(theScene);
         //Drawable area inside of the scene
@@ -281,6 +282,8 @@ public class Snakey extends Application {
                             player.setScore(0);
                             bg.setBGVelX(0);
                             bg.setBGVelY(0);
+                            //primaryStage.close();
+                            primaryStage.setScene(randomScene);
                             // Both AI snake and player die
                             // Show Game over
                             // Line below is just for testing. If game stops, no need to respawn AI snake
@@ -367,6 +370,8 @@ public class Snakey extends Application {
                         player.setScore(0);
                         bg.setBGVelX(0);
                         bg.setBGVelY(0);
+                        //primaryStage.close();
+                        primaryStage.setScene(randomScene);
                         //reset back to 0
                     }
                     for (Snake snake : snakes) {
