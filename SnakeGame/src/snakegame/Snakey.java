@@ -31,7 +31,6 @@ public class Snakey extends Application {
 
     int nextGrow = 1;
     ArrayList<Snake> snakes = new ArrayList<Snake>();
-    
     int aiSnakeCount = 10; // Need to fetch this from menu
     String[] snakeHeads =  {"head_yellow.png", "snake_head_red.png", "snake_head_green.png"};
     String[] snakeBodies = {"snake_body_yellow.png", "snake_body_red.png", "snake_body_green.png"};
@@ -297,14 +296,36 @@ public class Snakey extends Application {
                     }
                 }   
                 
+                //Checks to see if a snake has hit a wall.
+                Iterator<Sprite> wallIter = wallList.iterator();
+                while (wallIter.hasNext()) {
+                    Sprite wall = wallIter.next();
+                    if (playerSnake.getHead().intersects(wall)) {
+                        player.setScore(0);
+                        bg.setBGVelX(0);
+                        bg.setBGVelY(0);
+                        primaryStage.setScene(randomScene);
+                    }
+                    for (Snake snake : snakes) {
+                        if (snake == playerSnake)
+                            continue;
+                        if (snake.getHead().intersects(wall)){
+                            snake.getHead().setPosition(GameGridWidth/2 * Math.random() + 50, GameGridHeight/2 * Math.random() + 50);
+                            snake.dropTail();
+                        }
+                    }
+                }
+                
                 Iterator<Sprite> appleIter = appleList.iterator();
                 while (appleIter.hasNext()) {
                     Sprite apple = appleIter.next();
                     SnakeAI ai;
+                    
+                    // This part could be refactored to work for both types of snakes
+                    // The only thing that seems to be different is the ai.mem that gets set to false for AI
                     for (Snake s : snakes) {
                         if (s == playerSnake) {
                             if (playerSnake.getHead().intersects(apple)) { 
-                                    //appleIter.remove();
                                     apples.SpanwAppleInSameQ(apple.getPosX(), apple.getPosY());
                                     apple.setPosition(apples.getXposition(), apples.getYpostion());
                                     s.setScore(s.getScore() + 1);
@@ -324,8 +345,7 @@ public class Snakey extends Application {
                             }
                         }
                     }
-                    
-                    
+                   
                     for (Snake s : snakes) {
                         if (s.getGrowCount() >= nextGrow) {
                             Sprite bodySnake = new Sprite();
@@ -349,27 +369,6 @@ public class Snakey extends Application {
                         }
                     }
                 }
-
-                //Checks to see if a snake has hit a wall.
-                Iterator<Sprite> wallIter = wallList.iterator();
-                while (wallIter.hasNext()) {
-                    Sprite wall = wallIter.next();
-                    if (playerSnake.getHead().intersects(wall)) {
-                        player.setScore(0);
-                        bg.setBGVelX(0);
-                        bg.setBGVelY(0);
-                        primaryStage.setScene(randomScene);
-                    }
-                    for (Snake snake : snakes) {
-                        if (snake == playerSnake)
-                            continue;
-                        if (snake.getHead().intersects(wall)){
-                            snake.getHead().setPosition(GameGridWidth/2 * Math.random() + 50, GameGridHeight/2 * Math.random() + 50);
-                            snake.dropTail();
-                        }
-                    }
-                }
-                
                 
                 Iterator<Snake> snakeIter = snakes.iterator();
                 Snake discardPlayerSnake = snakeIter.next(); // Skip player snake
