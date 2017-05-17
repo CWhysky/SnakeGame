@@ -343,7 +343,7 @@ public class Snakey extends Application {
                         else
                             ai = (SnakeAI) s;
                         if (ai.mem == false) {
-                            Sprite nextApple = ai.shortestApple(appleList);
+                            Sprite nextApple = ai.closestApple(appleList);
                             ai.memAngle = ai.calAngle(nextApple);
                             ai.mem = true;
                         }

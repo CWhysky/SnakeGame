@@ -30,7 +30,7 @@ public class SnakeAI extends Snake {
     }
     
     //calculate the shortest Distance apple with snake
-    public Sprite shortestApple(ArrayList<Sprite> appleList){
+    public Sprite closestApple(ArrayList<Sprite> appleList){
         double minDist = 999999999;
         Sprite closestApple  = null;
         
