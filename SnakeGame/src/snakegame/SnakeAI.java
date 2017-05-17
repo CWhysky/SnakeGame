@@ -13,20 +13,13 @@ import java.util.Iterator;
  * @author Darren ZL Zhen, Tim Beiko 
  */
 public class SnakeAI extends Snake {
-    Snake snake;
     Sprite snakeSprite;
     public double memAngle = 0.0;
     public boolean mem = false;
 
     public SnakeAI(Sprite snakeSprite){
         super();
-        this.snake = null;
         this.snakeSprite = snakeSprite;
-    }
-    
-    public void setHead(Sprite head){
-        this.snakeSprite = head;
-        super.setHead(head);
     }
     
     //calculate the shortest Distance apple with snake
