@@ -37,10 +37,6 @@ public class Snakey extends Application {
     String[] snakeBodies = {"snake_body_yellow.png", "snake_body_red.png", "snake_body_green.png"};
     int colorCount = 0;
     
-    // ArrayList<SnakeAI> SAIs = new ArrayList<SnakeAI>();
-    
-    
-    
     @Override
     public void start(Stage primaryStage) throws Exception {
         //Menu Scene: Complete
@@ -104,8 +100,7 @@ public class Snakey extends Application {
         gc.setStroke(Color.BLACK);
         gc.setLineWidth(1);
 
-        
-        // Primary Snake
+        // Player Snake
         Snake playerSnake = new Snake();
         Sprite snakeHead = new Sprite();
         snakeHead.setImage("snake_head_purple.png");
@@ -116,17 +111,18 @@ public class Snakey extends Application {
 
         
         for(int i=0; i<aiSnakeCount; i++) {
-            // Snake ai = new Snake();
+            // Create spriteobject and set color
             snakeHead = new Sprite();
             snakeHead.setImage(snakeHeads[colorCount]);
+            
             SnakeAI SAI = new SnakeAI(snakeHead, true);
+            
+            // Set body color and "increment" color so next snake is of different color
             SAI.setBodyColor(snakeBodies[colorCount]);
             colorCount = (colorCount + 1) % snakeHeads.length;
+            
             snakeHead.setPosition(200, 200);
             SAI.setHead(snakeHead);
-           // SnakeAI SAI = new SnakeAI(snakeHead, true);
-           //  SAI.setHead(snakeHead);
-            // SAIs.add(SAI);
             snakes.add(SAI);
         }
         
@@ -140,7 +136,6 @@ public class Snakey extends Application {
         Apple apples3 = new Apple();
         
         //Places the apples at the start of the game on the gameGrid
-        //TODO: Make the apples respawn after they are eaten
         ArrayList<Sprite> appleList = new ArrayList<Sprite>();
         for (int i = 0; i < 50; i++) 
         {
@@ -280,13 +275,7 @@ public class Snakey extends Application {
                             player.setScore(0);
                             bg.setBGVelX(0);
                             bg.setBGVelY(0);
-                            //primaryStage.close();
                             primaryStage.setScene(randomScene);
-                            // Both AI snake and player die
-                            // Show Game over
-                            // Line below is just for testing. If game stops, no need to respawn AI snake
-                            ai.getHead().setPosition(GameGridWidth/2 * Math.random() + 50, GameGridHeight/2 * Math.random() + 50);
-                            System.out.println("Game should be over");
                         }
                     }
                     
@@ -312,7 +301,6 @@ public class Snakey extends Application {
                 while (appleIter.hasNext()) {
                     Sprite apple = appleIter.next();
                     SnakeAI ai;
-                    // Iterator<SnakeAI> aiIter = SAIs.iterator();
                     for (Snake s : snakes) {
                         if (s == playerSnake) {
                             if (playerSnake.getHead().intersects(apple)) { 
@@ -324,14 +312,13 @@ public class Snakey extends Application {
                                     continue;
                             }
                         } else {
-                            // SnakeAI ai = aiIter.next();
                             ai = (SnakeAI) s;
-                            if(s.getHead().intersects(apple))
+                            if(ai.getHead().intersects(apple))
                             {
                                 apples1.SpanwAppleInSameQ(apple.getPosX(), apple.getPosY());
                                 apple.setPosition(apples.getXposition(), apples.getYpostion());
-                                s.setGrowCount(s.getGrowCount() + 1);
-                                s.setScore(s.getScore() + 1);
+                                ai.setGrowCount(ai.getGrowCount() + 1);
+                                ai.setScore(ai.getScore() + 1);
                                 ai.mem = false;
                                 continue;
                             }
@@ -371,13 +358,10 @@ public class Snakey extends Application {
                 while (wallIter.hasNext()) {
                     Sprite wall = wallIter.next();
                     if (playerSnake.getHead().intersects(wall)) {
-                        //TODO: return to menu on death.
                         player.setScore(0);
                         bg.setBGVelX(0);
                         bg.setBGVelY(0);
-                        //primaryStage.close();
                         primaryStage.setScene(randomScene);
-                        //reset back to 0
                     }
                     for (Snake snake : snakes) {
                         if (snake == playerSnake)
@@ -392,9 +376,7 @@ public class Snakey extends Application {
                 
                 Iterator<Snake> snakeIter = snakes.iterator();
                 Snake discardPlayerSnake = snakeIter.next(); // Skip player snake
-                // Iterator<SnakeAI> ais = SAIs.iterator();
-                
-                // while(snakeIter.hasNext() && ais.hasNext()) {
+
                 while(snakeIter.hasNext()) {
                     Snake s = snakeIter.next();
                     SnakeAI ai = (SnakeAI) s;
@@ -425,9 +407,6 @@ public class Snakey extends Application {
                     playerSnake.getSegment(i).render(gc);
                 }
                 
-                //Renders the head of the snake
-                // playerSnake.getHead().render(gc);
-
                 for (Snake s : snakes) {
                     if (s == playerSnake) {
                         playerSnake.getHead().render(gc);

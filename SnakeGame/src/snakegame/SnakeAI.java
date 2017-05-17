@@ -18,14 +18,7 @@ public class SnakeAI extends Snake {
     public double memAngle = 0.0;
     public boolean mem = false;
     public boolean picksClosest;
-    
-//    public SnakeAI(Snake snake, boolean picksClosest){
-//        super();
-//        this.snake = snake;
-//        this.snakeSprite = null;
-//        this.picksClosest = picksClosest;
-//    }
-//    
+
     public SnakeAI(Sprite snakeSprite, boolean picksClosest){
         super();
         this.snake = null;
@@ -68,7 +61,6 @@ public class SnakeAI extends Snake {
         double x = apple.getPosX() - snakeSprite.getPosX();
         double y = apple.getPosY() - snakeSprite.getPosY();
         double newAngle = (Math.toDegrees(Math.atan2(y, x))+90.0);
-        
         return newAngle;
     }
 }
