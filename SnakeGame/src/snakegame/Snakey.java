@@ -115,7 +115,7 @@ public class Snakey extends Application {
             snakeHead = new Sprite();
             snakeHead.setImage(snakeHeads[colorCount]);
             
-            SnakeAI SAI = new SnakeAI(snakeHead, true);
+            SnakeAI SAI = new SnakeAI(snakeHead);
             
             // Set body color and "increment" color so next snake is of different color
             SAI.setBodyColor(snakeBodies[colorCount]);
@@ -343,10 +343,7 @@ public class Snakey extends Application {
                         else
                             ai = (SnakeAI) s;
                         if (ai.mem == false) {
-                            Sprite nextApple = apple;
-                            if (ai.picksClosest) {
-                                nextApple = ai.shortestApple(appleList);
-                            }
+                            Sprite nextApple = ai.shortestApple(appleList);
                             ai.memAngle = ai.calAngle(nextApple);
                             ai.mem = true;
                         }

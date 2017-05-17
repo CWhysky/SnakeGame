@@ -17,13 +17,11 @@ public class SnakeAI extends Snake {
     Sprite snakeSprite;
     public double memAngle = 0.0;
     public boolean mem = false;
-    public boolean picksClosest;
 
-    public SnakeAI(Sprite snakeSprite, boolean picksClosest){
+    public SnakeAI(Sprite snakeSprite){
         super();
         this.snake = null;
         this.snakeSprite = snakeSprite;
-        this.picksClosest = picksClosest;
     }
     
     public void setHead(Sprite head){
