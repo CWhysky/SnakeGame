@@ -36,7 +36,8 @@ public class Snakey extends Application {
     String[] snakeHeads =  {"head_yellow.png", "snake_head_red.png", "snake_head_green.png"};
     String[] snakeBodies = {"snake_body_yellow.png", "snake_body_red.png", "snake_body_green.png"};
     int colorCount = 0;
-    ArrayList<SnakeAI> SAIs = new ArrayList<SnakeAI>();
+    
+    // ArrayList<SnakeAI> SAIs = new ArrayList<SnakeAI>();
     
     
     
@@ -115,17 +116,18 @@ public class Snakey extends Application {
 
         
         for(int i=0; i<aiSnakeCount; i++) {
-            Snake ai = new Snake();
+            // Snake ai = new Snake();
             snakeHead = new Sprite();
             snakeHead.setImage(snakeHeads[colorCount]);
-            ai.setBodyColor(snakeBodies[colorCount]);
+            SnakeAI SAI = new SnakeAI(snakeHead, true);
+            SAI.setBodyColor(snakeBodies[colorCount]);
             colorCount = (colorCount + 1) % snakeHeads.length;
             snakeHead.setPosition(200, 200);
-            ai.setHead(snakeHead);
-            SnakeAI SAI = new SnakeAI(ai, true);
             SAI.setHead(snakeHead);
-            SAIs.add(SAI);
-            snakes.add(ai);
+           // SnakeAI SAI = new SnakeAI(snakeHead, true);
+           //  SAI.setHead(snakeHead);
+            // SAIs.add(SAI);
+            snakes.add(SAI);
         }
         
         //Set the initial velocity of the background.
@@ -263,7 +265,6 @@ public class Snakey extends Application {
                     }
                 }
 
-                // TODO: Add game-over 
                 // Detecting collisions with player snake
                 Iterator<Snake> snakesIter = snakes.iterator();
                 Snake player = snakesIter.next(); // Player is first snake in `snakes` list
@@ -271,10 +272,7 @@ public class Snakey extends Application {
                     Snake ai = snakesIter.next();
                     LinkedList<Sprite> aiBody = ai.getBody();
                     Iterator<Sprite> aiBodyIter = aiBody.iterator();
-                    
-                    LinkedList<Sprite> playerBody = player.getBody();
-                    Iterator<Sprite> playerBodyIter = playerBody.iterator();
-                    
+                   
                     // Player head collides with AI body
                     while(aiBodyIter.hasNext()) {
                         Sprite bodyPart = aiBodyIter.next();
@@ -313,7 +311,8 @@ public class Snakey extends Application {
                 Iterator<Sprite> appleIter = appleList.iterator();
                 while (appleIter.hasNext()) {
                     Sprite apple = appleIter.next();
-                    Iterator<SnakeAI> aiIter = SAIs.iterator();
+                    SnakeAI ai;
+                    // Iterator<SnakeAI> aiIter = SAIs.iterator();
                     for (Snake s : snakes) {
                         if (s == playerSnake) {
                             if (playerSnake.getHead().intersects(apple)) { 
@@ -325,7 +324,8 @@ public class Snakey extends Application {
                                     continue;
                             }
                         } else {
-                            SnakeAI ai = aiIter.next();
+                            // SnakeAI ai = aiIter.next();
+                            ai = (SnakeAI) s;
                             if(s.getHead().intersects(apple))
                             {
                                 apples1.SpanwAppleInSameQ(apple.getPosX(), apple.getPosY());
@@ -338,6 +338,7 @@ public class Snakey extends Application {
                         }
                     }
                     
+                    
                     for (Snake s : snakes) {
                         if (s.getGrowCount() >= nextGrow) {
                             Sprite bodySnake = new Sprite();
@@ -348,8 +349,12 @@ public class Snakey extends Application {
                             s.setGrowCount(0);
                         }
                     }
-
-                    for (SnakeAI ai : SAIs) {
+                    
+                    for (Snake s : snakes) {
+                        if (s == playerSnake)
+                            continue;
+                        else
+                            ai = (SnakeAI) s;
                         if (ai.mem == false) {
                             Sprite nextApple = apple;
                             if (ai.picksClosest) {
@@ -386,17 +391,18 @@ public class Snakey extends Application {
                 
                 
                 Iterator<Snake> snakeIter = snakes.iterator();
-                Snake p = snakeIter.next(); // Skip player snake
-                Iterator<SnakeAI> ais = SAIs.iterator();
+                Snake discardPlayerSnake = snakeIter.next(); // Skip player snake
+                // Iterator<SnakeAI> ais = SAIs.iterator();
                 
-                while(snakeIter.hasNext() && ais.hasNext()) {
+                // while(snakeIter.hasNext() && ais.hasNext()) {
+                while(snakeIter.hasNext()) {
                     Snake s = snakeIter.next();
-                    SnakeAI ai = ais.next();
+                    SnakeAI ai = (SnakeAI) s;
                     
-                    s.getHead().setAngle(ai.memAngle);
-                    s.getHead().setVelocity(Math.cos(Math.toRadians((ai.memAngle - 90.0))) * Speed / 2, Math.sin(Math.toRadians((ai.memAngle - 90.0))) * Speed / 2);
-                    s.getHead().setPosition(s.getHead().getPosX() + bg.getBGVelX() * elapsedTime, s.getHead().getPosY() + bg.getBGVelY() * elapsedTime);
-                    s.getHead().update(elapsedTime);
+                    ai.getHead().setAngle(ai.memAngle);
+                    ai.getHead().setVelocity(Math.cos(Math.toRadians((ai.memAngle - 90.0))) * Speed / 2, Math.sin(Math.toRadians((ai.memAngle - 90.0))) * Speed / 2);
+                    ai.getHead().setPosition(ai.getHead().getPosX() + bg.getBGVelX() * elapsedTime, ai.getHead().getPosY() + bg.getBGVelY() * elapsedTime);
+                    ai.getHead().update(elapsedTime);
                 }
 
                 // render whole board
@@ -420,10 +426,10 @@ public class Snakey extends Application {
                 }
                 
                 //Renders the head of the snake
-                playerSnake.getHead().render(gc);
+                // playerSnake.getHead().render(gc);
 
                 for (Snake s : snakes) {
-                    if (s == snakes.get(0)) {
+                    if (s == playerSnake) {
                         playerSnake.getHead().render(gc);
                     } else {
                         //Renders the AI snake
