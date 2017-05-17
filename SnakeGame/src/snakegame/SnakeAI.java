@@ -12,20 +12,15 @@ import java.util.Iterator;
  *
  * @author Darren ZL Zhen, Tim Beiko 
  */
-public class SnakeAI {
+public class SnakeAI extends Snake {
     Snake snake;
     Sprite snakeSprite;
     public double memAngle = 0.0;
     public boolean mem = false;
     public boolean picksClosest;
-    
-    public SnakeAI(Snake snake, boolean picksClosest){
-        this.snake = snake;
-        this.snakeSprite = null;
-        this.picksClosest = picksClosest;
-    }
-    
+
     public SnakeAI(Sprite snakeSprite, boolean picksClosest){
+        super();
         this.snake = null;
         this.snakeSprite = snakeSprite;
         this.picksClosest = picksClosest;
@@ -33,6 +28,7 @@ public class SnakeAI {
     
     public void setHead(Sprite head){
         this.snakeSprite = head;
+        super.setHead(head);
     }
     
     //calculate the shortest Distance apple with snake
@@ -65,7 +61,6 @@ public class SnakeAI {
         double x = apple.getPosX() - snakeSprite.getPosX();
         double y = apple.getPosY() - snakeSprite.getPosY();
         double newAngle = (Math.toDegrees(Math.atan2(y, x))+90.0);
-        
         return newAngle;
     }
 }
