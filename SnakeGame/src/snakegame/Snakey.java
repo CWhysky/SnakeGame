@@ -40,9 +40,9 @@ public class Snakey extends Application {
     public void start(Stage primaryStage) throws Exception {
         //Menu Scene: Complete
         //Menu Layout: Complete
-                Pane snakeMenu = (Pane) FXMLLoader.load(getClass().getResource("SnakeMenuLayout.fxml"));
-                primaryStage.setScene(new Scene(snakeMenu));
-                primaryStage.show(); 
+        Pane snakeMenu = (Pane) FXMLLoader.load(getClass().getResource("SnakeMenuLayout.fxml"));
+        primaryStage.setScene(new Scene(snakeMenu));
+        primaryStage.show(); 
     }
 
   
@@ -108,7 +108,7 @@ public class Snakey extends Application {
         playerSnake.setHead(snakeHead);
         snakes.add(playerSnake);
 
-        
+        //creating AI sankes
         for(int i=0; i<aiSnakeCount; i++) {
             // Create spriteobject and set color
             snakeHead = new Sprite();
@@ -129,10 +129,7 @@ public class Snakey extends Application {
         bg.setBGVelX(0);
         bg.setBGVelY(Speed);
         
-        Apple apples = new Apple();
-        Apple apples1 = new Apple();
-        Apple apples2 = new Apple();
-        Apple apples3 = new Apple();
+        Apple apples = new Apple(); //apple factory
         
         //Places the apples at the start of the game on the gameGrid
         ArrayList<Sprite> appleList = new ArrayList<Sprite>();
@@ -262,6 +259,7 @@ public class Snakey extends Application {
                 // Detecting collisions with player snake
                 Iterator<Snake> snakesIter = snakes.iterator();
                 Snake player = snakesIter.next(); // Player is first snake in `snakes` list
+                
                 while(snakesIter.hasNext()) {
                     Snake ai = snakesIter.next();
                     LinkedList<Sprite> aiBody = ai.getBody();
@@ -324,6 +322,19 @@ public class Snakey extends Application {
                     // This part could be refactored to work for both types of snakes
                     // The only thing that seems to be different is the ai.mem that gets set to false for AI
                     for (Snake s : snakes) {
+                        if(s.getHead().intersects(apple)){
+                            apples.SpanwAppleInSameQ(apple.getPosX(), apple.getPosY());
+                            apple.setPosition(apples.getXposition(), apples.getYpostion());
+                            s.setScore(s.getScore() + 1);
+                            s.setGrowCount(playerSnake.getGrowCount() + 1);
+                            if(s != playerSnake){
+                                ai = (SnakeAI) s;
+                                ai.mem = false;
+                            }
+                            continue;
+                        }
+                        
+                        /*
                         if (s == playerSnake) {
                             if (playerSnake.getHead().intersects(apple)) { 
                                     apples.SpanwAppleInSameQ(apple.getPosX(), apple.getPosY());
@@ -344,6 +355,7 @@ public class Snakey extends Application {
                                 continue;
                             }
                         }
+                        */
                     }
                    
                     for (Snake s : snakes) {

@@ -9,7 +9,8 @@ package snakegame;
  *
  * @author ascott
  */
-public class Apple extends Sprite 
+//this class is actually apple Factory
+public class Apple
 {
     private double x;
     private double y;
