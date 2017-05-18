@@ -40,9 +40,9 @@ public class Snakey extends Application {
     public void start(Stage primaryStage) throws Exception {
         //Menu Scene: Complete
         //Menu Layout: Complete
-                Pane snakeMenu = (Pane) FXMLLoader.load(getClass().getResource("SnakeMenuLayout.fxml"));
-                primaryStage.setScene(new Scene(snakeMenu));
-                primaryStage.show(); 
+        Pane snakeMenu = (Pane) FXMLLoader.load(getClass().getResource("SnakeMenuLayout.fxml"));
+        primaryStage.setScene(new Scene(snakeMenu));
+        primaryStage.show(); 
     }
 
   
@@ -108,7 +108,7 @@ public class Snakey extends Application {
         playerSnake.setHead(snakeHead);
         snakes.add(playerSnake);
 
-        
+        //creating AI sankes
         for(int i=0; i<aiSnakeCount; i++) {
             // Create spriteobject and set color
             snakeHead = new Sprite();
@@ -129,10 +129,7 @@ public class Snakey extends Application {
         bg.setBGVelX(0);
         bg.setBGVelY(Speed);
         
-        Apple apples = new Apple();
-        Apple apples1 = new Apple();
-        Apple apples2 = new Apple();
-        Apple apples3 = new Apple();
+        Apple apples = new Apple(); //apple factory
         
         //Places the apples at the start of the game on the gameGrid
         ArrayList<Sprite> appleList = new ArrayList<Sprite>();
@@ -262,6 +259,7 @@ public class Snakey extends Application {
                 // Detecting collisions with player snake
                 Iterator<Snake> snakesIter = snakes.iterator();
                 Snake player = snakesIter.next(); // Player is first snake in `snakes` list
+                
                 while(snakesIter.hasNext()) {
                     Snake ai = snakesIter.next();
                     LinkedList<Sprite> aiBody = ai.getBody();
@@ -321,28 +319,18 @@ public class Snakey extends Application {
                     Sprite apple = appleIter.next();
                     SnakeAI ai;
                     
-                    // This part could be refactored to work for both types of snakes
-                    // The only thing that seems to be different is the ai.mem that gets set to false for AI
+                    //snakes interaction with apple
                     for (Snake s : snakes) {
-                        if (s == playerSnake) {
-                            if (playerSnake.getHead().intersects(apple)) { 
-                                    apples.SpanwAppleInSameQ(apple.getPosX(), apple.getPosY());
-                                    apple.setPosition(apples.getXposition(), apples.getYpostion());
-                                    s.setScore(s.getScore() + 1);
-                                    playerSnake.setGrowCount(playerSnake.getGrowCount() + 1);
-                                    continue;
-                            }
-                        } else {
-                            ai = (SnakeAI) s;
-                            if(ai.getHead().intersects(apple))
-                            {
-                                apples1.SpanwAppleInSameQ(apple.getPosX(), apple.getPosY());
-                                apple.setPosition(apples.getXposition(), apples.getYpostion());
-                                ai.setGrowCount(ai.getGrowCount() + 1);
-                                ai.setScore(ai.getScore() + 1);
+                        if(s.getHead().intersects(apple)){
+                            apples.SpanwAppleInSameQ(apple.getPosX(), apple.getPosY());
+                            apple.setPosition(apples.getXposition(), apples.getYpostion());
+                            s.setScore(s.getScore() + 1);
+                            s.setGrowCount(playerSnake.getGrowCount() + 1);
+                            if(s != playerSnake){
+                                ai = (SnakeAI) s;
                                 ai.mem = false;
-                                continue;
                             }
+                            continue;
                         }
                     }
                    
@@ -432,7 +420,7 @@ public class Snakey extends Application {
                     wall.render(gc);
                 }
 
-                // String pointsText = "Score: " + (100 * score.value) + " , angle: " + (SAI.memAngle - 90.0);
+                //String pointsText = "Score: " + (100 * player.getScore()) + " , body: " + (playerSnake.getBody().size());
                 String pointsText = "Score: " + (100 * player.getScore());
                 gc.fillText(pointsText, 360, 24);
                 gc.strokeText(pointsText, 360, 24);
@@ -451,6 +439,8 @@ public class Snakey extends Application {
         launch(args);
     }
 }
+
+
 /**
  * Turns a long into a class with a public data field
  * @author kamuela94
@@ -477,80 +467,4 @@ class IntValue {
     }
 }
 
-/**
- * Holds the information for the background velocities and positions
- * @author kamuela94
- */
-class Background {
 
-    // Background Position, Accessors, and Setters
-    public double bgX = 0.0;
-    public double bgY = 0.0;
-    // Background Velocites, Accessors and Setters
-    double bgVelX = 0.0;
-    double bgVelY = 0.0;
-    
-    /**
-    * 
-    * @return The x value of the background velocity
-    */
-    double getBGVelX() {
-        return bgVelX;
-    }
-
-    /**
-     * 
-     * @return The y value of the background velocity
-     */
-    double getBGVelY() {
-        return bgVelY;
-    }
-
-    /**
-     * Sets the x value of the background velocity
-     * @param num the double to be set to background velocity X
-     */
-    void setBGVelX(double num) {
-        bgVelX = num;
-    }
-
-    /**
-     * Sets the y value of the background velocity
-     * @param num the double to be set to background velocity Y
-     */
-    void setBGVelY(double num) {
-        bgVelY = num;
-    }
-
-    /**
-     * 
-     * @return the position of the background on the x plane
-     */
-    double getBGX() {
-        return bgX;
-    }
-
-    /**
-     * 
-     * @return the position of the background on the y plane
-     */
-    double getBGY() {
-        return bgY;
-    }
-    
-    /**
-     * sets the position of the background to value num on the x plane
-     * @param num 
-     */
-    void setBGX(double num) {
-        bgX = num;
-    }
-
-    /**
-     * sets the position of the background to value num on the y plane
-     * @param num 
-     */
-    void setBGY(double num) {
-        bgY = num;
-    }
-}
