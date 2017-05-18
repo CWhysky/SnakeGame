@@ -9,7 +9,9 @@ package snakegame;
  *
  * @author ascott
  */
-//this class is actually apple Factory
+/**
+ * this class is actually apple Factory class
+ */
 public class Apple
 {
     private double x;
@@ -25,7 +27,10 @@ public class Apple
         GameGridWidth = 8192;
     
     }
-    
+    /**
+     * generate an apple sprite with position 
+     * @return apple sprite
+     */
     public Sprite GenerateApples()
     { 
        
@@ -39,6 +44,12 @@ public class Apple
         return apple;
     }
     
+    /**
+     * spawn an apple in an area
+     * @param Xquadrant x position of the eaten apple
+     * @param Yquadrant y position of the eaten apple
+     * @return apple sprite
+     */
     public Sprite SpanwAppleInSameQ(double Xquadrant, double Yquadrant)
     {
       x = Xquadrant;
@@ -73,11 +84,19 @@ public class Apple
       return SpawnApple;
     }
     
+    /**
+     * get the x position of spawn apple
+     * @return spawned apple's x position
+     */
     public double getXposition()
     {
         return this.SpawnApple.getPosX();
     }
     
+    /**
+     * get the y position of spawn apple
+     * @return spawned apple's y position
+     */
     public double getYpostion()
     {
         return this.SpawnApple.getPosY();

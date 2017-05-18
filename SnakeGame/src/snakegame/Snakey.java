@@ -27,6 +27,7 @@ import javafx.scene.transform.Rotate;
 import javafx.scene.transform.Scale;
 import javafx.scene.transform.Translate;
 
+// the main application class of snake game
 public class Snakey extends Application {
 
     int nextGrow = 1;
@@ -36,7 +37,7 @@ public class Snakey extends Application {
     String[] snakeBodies = {"snake_body_yellow.png", "snake_body_red.png", "snake_body_green.png"};
     int colorCount = 0;
     
-    @Override
+    @Override   //the function to start the stage when main function called launch(args) funtion
     public void start(Stage primaryStage) throws Exception {
         //Menu Scene: Complete
         //Menu Layout: Complete
@@ -45,7 +46,11 @@ public class Snakey extends Application {
         primaryStage.show(); 
     }
 
-  
+    /**
+     * the game loop function for snake game
+     * @param primaryStage javaFX stage 
+     * @throws IOException 
+     */
     public void beginGame(Stage primaryStage) throws IOException {
 
         //Handles the speed and position of the window in relation to the game grid

@@ -23,6 +23,7 @@ import javafx.scene.paint.Color;
  *
  * @author ascott
  */
+//snake class, define the properties of snake
 public class Snake {
     private LinkedList<Sprite> snake;
     private int growCount;
@@ -59,18 +60,34 @@ public class Snake {
         snake.add(s);
     }
     
+    /**
+     *
+     * @return body of snake
+     */
     public LinkedList<Sprite> getBody() {
         return snake;
     }
     
+    /**
+     * set the body color of the snake from url string
+     * @param bc url string of bodycolor image
+     */
     public void setBodyColor(String bc) {
         bodyColor = bc;
     }
     
+    
+    /**
+     * 
+     * @return the bodycolor url string
+     */
     public String getBodyColor() {
         return bodyColor;
     }
     
+    /**
+     * remove/drop tail when snake have a collision
+     */
     public void dropTail() {
         Sprite h = snake.getFirst();
         snake = new LinkedList();
@@ -85,10 +102,18 @@ public class Snake {
         return snake.size();
     }
     
+    /**
+     * get the grow number of the snake which the snake should grow
+     * @return grow number count
+     */
     public int getGrowCount() {
         return growCount;
     }
     
+   /**
+    * set the grow number of the sanke which the snake should grow 
+    * @param gc int of grow number count
+    */
     public void setGrowCount(int gc) {
         growCount = gc;
     }
@@ -110,10 +135,18 @@ public class Snake {
         return snake.getLast();
     }   
     
+    /**
+     * set the score of the snake
+     * @param s the score
+     */
     public void setScore(int s) {
         score = s;
     }
     
+    /**
+     * get the score of the snake
+     * @return the score of the snake
+     */
     public int getScore() {
         return score;
     }

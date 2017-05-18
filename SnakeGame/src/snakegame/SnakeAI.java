@@ -12,6 +12,8 @@ import java.util.Iterator;
  *
  * @author Darren ZL Zhen, Tim Beiko 
  */
+
+//the AI snake class, contain the properties of AI snake
 public class SnakeAI extends Snake {
     Sprite snakeSprite;
     public double memAngle = 0.0;
@@ -22,7 +24,11 @@ public class SnakeAI extends Snake {
         this.snakeSprite = snakeSprite;
     }
     
-    //calculate the shortest Distance apple with snake
+    /**
+     * calculate the shortest Distance apple with snake
+     * @param appleList list of apples
+     * @return the closest apple of the snake
+     */
     public Sprite closestApple(ArrayList<Sprite> appleList){
         double minDist = 999999999;
         Sprite closestApple  = null;
@@ -47,7 +53,11 @@ public class SnakeAI extends Snake {
         return closestApple;
     }
     
-    //calculate the angle between the snake and apple
+    /**
+     * calculate the angle between the snake and apple
+     * @param apple the target apple
+     * @return the angle from the snake to the target apple
+     */
     public double calAngle(Sprite apple){
         double x = apple.getPosX() - snakeSprite.getPosX();
         double y = apple.getPosY() - snakeSprite.getPosY();

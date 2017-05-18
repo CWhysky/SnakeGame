@@ -22,6 +22,7 @@ import javafx.scene.transform.Rotate;
  * @author ascott
  * 
  */
+//sprite class for game object
 public class Sprite {
     private Image image;
     private double positionX;

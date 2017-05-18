@@ -8,6 +8,7 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 
+//controller class for the option menu
 public class OptionsMenuController {
 
     @FXML
@@ -25,23 +26,23 @@ public class OptionsMenuController {
    @FXML
     private Pane optionsPane;
 
-    @FXML
+    @FXML   //back to main menu when click on back button on option menu
     void onOptionsBackButtonClick(ActionEvent event) throws IOException {
          Pane optionPane = (Pane) FXMLLoader.load(getClass().getResource("SnakeMenuLayout.fxml"));
          optionsPane.getChildren().setAll(optionPane);
     }
 
-    @FXML
+    @FXML   //check mark button for AI snake on option menu
     void onAiSnakesChecked(ActionEvent event) {
            
     }
 
-    @FXML
+    @FXML   //number of player type in text field on option menu
     void onNumberOfPlayerstyped(ActionEvent event) {
         
     }
     
-        @FXML
+        @FXML   //network host name type in text field on option menu
     void onNetworkHostnametyped(ActionEvent event) {
 
     }
