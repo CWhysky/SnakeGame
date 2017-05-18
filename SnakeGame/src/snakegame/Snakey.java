@@ -319,8 +319,7 @@ public class Snakey extends Application {
                     Sprite apple = appleIter.next();
                     SnakeAI ai;
                     
-                    // This part could be refactored to work for both types of snakes
-                    // The only thing that seems to be different is the ai.mem that gets set to false for AI
+                    //snakes interaction with apple
                     for (Snake s : snakes) {
                         if(s.getHead().intersects(apple)){
                             apples.SpanwAppleInSameQ(apple.getPosX(), apple.getPosY());
@@ -333,29 +332,6 @@ public class Snakey extends Application {
                             }
                             continue;
                         }
-                        
-                        /*
-                        if (s == playerSnake) {
-                            if (playerSnake.getHead().intersects(apple)) { 
-                                    apples.SpanwAppleInSameQ(apple.getPosX(), apple.getPosY());
-                                    apple.setPosition(apples.getXposition(), apples.getYpostion());
-                                    s.setScore(s.getScore() + 1);
-                                    playerSnake.setGrowCount(playerSnake.getGrowCount() + 1);
-                                    continue;
-                            }
-                        } else {
-                            ai = (SnakeAI) s;
-                            if(ai.getHead().intersects(apple))
-                            {
-                                apples1.SpanwAppleInSameQ(apple.getPosX(), apple.getPosY());
-                                apple.setPosition(apples.getXposition(), apples.getYpostion());
-                                ai.setGrowCount(ai.getGrowCount() + 1);
-                                ai.setScore(ai.getScore() + 1);
-                                ai.mem = false;
-                                continue;
-                            }
-                        }
-                        */
                     }
                    
                     for (Snake s : snakes) {
@@ -444,7 +420,7 @@ public class Snakey extends Application {
                     wall.render(gc);
                 }
 
-                // String pointsText = "Score: " + (100 * score.value) + " , angle: " + (SAI.memAngle - 90.0);
+                //String pointsText = "Score: " + (100 * player.getScore()) + " , body: " + (playerSnake.getBody().size());
                 String pointsText = "Score: " + (100 * player.getScore());
                 gc.fillText(pointsText, 360, 24);
                 gc.strokeText(pointsText, 360, 24);
