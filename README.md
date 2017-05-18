@@ -1,13 +1,5 @@
 # SnakeGame
 This is the repository for SnakeGame. This is a project for SFSU CSC 668 - Advanced Object Oriented Programming and Design Group 1.
-The Group members are:
-1. Andrew Scott (Team Lead)
-2. Joseph Costa
-3. Tim Beiko
-4. Martha Lety Gomez
-5. Anthony Ma
-6. Manuel Duran
-7. Zi Zhen
 
 The SnakeGame is a program that allows a user to play a competitive snake game against Computer opponents in which you compete for apples to add to your score.
 
