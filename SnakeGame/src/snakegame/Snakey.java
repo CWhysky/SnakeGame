@@ -27,29 +27,46 @@ import javafx.scene.transform.Rotate;
 import javafx.scene.transform.Scale;
 import javafx.scene.transform.Translate;
 
-// the main application class of snake game
+/**
+ * Snakey.java is the main interface into the program. It is responsible for
+ * drawing the JavaFX root window and scene, keeping track of any global game
+ * state such as gamegrid dimensions, and running the AnimationLoop() display
+ * timer. It also captures and handles user events.
+ *
+ * @author ascott
+ */
 public class Snakey extends Application {
 
     int nextGrow = 1;
     ArrayList<Snake> snakes = new ArrayList<Snake>();
     int aiSnakeCount = 10; // Need to fetch this from menu
-    String[] snakeHeads =  {"head_yellow.png", "snake_head_red.png", "snake_head_green.png"};
+    String[] snakeHeads = {"head_yellow.png", "snake_head_red.png", "snake_head_green.png"};
     String[] snakeBodies = {"snake_body_yellow.png", "snake_body_red.png", "snake_body_green.png"};
     int colorCount = 0;
-    
-    @Override   //the function to start the stage when main function called launch(args) funtion
+
+    /**
+     * start - Called when launch(args) is called from main(). Sets the primary
+     * stage object for use within the program.
+     *
+     * @param primaryStage
+     * @throws Exception
+     */
+    @Override
     public void start(Stage primaryStage) throws Exception {
         //Menu Scene: Complete
         //Menu Layout: Complete
         Pane snakeMenu = (Pane) FXMLLoader.load(getClass().getResource("SnakeMenuLayout.fxml"));
         primaryStage.setScene(new Scene(snakeMenu));
-        primaryStage.show(); 
+        primaryStage.show();
     }
 
     /**
-     * the game loop function for snake game
-     * @param primaryStage javaFX stage 
-     * @throws IOException 
+     * begingGame -- Entry-point into the game program. Called from main(). Sets
+     * up all the global state and objects, then runs the AnimationTimer() which
+     * is the game loop in the program.
+     *
+     * @param primaryStage javaFX stage
+     * @throws IOException
      */
     public void beginGame(Stage primaryStage) throws IOException {
 
@@ -59,7 +76,7 @@ public class Snakey extends Application {
         Group root = new Group();
         //The speed of the player Character Snake
         int Speed = 500;
-        
+
         int WindowWidth = 640;
         int WindowHeight = 640;
         int GameGridWidth = 8192;
@@ -87,7 +104,7 @@ public class Snakey extends Application {
         //it takes the information from the mouse and stores it into the ArrayList mouseInput
         //with the information from x first.
         theScene.setOnMouseMoved(
-            new EventHandler<MouseEvent>() {
+                new EventHandler<MouseEvent>() {
             public void handle(MouseEvent e) {
                 Double x = e.getX();
                 Double y = e.getY();
@@ -114,57 +131,56 @@ public class Snakey extends Application {
         snakes.add(playerSnake);
 
         //creating AI sankes
-        for(int i=0; i<aiSnakeCount; i++) {
+        for (int i = 0; i < aiSnakeCount; i++) {
             // Create spriteobject and set color
             snakeHead = new Sprite();
             snakeHead.setImage(snakeHeads[colorCount]);
-            
+
             SnakeAI SAI = new SnakeAI(snakeHead);
-            
+
             // Set body color and "increment" color so next snake is of different color
             SAI.setBodyColor(snakeBodies[colorCount]);
             colorCount = (colorCount + 1) % snakeHeads.length;
-            
+
             snakeHead.setPosition(200, 200);
             SAI.setHead(snakeHead);
             snakes.add(SAI);
         }
-        
+
         //Set the initial velocity of the background.
         bg.setBGVelX(0);
         bg.setBGVelY(Speed);
-        
+
         Apple apples = new Apple(); //apple factory
-        
+
         //Places the apples at the start of the game on the gameGrid
         ArrayList<Sprite> appleList = new ArrayList<Sprite>();
-        for (int i = 0; i < 50; i++) 
-        {
+        for (int i = 0; i < 50; i++) {
             Sprite apple = new Sprite();
             apple.setImage("apple.png");
-            double px = -GameGridWidth/2 * Math.random() + 50;
-            double py = GameGridWidth/2 * Math.random() + 50;
+            double px = -GameGridWidth / 2 * Math.random() + 50;
+            double py = GameGridWidth / 2 * Math.random() + 50;
             apple.setPosition(px, py);
             appleList.add(apple);
 
             apple = new Sprite();
             apple.setImage("apple.png");
-            px = GameGridWidth/2 * Math.random() + 50;
-            py = -GameGridWidth/2 * Math.random() + 50;
+            px = GameGridWidth / 2 * Math.random() + 50;
+            py = -GameGridWidth / 2 * Math.random() + 50;
             apple.setPosition(px, py);
             appleList.add(apple);
 
             apple = new Sprite();
             apple.setImage("apple.png");
-            px = -GameGridWidth/2 * Math.random() + 50;
-            py = -GameGridWidth/2 * Math.random() + 50;
+            px = -GameGridWidth / 2 * Math.random() + 50;
+            py = -GameGridWidth / 2 * Math.random() + 50;
             apple.setPosition(px, py);
             appleList.add(apple);
 
             apple = new Sprite();
             apple.setImage("apple.png");
-            px = GameGridWidth/2 * Math.random() + 50;
-            py = GameGridWidth/2 * Math.random() + 50;
+            px = GameGridWidth / 2 * Math.random() + 50;
+            py = GameGridWidth / 2 * Math.random() + 50;
             apple.setPosition(px, py);
             appleList.add(apple);
         }
@@ -197,7 +213,7 @@ public class Snakey extends Application {
 
         //The time of the last update
         LongValue lastNanoTime = new LongValue(System.nanoTime());
-        
+
         new AnimationTimer() {
             @Override
             public void handle(long currentNanoTime) {
@@ -232,7 +248,7 @@ public class Snakey extends Application {
                         if (newAngle % 90 != 0.0) {
                             // adjust velocities based on angle
                             double acute = ((playerSnake.getHead().getAngle() + 90.0) % 90);
-                            
+
                             double xSpeed = Speed * acute / 90.0;
                             double ySpeed = Speed - xSpeed;
 
@@ -264,41 +280,42 @@ public class Snakey extends Application {
                 // Detecting collisions with player snake
                 Iterator<Snake> snakesIter = snakes.iterator();
                 Snake player = snakesIter.next(); // Player is first snake in `snakes` list
-                
-                while(snakesIter.hasNext()) {
+
+                while (snakesIter.hasNext()) {
                     Snake ai = snakesIter.next();
                     LinkedList<Sprite> aiBody = ai.getBody();
                     Iterator<Sprite> aiBodyIter = aiBody.iterator();
-                   
+
                     // Player head collides with AI body
-                    while(aiBodyIter.hasNext()) {
+                    while (aiBodyIter.hasNext()) {
                         Sprite bodyPart = aiBodyIter.next();
-                        if (player.getHead().intersects(bodyPart)){
+                        if (player.getHead().intersects(bodyPart)) {
                             player.setScore(0);
                             bg.setBGVelX(0);
                             bg.setBGVelY(0);
                             primaryStage.setScene(randomScene);
                         }
                     }
-                    
+
                     // AI head collides with other snake body
                     for (Snake s : snakes) {
-                        if (s == ai)
+                        if (s == ai) {
                             continue;
-                        
+                        }
+
                         LinkedList<Sprite> snakeBody = s.getBody();
                         Iterator<Sprite> snakeBodyIter = snakeBody.iterator();
-                        
-                        while(snakeBodyIter.hasNext()) {
+
+                        while (snakeBodyIter.hasNext()) {
                             Sprite bodyPart = snakeBodyIter.next();
-                            if (ai.getHead().intersects(bodyPart)){
+                            if (ai.getHead().intersects(bodyPart)) {
                                 // AI player dies and respawns
-                                ai.getHead().setPosition(GameGridWidth/2 * Math.random() + 50, GameGridHeight/2 * Math.random() + 50);
-                            }    
+                                ai.getHead().setPosition(GameGridWidth / 2 * Math.random() + 50, GameGridHeight / 2 * Math.random() + 50);
+                            }
                         }
                     }
-                }   
-                
+                }
+
                 //Checks to see if a snake has hit a wall.
                 Iterator<Sprite> wallIter = wallList.iterator();
                 while (wallIter.hasNext()) {
@@ -310,35 +327,36 @@ public class Snakey extends Application {
                         primaryStage.setScene(randomScene);
                     }
                     for (Snake snake : snakes) {
-                        if (snake == playerSnake)
+                        if (snake == playerSnake) {
                             continue;
-                        if (snake.getHead().intersects(wall)){
-                            snake.getHead().setPosition(GameGridWidth/2 * Math.random() + 50, GameGridHeight/2 * Math.random() + 50);
+                        }
+                        if (snake.getHead().intersects(wall)) {
+                            snake.getHead().setPosition(GameGridWidth / 2 * Math.random() + 50, GameGridHeight / 2 * Math.random() + 50);
                             snake.dropTail();
                         }
                     }
                 }
-                
+
                 Iterator<Sprite> appleIter = appleList.iterator();
                 while (appleIter.hasNext()) {
                     Sprite apple = appleIter.next();
                     SnakeAI ai;
-                    
+
                     //snakes interaction with apple
                     for (Snake s : snakes) {
-                        if(s.getHead().intersects(apple)){
+                        if (s.getHead().intersects(apple)) {
                             apples.SpanwAppleInSameQ(apple.getPosX(), apple.getPosY());
                             apple.setPosition(apples.getXposition(), apples.getYpostion());
                             s.setScore(s.getScore() + 1);
                             s.setGrowCount(playerSnake.getGrowCount() + 1);
-                            if(s != playerSnake){
+                            if (s != playerSnake) {
                                 ai = (SnakeAI) s;
                                 ai.mem = false;
                             }
                             continue;
                         }
                     }
-                   
+
                     for (Snake s : snakes) {
                         if (s.getGrowCount() >= nextGrow) {
                             Sprite bodySnake = new Sprite();
@@ -349,12 +367,13 @@ public class Snakey extends Application {
                             s.setGrowCount(0);
                         }
                     }
-                    
+
                     for (Snake s : snakes) {
-                        if (s == playerSnake)
+                        if (s == playerSnake) {
                             continue;
-                        else
+                        } else {
                             ai = (SnakeAI) s;
+                        }
                         if (ai.mem == false) {
                             Sprite nextApple = ai.closestApple(appleList);
                             ai.memAngle = ai.calAngle(nextApple);
@@ -362,14 +381,14 @@ public class Snakey extends Application {
                         }
                     }
                 }
-                
+
                 Iterator<Snake> snakeIter = snakes.iterator();
                 Snake discardPlayerSnake = snakeIter.next(); // Skip player snake
 
-                while(snakeIter.hasNext()) {
+                while (snakeIter.hasNext()) {
                     Snake s = snakeIter.next();
                     SnakeAI ai = (SnakeAI) s;
-                    
+
                     ai.getHead().setAngle(ai.memAngle);
                     ai.getHead().setVelocity(Math.cos(Math.toRadians((ai.memAngle - 90.0))) * Speed / 2, Math.sin(Math.toRadians((ai.memAngle - 90.0))) * Speed / 2);
                     ai.getHead().setPosition(ai.getHead().getPosX() + bg.getBGVelX() * elapsedTime, ai.getHead().getPosY() + bg.getBGVelY() * elapsedTime);
@@ -391,11 +410,11 @@ public class Snakey extends Application {
                 //Then renders the snake
                 for (int i = playerSnake.getSize() - 1; i > 0; i--) {
                     playerSnake.getSegment(i).setPosition(playerSnake.getSegment(i - 1).getPosX() + (bg.bgVelX * elapsedTime),
-                    playerSnake.getSegment(i - 1).getPosY() + (bg.bgVelY * elapsedTime));
+                            playerSnake.getSegment(i - 1).getPosY() + (bg.bgVelY * elapsedTime));
                     playerSnake.getSegment(i).setAngle(playerSnake.getSegment(i - 1).getAngle());
                     playerSnake.getSegment(i).render(gc);
                 }
-                
+
                 for (Snake s : snakes) {
                     if (s == playerSnake) {
                         playerSnake.getHead().render(gc);
@@ -403,8 +422,8 @@ public class Snakey extends Application {
                         //Renders the AI snake
                         for (int i = s.getSize() - 1; i > 0; i--) {
                             s.getSegment(i).setPosition(
-                                s.getSegment(i - 1).getPosX() + (bg.bgVelX * elapsedTime),
-                                s.getSegment(i - 1).getPosY() + (bg.bgVelY * elapsedTime));
+                                    s.getSegment(i - 1).getPosX() + (bg.bgVelX * elapsedTime),
+                                    s.getSegment(i - 1).getPosY() + (bg.bgVelY * elapsedTime));
                             s.getSegment(i).setAngle(s.getSegment(i - 1).getAngle());
                             s.getSegment(i).render(gc);
                         }
@@ -436,8 +455,10 @@ public class Snakey extends Application {
         primaryStage.show();
     }
 
-  
     /**
+     * main - Main() method in the Java program. Called with program starts.
+     * Immediately runs launch() method.
+     *
      * @param args the command line arguments
      */
     public static void main(String[] args) {
@@ -445,9 +466,9 @@ public class Snakey extends Application {
     }
 }
 
-
 /**
- * Turns a long into a class with a public data field
+ * LongValue - Turns a long into a class with a public data field
+ *
  * @author kamuela94
  */
 class LongValue {
@@ -460,7 +481,8 @@ class LongValue {
 }
 
 /**
- * Turns an int into a class with a public data field
+ * IntValue - Turns an int into a class with a public data field
+ *
  * @author kamuela94
  */
 class IntValue {
@@ -471,5 +493,3 @@ class IntValue {
         value = i;
     }
 }
-
-

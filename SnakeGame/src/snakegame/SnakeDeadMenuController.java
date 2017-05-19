@@ -8,7 +8,11 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 
-//controller class for the snake dead menu
+/**
+ * SnakeDeadMenuController -- Controller class for the Game Over menu
+ *
+ * @author anthonyma
+ */
 public class SnakeDeadMenuController {
 
     @FXML
@@ -16,15 +20,19 @@ public class SnakeDeadMenuController {
 
     @FXML
     private AnchorPane anchorsAway;
-    
+
+    /**
+     * onMainMenuClick - Sends the user back to the Main Menu.
+     *
+     * @param event
+     * @throws IOException
+     */
     @FXML   //return to main menu whene click on main menu button of snake dead menu
     void onMainMenuClick(ActionEvent event) throws IOException {
-         System.out.println("Dead");
-         Pane optionPane = (Pane) FXMLLoader.load(getClass().getResource("SnakeMenuLayout.fxml"));
-         anchorsAway.getChildren().setAll(optionPane);
+        System.out.println("Dead");
+        Pane optionPane = (Pane) FXMLLoader.load(getClass().getResource("SnakeMenuLayout.fxml"));
+        anchorsAway.getChildren().setAll(optionPane);
 
     }
 
 }
-
-
