@@ -1,0 +1,299 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<ClassDiagram name="SnakeGame">
+  <ClassDiagramComponents>
+    <Class name="Snake" package="snakegame" visibility="public" xPosition="604.0" yPosition="570.0">
+      <Fields>
+        <Field name="snake" type="LinkedList&lt;Sprite&gt;" visibility="private"/>
+        <Field name="growCount" type="int" visibility="private"/>
+        <Field name="bodyColor" type="String" visibility="private"/>
+        <Field name="score" type="int" visibility="private"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public"/>
+      </Constructors>
+      <Methods>
+        <Method name="setHead" returnType="void" visibility="public">
+          <Argument type="Sprite" name="s"/>
+        </Method>
+        <Method name="getHead" returnType="Sprite" visibility="public"/>
+        <Method name="addBody" returnType="void" visibility="public">
+          <Argument type="Sprite" name="s"/>
+        </Method>
+        <Method name="getBody" returnType="LinkedList&lt;Sprite&gt;" visibility="public"/>
+        <Method name="setBodyColor" returnType="void" visibility="public">
+          <Argument type="String" name="bc"/>
+        </Method>
+        <Method name="getBodyColor" returnType="String" visibility="public"/>
+        <Method name="dropTail" returnType="void" visibility="public"/>
+        <Method name="getSize" returnType="int" visibility="public"/>
+        <Method name="getGrowCount" returnType="int" visibility="public"/>
+        <Method name="setGrowCount" returnType="void" visibility="public">
+          <Argument type="int" name="gc"/>
+        </Method>
+        <Method name="getSegment" returnType="Sprite" visibility="public">
+          <Argument type="int" name="i"/>
+        </Method>
+        <Method name="getLast" returnType="Sprite" visibility="public"/>
+        <Method name="setScore" returnType="void" visibility="public">
+          <Argument type="int" name="s"/>
+        </Method>
+        <Method name="getScore" returnType="int" visibility="public"/>
+      </Methods>
+    </Class>
+    <Class name="SnakeAI" package="snakegame" visibility="public" xPosition="143.0" yPosition="1003.0">
+      <Fields>
+        <Field name="snakeSprite" type="Sprite" visibility="package"/>
+        <Field name="memAngle" type="double" visibility="public"/>
+        <Field name="mem" type="boolean" visibility="public"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public">
+          <Argument type="Sprite" name="snakeSprite"/>
+        </Constructor>
+      </Constructors>
+      <Methods>
+        <Method name="closestApple" returnType="Sprite" visibility="public">
+          <Argument type="ArrayList&lt;Sprite&gt;" name="appleList"/>
+        </Method>
+        <Method name="calAngle" returnType="double" visibility="public">
+          <Argument type="Sprite" name="apple"/>
+        </Method>
+      </Methods>
+    </Class>
+    <Class name="Background" package="snakegame" visibility="public" xPosition="887.0" yPosition="584.0">
+      <Fields>
+        <Field name="bgX" type="double" visibility="public"/>
+        <Field name="bgY" type="double" visibility="public"/>
+        <Field name="bgVelX" type="double" visibility="package"/>
+        <Field name="bgVelY" type="double" visibility="package"/>
+      </Fields>
+      <Constructors/>
+      <Methods>
+        <Method name="getBGVelX" returnType="double" visibility="public"/>
+        <Method name="getBGVelY" returnType="double" visibility="public"/>
+        <Method name="setBGVelX" returnType="void" visibility="public">
+          <Argument type="double" name="num"/>
+        </Method>
+        <Method name="setBGVelY" returnType="void" visibility="public">
+          <Argument type="double" name="num"/>
+        </Method>
+        <Method name="getBGX" returnType="double" visibility="public"/>
+        <Method name="getBGY" returnType="double" visibility="public"/>
+        <Method name="setBGX" returnType="void" visibility="public">
+          <Argument type="double" name="num"/>
+        </Method>
+        <Method name="setBGY" returnType="void" visibility="public">
+          <Argument type="double" name="num"/>
+        </Method>
+      </Methods>
+    </Class>
+    <Class name="SnakeDeadMenuController" package="snakegame" visibility="public" xPosition="887.0" yPosition="1748.0">
+      <Fields>
+        <Field name="mainMenu" type="Button" visibility="private"/>
+        <Field name="anchorsAway" type="AnchorPane" visibility="private"/>
+      </Fields>
+      <Constructors/>
+      <Methods>
+        <Method name="onMainMenuClick" returnType="void" visibility="package">
+          <Argument type="ActionEvent" name="event"/>
+        </Method>
+      </Methods>
+    </Class>
+    <Class name="OptionsMenuController" package="snakegame" visibility="public" xPosition="478.0" yPosition="1697.0">
+      <Fields>
+        <Field name="numberOfPlayers" type="TextField" visibility="private"/>
+        <Field name="aiSnakesCheckbox" type="CheckBox" visibility="private"/>
+        <Field name="networkHostname" type="TextField" visibility="private"/>
+        <Field name="optionsBackButton" type="Button" visibility="private"/>
+        <Field name="optionsPane" type="Pane" visibility="private"/>
+      </Fields>
+      <Constructors/>
+      <Methods>
+        <Method name="onOptionsBackButtonClick" returnType="void" visibility="package">
+          <Argument type="ActionEvent" name="event"/>
+        </Method>
+        <Method name="onAiSnakesChecked" returnType="void" visibility="package">
+          <Argument type="ActionEvent" name="event"/>
+        </Method>
+        <Method name="onNumberOfPlayerstyped" returnType="void" visibility="package">
+          <Argument type="ActionEvent" name="event"/>
+        </Method>
+        <Method name="onNetworkHostnametyped" returnType="void" visibility="package">
+          <Argument type="ActionEvent" name="event"/>
+        </Method>
+      </Methods>
+    </Class>
+    <Class name="Snakey" package="snakegame" visibility="public" xPosition="176.0" yPosition="584.0">
+      <Fields>
+        <Field name="nextGrow" type="int" visibility="package"/>
+        <Field name="snakes" type="ArrayList&lt;Snake&gt;" visibility="package"/>
+        <Field name="aiSnakeCount" type="int" visibility="package"/>
+        <Field name="snakeHeads" type="String[]" visibility="package"/>
+        <Field name="snakeBodies" type="String[]" visibility="package"/>
+        <Field name="colorCount" type="int" visibility="package"/>
+      </Fields>
+      <Constructors/>
+      <Methods>
+        <Method name="start" returnType="void" visibility="public">
+          <Argument type="Stage" name="primaryStage"/>
+        </Method>
+        <Method name="beginGame" returnType="void" visibility="public">
+          <Argument type="Stage" name="primaryStage"/>
+        </Method>
+        <Method name="main" returnType="void" visibility="public" isStatic="true">
+          <Argument type="String[]" name="args"/>
+        </Method>
+      </Methods>
+    </Class>
+    <Class name="LongValue" package="snakegame" visibility="public" xPosition="126.0" yPosition="1229.0">
+      <Fields>
+        <Field name="value" type="long" visibility="public"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public">
+          <Argument type="long" name="i"/>
+        </Constructor>
+      </Constructors>
+      <Methods/>
+    </Class>
+    <Class name="IntValue" package="snakegame" visibility="public" xPosition="320.0" yPosition="1229.0">
+      <Fields>
+        <Field name="value" type="int" visibility="public"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public">
+          <Argument type="int" name="i"/>
+        </Constructor>
+      </Constructors>
+      <Methods/>
+    </Class>
+    <Class name="MenuController" package="snakegame" visibility="public" xPosition="126.0" yPosition="1714.0">
+      <Fields>
+        <Field name="exitButton" type="Button" visibility="private"/>
+        <Field name="playGameButton" type="Button" visibility="private"/>
+        <Field name="optionsButton" type="Button" visibility="private"/>
+        <Field name="snakeMenu" type="Pane" visibility="private"/>
+      </Fields>
+      <Constructors/>
+      <Methods>
+        <Method name="onPlayGameclick" returnType="void" visibility="package">
+          <Argument type="ActionEvent" name="event"/>
+        </Method>
+        <Method name="onExitClick" returnType="void" visibility="package">
+          <Argument type="ActionEvent" name="event"/>
+        </Method>
+        <Method name="onOptionsClick" returnType="void" visibility="package">
+          <Argument type="ActionEvent" name="event"/>
+        </Method>
+      </Methods>
+    </Class>
+    <Class name="Apple" package="snakegame" visibility="public" xPosition="86.0" yPosition="1379.0">
+      <Fields>
+        <Field name="x" type="double" visibility="private"/>
+        <Field name="y" type="double" visibility="private"/>
+        <Field name="SpawnApple" type="Sprite" visibility="private"/>
+        <Field name="GameGridWidth" type="int" visibility="private"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public"/>
+      </Constructors>
+      <Methods>
+        <Method name="GenerateApples" returnType="Sprite" visibility="public"/>
+        <Method name="SpanwAppleInSameQ" returnType="Sprite" visibility="public">
+          <Argument type="double" name="Xquadrant"/>
+          <Argument type="double" name="Yquadrant"/>
+        </Method>
+        <Method name="getXposition" returnType="double" visibility="public"/>
+        <Method name="getYpostion" returnType="double" visibility="public"/>
+      </Methods>
+    </Class>
+    <Class name="Sprite" package="snakegame" visibility="public" xPosition="604.0" yPosition="1050.0">
+      <Fields>
+        <Field name="image" type="Image" visibility="private"/>
+        <Field name="positionX" type="double" visibility="private"/>
+        <Field name="positionY" type="double" visibility="private"/>
+        <Field name="velocityX" type="double" visibility="private"/>
+        <Field name="velocityY" type="double" visibility="private"/>
+        <Field name="width" type="double" visibility="private"/>
+        <Field name="height" type="double" visibility="private"/>
+        <Field name="angle" type="double" visibility="private"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public"/>
+      </Constructors>
+      <Methods>
+        <Method name="getPosX" returnType="double" visibility="public"/>
+        <Method name="getPosY" returnType="double" visibility="public"/>
+        <Method name="setImage" returnType="void" visibility="public">
+          <Argument type="Image" name="i"/>
+        </Method>
+        <Method name="getImage" returnType="Image" visibility="public"/>
+        <Method name="getAngle" returnType="double" visibility="public"/>
+        <Method name="setAngle" returnType="void" visibility="public">
+          <Argument type="double" name="newAngle"/>
+        </Method>
+        <Method name="setImage" returnType="void" visibility="public">
+          <Argument type="String" name="filename"/>
+        </Method>
+        <Method name="setPosition" returnType="void" visibility="public">
+          <Argument type="double" name="x"/>
+          <Argument type="double" name="y"/>
+        </Method>
+        <Method name="setVelocity" returnType="void" visibility="public">
+          <Argument type="double" name="x"/>
+          <Argument type="double" name="y"/>
+        </Method>
+        <Method name="addVelocity" returnType="void" visibility="public">
+          <Argument type="double" name="x"/>
+          <Argument type="double" name="y"/>
+        </Method>
+        <Method name="update" returnType="void" visibility="public">
+          <Argument type="double" name="time"/>
+        </Method>
+        <Method name="render" returnType="void" visibility="public">
+          <Argument type="GraphicsContext" name="gc"/>
+        </Method>
+        <Method name="getBoundary" returnType="Rectangle2D" visibility="public"/>
+        <Method name="intersects" returnType="boolean" visibility="public">
+          <Argument type="Sprite" name="s"/>
+        </Method>
+        <Method name="toString" returnType="String" visibility="public"/>
+        <Method name="rotate" returnType="void" visibility="private">
+          <Argument type="GraphicsContext" name="gc"/>
+          <Argument type="double" name="angle"/>
+          <Argument type="double" name="px"/>
+          <Argument type="double" name="py"/>
+        </Method>
+        <Method name="drawRotatedImage" returnType="void" visibility="private">
+          <Argument type="GraphicsContext" name="gc"/>
+          <Argument type="Image" name="image"/>
+          <Argument type="double" name="angle"/>
+          <Argument type="double" name="tlpx"/>
+          <Argument type="double" name="tlpy"/>
+        </Method>
+        <Method name="setPosition" returnType="void" visibility="public">
+          <Argument type="Snake" name="snake"/>
+        </Method>
+        <Method name="getWidth" returnType="double" visibility="public"/>
+        <Method name="setVelocity" returnType="void" visibility="public">
+          <Argument type="Snake" name="snake"/>
+        </Method>
+        <Method name="getVelocityX" returnType="double" visibility="public"/>
+        <Method name="getVelocityY" returnType="double" visibility="public"/>
+      </Methods>
+    </Class>
+  </ClassDiagramComponents>
+  <ClassDiagramRelations>
+    <HasRelation name="SpawnApple" source="snakegame.Apple" target="snakegame.Sprite" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="snakes" source="snakegame.Snakey" target="snakegame.Snake" type="Aggregation" sourceCardinality="1..1" targetCardinality="0..*" collectionType="ArrayList&lt;Snake&gt;"/>
+    <UseRelation source="snakegame.Sprite" target="snakegame.Sprite" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <IsRelation name="is" source="snakegame.SnakeAI" target="snakegame.Snake"/>
+    <UseRelation source="snakegame.SnakeAI" target="snakegame.Sprite" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation source="snakegame.Snake" target="snakegame.Sprite" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation source="snakegame.Apple" target="snakegame.Sprite" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation source="snakegame.Sprite" target="snakegame.Snake" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="snake" source="snakegame.Snake" target="snakegame.Sprite" type="Aggregation" sourceCardinality="1..1" targetCardinality="0..*" collectionType="LinkedList&lt;Sprite&gt;"/>
+    <HasRelation name="snakeSprite" source="snakegame.SnakeAI" target="snakegame.Sprite" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+  </ClassDiagramRelations>
+</ClassDiagram>
